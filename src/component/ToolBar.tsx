@@ -3,9 +3,14 @@ import LoadImage from "../utils/LoadImage";
 import ScaleImageToCanvas from "../utils/ScaleImageToCanvas";
 import { useEditorStore } from "../store/useEditorStore";
 import { CreateCanvasModel } from "./CreateCanvasModel";
-const ToolBar = () => {
-  const [showCanvasModal, setShowCanvasModal] = useState(false);
 
+interface ToolBarProps {
+  moveStatus: boolean;
+  onMoveStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ToolBar = ({ moveStatus, onMoveStatus }: ToolBarProps) => {
+  const [showCanvasModal, setShowCanvasModal] = useState(false);
   const { canvasConfig, addElement } = useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -82,7 +87,12 @@ const ToolBar = () => {
             >
               add image
             </button>
-            <button className="bg-red-200 cursor-pointer">move</button>
+            <button
+              className={`cursor-pointer ${moveStatus ? "bg-green-200" : "bg-red-200"}`}
+              onClick={() => onMoveStatus(!moveStatus)}
+            >
+              move
+            </button>
           </div>
         </div>
         <div>
