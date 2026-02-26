@@ -2,12 +2,16 @@ import { create } from "zustand";
 
 export interface ImageElement {
   id: string;
-  type: "image";
+  type: "image" | "text";
   x: number;
   y: number;
   width: number;
   height: number;
-  src: string;
+  src: string | null;
+  content: string | null;
+  fontSize: number | null;
+  textColor: string | null;
+  fontType: string | null;
 }
 
 export interface EditorCanvasConfig {

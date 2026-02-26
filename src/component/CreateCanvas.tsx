@@ -61,11 +61,12 @@ export const CreateCanvas = ({
                 key={preset.label}
                 type="button"
                 onClick={() => applyPreset(preset)}
-                className={`text-left px-2 py-1.5 rounded-[0.15rem] text-[0.65rem] leading-tight transition-colors cursor-pointer ${
-                  activePreset === preset.label
-                    ? "bg-[#009b6a] text-white"
-                    : "bg-[#013836] hover:bg-[#024a43] text-gray-300"
-                }`}
+                className={`text-left px-2 py-1.5 rounded-[0.15rem] text-[0.65rem] leading-tight
+                   transition-colors cursor-pointer ${
+                     activePreset === preset.label
+                       ? "bg-[#009b6a] text-white"
+                       : "bg-[#013836] hover:bg-[#024a43] text-gray-300"
+                   }`}
               >
                 <div className="font-medium">{preset.label}</div>
                 <div

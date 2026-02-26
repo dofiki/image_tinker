@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useEditorStore } from "../store/useEditorStore";
 import { getImageFromCache } from "../utils/loadImage";
 import { drawSelection } from "../utils/drawSelection";
@@ -7,7 +7,13 @@ import { getHandleRect } from "../utils/getHandleRect";
 const MAX_W = window.innerWidth * 0.75;
 const MAX_H = window.innerHeight * 0.85;
 
-export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
+export const Canvas = ({
+  moveStatus,
+  textStatus,
+}: {
+  moveStatus: boolean;
+  textStatus: boolean;
+}) => {
   const {
     canvasConfig,
     elements,
@@ -15,6 +21,7 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     setSelectedElementId,
     updateElement,
     removeElement,
+    addElement,
   } = useEditorStore();
 
   const selectedElement =
@@ -26,6 +33,12 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   const isResizing = useRef(false);
   const resizeHandle = useRef("");
   const resizeOrigin = useRef({ x: 0, y: 0 });
+  const [textOverlay, setTextOverlay] = useState<{
+    x: number;
+    y: number;
+    id: string;
+  } | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Scale so canvas fits inside available workspace
   const scale = canvasConfig
@@ -50,15 +63,18 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     }
   }
 
+  // delete button
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   });
 
+  // deselect on move mode off
   useEffect(() => {
     if (!moveStatus) setSelectedElementId(null);
   }, [moveStatus, setSelectedElementId]);
 
+  // rendering
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !canvasConfig) return;
@@ -69,9 +85,10 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     ctx.fillStyle = canvasConfig.color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // draw images
     elements.forEach((element) => {
       if (element.type === "image") {
-        const imageObject = getImageFromCache(element.src);
+        const imageObject = element.src ? getImageFromCache(element.src) : null;
         if (imageObject) {
           ctx.drawImage(
             imageObject,
@@ -81,6 +98,19 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
             element.height,
           );
         }
+      }
+    });
+
+    // draw text
+    elements.forEach((element) => {
+      if (element.type === "text") {
+        ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
+        ctx.fillStyle = element.textColor ?? "red";
+        ctx.fillText(
+          element.content ?? "",
+          element.x,
+          element.y + (element.fontSize ?? 20),
+        );
       }
     });
 
@@ -220,13 +250,44 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     dragElementId.current = null;
   }
 
+  function handleTextCommit(value: string) {
+    if (textOverlay) {
+      updateElement(textOverlay.id, { content: value });
+    }
+    setTextOverlay(null);
+  }
+
+  function handleLeftClick(e: React.MouseEvent<HTMLCanvasElement>) {
+    if (textStatus) {
+      const { x: mouseX, y: mouseY } = getCanvasCoords(e);
+      const id = crypto.randomUUID();
+
+      addElement({
+        id,
+        type: "text",
+        x: mouseX,
+        y: mouseY,
+        width: 200,
+        height: 30,
+        src: null,
+        content: null,
+        fontSize: 20,
+        textColor: "red",
+        fontType: "Verdana",
+      });
+
+      setTextOverlay({ x: mouseX, y: mouseY, id });
+      setTimeout(() => textareaRef.current?.focus(), 0);
+    }
+  }
+
   return (
-    // Wrapper reserves exactly the scaled visual space in the layout
     <div
       style={{
         width: canvasConfig.width * scale,
         height: canvasConfig.height * scale,
         flexShrink: 0,
+        position: "relative",
       }}
     >
       <canvas
@@ -245,7 +306,38 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onClick={handleLeftClick}
       />
+
+      {textOverlay && (
+        <textarea
+          ref={textareaRef}
+          rows={2}
+          cols={15}
+          style={{
+            position: "absolute",
+            left: textOverlay.x * scale,
+            top: textOverlay.y * scale,
+            fontSize: `${20 * scale}px`,
+            fontFamily: "Verdana",
+            background: "transparent",
+            border: "1px dashed black",
+            outline: "none",
+            resize: "none",
+            color: "black",
+            lineHeight: 1,
+            padding: 5,
+          }}
+          onBlur={(e) => handleTextCommit(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleTextCommit(e.currentTarget.value);
+            }
+            if (e.key === "Escape") setTextOverlay(null);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -67,10 +67,24 @@ const ToolBar = ({
       width,
       height,
       src,
+      content: null,
+      fontSize: null,
+      textColor: null,
+      fontType: null,
     });
 
     // resetting the input value
     e.target.value = "";
+  }
+
+  function handleMoveStatus() {
+    onMoveStatus(!moveStatus);
+    onTextStatus(false);
+  }
+
+  function handleTextStatus() {
+    onTextStatus(!textStatus);
+    onMoveStatus(false);
   }
 
   return (
@@ -106,7 +120,7 @@ const ToolBar = ({
             <button
               className={` flex items-center justify-center  hover:bg-[#013836] 
                 w-full h-full p-2 cursor-pointer ${moveStatus ? "text-[#009b6a]" : "text-white"}`}
-              onClick={() => onMoveStatus(!moveStatus)}
+              onClick={handleMoveStatus}
             >
               <LuMove size={22} />
             </button>
@@ -114,7 +128,7 @@ const ToolBar = ({
             <button
               className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] w-full h-full p-2
               ${textStatus ? "text-[#009b6a]" : "text-white"}`}
-              onClick={() => onTextStatus(!textStatus)}
+              onClick={handleTextStatus}
             >
               <RiTextSnippet size={25} />
             </button>

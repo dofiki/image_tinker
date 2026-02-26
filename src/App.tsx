@@ -17,7 +17,9 @@ export default function App() {
           textStatus={textStatus}
           onTextStatus={setTextStatus}
         />{" "}
-        {canvasConfig && <Canvas moveStatus={moveStatus} />}
+        {canvasConfig && (
+          <Canvas moveStatus={moveStatus} textStatus={textStatus} />
+        )}
       </div>
     </>
   );
