@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useEditorStore } from "../store/useEditorStore";
-import { getImageFromCache } from "../utils/LoadImage";
+import { getImageFromCache } from "../utils/loadImage";
+import { drawSelection } from "../utils/drawSelection";
+import { getHandleRect } from "../utils/getHandleRect";
 
 export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   const {
@@ -10,16 +12,15 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     setSelectedElementId,
     updateElement,
   } = useEditorStore();
-
-  // Get the LIVE element from elements array, not a stale snapshot
   const selectedElement =
     elements.find((el) => el.id === selectedElementId) ?? null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  // These persist across mouse events without causing re-renders
   const isDragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragElementId = useRef<string | null>(null);
+  const isResizing = useRef(false);
+  const resizeHandle = useRef("");
+  const resizeOrigin = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!moveStatus) {
@@ -38,6 +39,7 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     ctx.fillStyle = canvasConfig.color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // drawing all images
     elements.forEach((element) => {
       if (element.type === "image") {
         const imageObject = getImageFromCache(element.src);
@@ -53,24 +55,9 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
       }
     });
 
+    // drawing selection
     if (selectedElement) {
-      const el = selectedElement;
-      const padding = 4; // gap between image edge and the border
-
-      ctx.save();
-
-      ctx.strokeStyle = "#0099ff"; // blue border
-      ctx.lineWidth = 2;
-      ctx.setLineDash([6, 3]); // dashed line: 6px dash, 3px gap
-
-      ctx.strokeRect(
-        el.x - padding,
-        el.y - padding,
-        el.width + padding * 2,
-        el.height + padding * 2,
-      );
-
-      ctx.restore(); // resets lineDash and other styles back to default
+      drawSelection(ctx, selectedElement);
     }
   }, [elements, canvasConfig, selectedElement]);
 
@@ -83,6 +70,41 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
+    if (selectedElement) {
+      const handles = getHandleRect(selectedElement);
+      const hitHandle = handles.find(
+        (h) =>
+          mouseX >= h.x &&
+          mouseX <= h.x + h.width &&
+          mouseY >= h.y &&
+          mouseY <= h.y + h.height,
+      );
+
+      if (hitHandle) {
+        isResizing.current = true;
+        resizeHandle.current = hitHandle.position;
+
+        const anchorMap: Record<string, { x: number; y: number }> = {
+          "top-left": {
+            x: selectedElement.x + selectedElement.width,
+            y: selectedElement.y + selectedElement.height,
+          },
+          "top-right": {
+            x: selectedElement.x,
+            y: selectedElement.y + selectedElement.height,
+          },
+          "bottom-left": {
+            x: selectedElement.x + selectedElement.width,
+            y: selectedElement.y,
+          },
+          "bottom-right": { x: selectedElement.x, y: selectedElement.y },
+        };
+
+        resizeOrigin.current = anchorMap[hitHandle.position];
+        return;
+      }
+    }
+
     for (let i = elements.length - 1; i >= 0; i--) {
       const el = elements[i];
 
@@ -92,14 +114,12 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
         mouseY >= el.y &&
         mouseY <= el.y + el.height
       ) {
-        // Save to refs — persists across mouse events
         isDragging.current = true;
         dragElementId.current = el.id;
         dragOffset.current = {
           x: mouseX - el.x,
           y: mouseY - el.y,
         };
-
         setSelectedElementId(el.id);
         break;
       }
@@ -107,23 +127,88 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   }
 
   function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
-    if (!isDragging.current || !dragElementId.current) return;
-
     const rect = canvasRef.current!.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    // New position = mouse position minus where we grabbed the element
+    // --- RESIZE ---
+    if (isResizing.current && selectedElement) {
+      const anchor = resizeOrigin.current;
+      const MIN_SIZE = 20;
+
+      let newX = selectedElement.x;
+      let newY = selectedElement.y;
+      let newWidth = selectedElement.width;
+      let newHeight = selectedElement.height;
+
+      switch (resizeHandle.current) {
+        case "top-left":
+          newX = mouseX;
+          newY = mouseY;
+          newWidth = anchor.x - mouseX;
+          newHeight = anchor.y - mouseY;
+          break;
+        case "top-right":
+          newX = anchor.x;
+          newY = mouseY;
+          newWidth = mouseX - anchor.x;
+          newHeight = anchor.y - mouseY;
+          break;
+        case "bottom-left":
+          newX = mouseX;
+          newY = anchor.y;
+          newWidth = anchor.x - mouseX;
+          newHeight = mouseY - anchor.y;
+          break;
+        case "bottom-right":
+          newX = anchor.x;
+          newY = anchor.y;
+          newWidth = mouseX - anchor.x;
+          newHeight = mouseY - anchor.y;
+          break;
+      }
+
+      // clamp — prevent collapsing
+      if (newWidth < MIN_SIZE) {
+        newWidth = MIN_SIZE;
+        if (
+          resizeHandle.current === "top-left" ||
+          resizeHandle.current === "bottom-left"
+        ) {
+          newX = anchor.x - MIN_SIZE;
+        }
+      }
+      if (newHeight < MIN_SIZE) {
+        newHeight = MIN_SIZE;
+        if (
+          resizeHandle.current === "top-left" ||
+          resizeHandle.current === "top-right"
+        ) {
+          newY = anchor.y - MIN_SIZE;
+        }
+      }
+
+      updateElement(selectedElement.id, {
+        x: newX,
+        y: newY,
+        width: newWidth,
+        height: newHeight,
+      });
+
+      return;
+    }
+
+    // --- DRAG ---
+    if (!isDragging.current || !dragElementId.current) return;
+
     const newX = mouseX - dragOffset.current.x;
     const newY = mouseY - dragOffset.current.y;
-
-    // Update element in store → triggers useEffect → redraws canvas
     updateElement(dragElementId.current, { x: newX, y: newY });
   }
 
   function handleMouseUp() {
-    // Stop dragging
     isDragging.current = false;
+    isResizing.current = false;
     dragElementId.current = null;
   }
 

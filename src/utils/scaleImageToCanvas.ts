@@ -5,7 +5,7 @@ interface imageProps {
   canvasHeight: number;
 }
 
-export default function ScaleImageToCanvas({
+export default function scaleImageToCanvas({
   imgWidth,
   imgHeight,
   canvasWidth,

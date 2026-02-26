@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEditorStore } from "../store/useEditorStore";
-export const CreateCanvasModel = ({
+export const CreateCanvas = ({
   setCanvasModel,
 }: {
   setCanvasModel: React.Dispatch<React.SetStateAction<boolean>>;

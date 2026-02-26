@@ -1,6 +1,6 @@
 const imageCache: Record<string, HTMLImageElement> = {};
 
-async function LoadImage(src: string): Promise<HTMLImageElement> {
+async function loadImage(src: string): Promise<HTMLImageElement> {
   // Check if we already loaded this URL:
   if (imageCache[src]) return Promise.resolve(imageCache[src]);
 
@@ -23,7 +23,7 @@ async function LoadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-export default LoadImage;
+export default loadImage;
 
 export function getImageFromCache(src: string): HTMLImageElement | null {
   return imageCache[src] ?? null;

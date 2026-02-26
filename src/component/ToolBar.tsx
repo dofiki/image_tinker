@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
-import LoadImage from "../utils/LoadImage";
-import ScaleImageToCanvas from "../utils/ScaleImageToCanvas";
 import { useEditorStore } from "../store/useEditorStore";
-import { CreateCanvasModel } from "./CreateCanvasModel";
+import { CreateCanvas } from "./CreateCanvas";
+import scaleImageToCanvas from "../utils/scaleImageToCanvas";
+import loadImage from "../utils/loadImage";
 
 interface ToolBarProps {
   moveStatus: boolean;
@@ -35,10 +35,10 @@ const ToolBar = ({ moveStatus, onMoveStatus }: ToolBarProps) => {
     const src = URL.createObjectURL(file);
 
     // load image
-    const imgObj = await LoadImage(src);
+    const imgObj = await loadImage(src);
 
     // scale image to the canvas
-    const { width, height, x, y } = ScaleImageToCanvas({
+    const { width, height, x, y } = scaleImageToCanvas({
       imgWidth: imgObj.naturalWidth,
       imgHeight: imgObj.naturalHeight,
       canvasWidth: canvasConfig.width,
@@ -97,7 +97,7 @@ const ToolBar = ({ moveStatus, onMoveStatus }: ToolBarProps) => {
         </div>
         <div>
           {showCanvasModal && (
-            <CreateCanvasModel setCanvasModel={setShowCanvasModal} />
+            <CreateCanvas setCanvasModel={setShowCanvasModal} />
           )}
         </div>
       </div>
