@@ -4,6 +4,9 @@ import { getImageFromCache } from "../utils/loadImage";
 import { drawSelection } from "../utils/drawSelection";
 import { getHandleRect } from "../utils/getHandleRect";
 
+const MAX_W = window.innerWidth * 0.75;
+const MAX_H = window.innerHeight * 0.85;
+
 export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   const {
     canvasConfig,
@@ -11,7 +14,9 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     selectedElementId,
     setSelectedElementId,
     updateElement,
+    removeElement,
   } = useEditorStore();
+
   const selectedElement =
     elements.find((el) => el.id === selectedElementId) ?? null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,13 +27,38 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   const resizeHandle = useRef("");
   const resizeOrigin = useRef({ x: 0, y: 0 });
 
-  useEffect(() => {
-    if (!moveStatus) {
-      setSelectedElementId(null);
+  // Scale so canvas fits inside available workspace
+  const scale = canvasConfig
+    ? Math.min(1, MAX_W / canvasConfig.width, MAX_H / canvasConfig.height)
+    : 1;
+
+  // Converts display-space mouse coords to canvas-space coords
+  function getCanvasCoords(e: React.MouseEvent<HTMLCanvasElement>) {
+    const canvas = canvasRef.current!;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY,
+    };
+  }
+
+  function handleKeyPress(e: KeyboardEvent) {
+    if (e.key === "Delete" && selectedElement) {
+      removeElement(selectedElement.id);
     }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  });
+
+  useEffect(() => {
+    if (!moveStatus) setSelectedElementId(null);
   }, [moveStatus, setSelectedElementId]);
 
-  // drawing canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !canvasConfig) return;
@@ -39,7 +69,6 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
     ctx.fillStyle = canvasConfig.color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // drawing all images
     elements.forEach((element) => {
       if (element.type === "image") {
         const imageObject = getImageFromCache(element.src);
@@ -55,20 +84,14 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
       }
     });
 
-    // drawing selection
-    if (selectedElement) {
-      drawSelection(ctx, selectedElement);
-    }
+    if (selectedElement) drawSelection(ctx, selectedElement);
   }, [elements, canvasConfig, selectedElement]);
 
-  if (!canvasConfig) return;
+  if (!canvasConfig) return null;
 
   function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
     if (!moveStatus) return;
-
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const { x: mouseX, y: mouseY } = getCanvasCoords(e);
 
     if (selectedElement) {
       const handles = getHandleRect(selectedElement);
@@ -79,11 +102,9 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
           mouseY >= h.y &&
           mouseY <= h.y + h.height,
       );
-
       if (hitHandle) {
         isResizing.current = true;
         resizeHandle.current = hitHandle.position;
-
         const anchorMap: Record<string, { x: number; y: number }> = {
           "top-left": {
             x: selectedElement.x + selectedElement.width,
@@ -99,7 +120,6 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
           },
           "bottom-right": { x: selectedElement.x, y: selectedElement.y },
         };
-
         resizeOrigin.current = anchorMap[hitHandle.position];
         return;
       }
@@ -107,7 +127,6 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
 
     for (let i = elements.length - 1; i >= 0; i--) {
       const el = elements[i];
-
       if (
         mouseX >= el.x &&
         mouseX <= el.x + el.width &&
@@ -116,30 +135,24 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
       ) {
         isDragging.current = true;
         dragElementId.current = el.id;
-        dragOffset.current = {
-          x: mouseX - el.x,
-          y: mouseY - el.y,
-        };
+        dragOffset.current = { x: mouseX - el.x, y: mouseY - el.y };
         setSelectedElementId(el.id);
-        break;
+        return;
       }
     }
+    setSelectedElementId(null);
   }
 
   function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const { x: mouseX, y: mouseY } = getCanvasCoords(e);
 
-    // --- RESIZE ---
     if (isResizing.current && selectedElement) {
       const anchor = resizeOrigin.current;
       const MIN_SIZE = 20;
-
-      let newX = selectedElement.x;
-      let newY = selectedElement.y;
-      let newWidth = selectedElement.width;
-      let newHeight = selectedElement.height;
+      let newX = selectedElement.x,
+        newY = selectedElement.y;
+      let newWidth = selectedElement.width,
+        newHeight = selectedElement.height;
 
       switch (resizeHandle.current) {
         case "top-left":
@@ -168,24 +181,21 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
           break;
       }
 
-      // clamp — prevent collapsing
       if (newWidth < MIN_SIZE) {
         newWidth = MIN_SIZE;
         if (
           resizeHandle.current === "top-left" ||
           resizeHandle.current === "bottom-left"
-        ) {
+        )
           newX = anchor.x - MIN_SIZE;
-        }
       }
       if (newHeight < MIN_SIZE) {
         newHeight = MIN_SIZE;
         if (
           resizeHandle.current === "top-left" ||
           resizeHandle.current === "top-right"
-        ) {
+        )
           newY = anchor.y - MIN_SIZE;
-        }
       }
 
       updateElement(selectedElement.id, {
@@ -194,16 +204,14 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
         width: newWidth,
         height: newHeight,
       });
-
       return;
     }
 
-    // --- DRAG ---
     if (!isDragging.current || !dragElementId.current) return;
-
-    const newX = mouseX - dragOffset.current.x;
-    const newY = mouseY - dragOffset.current.y;
-    updateElement(dragElementId.current, { x: newX, y: newY });
+    updateElement(dragElementId.current, {
+      x: mouseX - dragOffset.current.x,
+      y: mouseY - dragOffset.current.y,
+    });
   }
 
   function handleMouseUp() {
@@ -213,15 +221,31 @@ export const Canvas = ({ moveStatus }: { moveStatus: boolean }) => {
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={canvasConfig.width}
-      height={canvasConfig.height}
-      style={{ border: "1px solid black" }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    />
+    // Wrapper reserves exactly the scaled visual space in the layout
+    <div
+      style={{
+        width: canvasConfig.width * scale,
+        height: canvasConfig.height * scale,
+        flexShrink: 0,
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        width={canvasConfig.width}
+        height={canvasConfig.height}
+        style={{
+          display: "block",
+          transformOrigin: "top left",
+          transform: `scale(${scale})`,
+          border: "1px solid #013836",
+          boxShadow: "0 0 0 1px #009b6a22",
+          cursor: moveStatus ? "move" : "default",
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      />
+    </div>
   );
 };

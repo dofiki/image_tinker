@@ -6,11 +6,17 @@ import { useState } from "react";
 export default function App() {
   const { canvasConfig } = useEditorStore();
   const [moveStatus, setMoveStatus] = useState(false);
+  const [textStatus, setTextStatus] = useState(false);
 
   return (
     <>
-      <div className="flex">
-        <ToolBar moveStatus={moveStatus} onMoveStatus={setMoveStatus} />{" "}
+      <div className="flex pt-5 pl-4 bg-[#004744] h-screen">
+        <ToolBar
+          moveStatus={moveStatus}
+          onMoveStatus={setMoveStatus}
+          textStatus={textStatus}
+          onTextStatus={setTextStatus}
+        />{" "}
         {canvasConfig && <Canvas moveStatus={moveStatus} />}
       </div>
     </>
