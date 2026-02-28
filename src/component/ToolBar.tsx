@@ -7,8 +7,10 @@ import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
 import { LuMove } from "react-icons/lu";
 import { RiTextSnippet } from "react-icons/ri";
+import { FaRegSave } from "react-icons/fa";
 
 interface ToolBarProps {
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   moveStatus: boolean;
   onMoveStatus: React.Dispatch<React.SetStateAction<boolean>>;
   textStatus: boolean;
@@ -16,6 +18,7 @@ interface ToolBarProps {
 }
 
 const ToolBar = ({
+  canvasRef,
   moveStatus,
   onMoveStatus,
   textStatus,
@@ -87,6 +90,20 @@ const ToolBar = ({
     onMoveStatus(false);
   }
 
+  function handleSaveCanvas() {
+    onMoveStatus(false);
+    onTextStatus(false);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const url = canvas.toDataURL("image/png");
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "my-drawing.png";
+    a.click();
+    a.remove();
+  }
+
   return (
     <>
       <div className="flex flex-row">
@@ -131,6 +148,13 @@ const ToolBar = ({
               onClick={handleTextStatus}
             >
               <RiTextSnippet size={25} />
+            </button>
+
+            <button
+              className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] w-full h-full p-2`}
+              onClick={handleSaveCanvas}
+            >
+              <FaRegSave size={22} />
             </button>
           </div>
         </div>

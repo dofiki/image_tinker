@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# Image Tinker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A lightweight, browser-based image editor built on HTML Canvas.
 
-Currently, two official plugins are available:
+## Why I Built This
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I built Image Tinker to understand how image editors like GIMP and
+Photoshop work internally.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React + TypeScript** — component structure and type safety across
+  canvas interactions which get complex fast
+- **HTML Canvas** — chosen over DOM-based approach because manipulating
+  pixels and handling overlapping elements is significantly cleaner in
+  canvas than managing z-index and absolute positioning
+- **Zustand** — global state for elements and canvas config without the
+  boilerplate Redux requires. The store felt close to a plain JS object
+  which made it easy to reason about
+- **Tailwind** — utility classes for the minimal UI chrome around the canvas
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js v18+
+- npm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repo
+
+```bash
+   git clone https://github.com/yourname/image-tinker.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+   cd image-tinker
+   npm install
 ```
+
+3. Start the dev server
+
+```bash
+   npm run dev
+```
+
+4. Open `http://localhost:5173`
+
+## How It Works
+
+1. Click the **canvas icon** in the toolbar to create a canvas and set
+   its dimensions and background color
+2. Click the **image icon** to upload an image — it auto-scales to fit
+   your canvas
+3. Use the **move tool** to drag, resize, or delete (Delete key) elements
+4. Use the **text tool** to click anywhere on the canvas and type
+
+## Project Structure
+
+```
+src/
+├── components/       # Canvas, Toolbar, CreateCanvas
+├── hooks/            # Logic separated by concern
+│   ├── useCanvasRender.ts    # drawing loop
+│   ├── useCanvasDrag.ts      # drag + resize interactions
+│   ├── useTextOverlay.ts     # text placement and commit
+│   └── useDeleteOnKeypress.ts
+├── store/            # Zustand store — single source of truth
+├── utils/            # Pure helper functions
+├── types/            # Shared TypeScript types
+└── constants/        # Canvas size limits, min element size
+```
+
+## Current State
+
+**Done**
+
+- Create canvas feature
+- Image upload and auto-scaling
+- Move tool
+- Text tool
+- Delete
+- Save
+
+**Working**
+
+- Refactor
+- Text resizing after placement
+
+**To Do**
+
+- \*Undo/Redo
+- Selection to front
+- Layers
+- Panel to edit selected element's properties.

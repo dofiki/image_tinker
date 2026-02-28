@@ -8,9 +8,11 @@ const MAX_W = window.innerWidth * 0.75;
 const MAX_H = window.innerHeight * 0.85;
 
 export const Canvas = ({
+  canvasRef,
   moveStatus,
   textStatus,
 }: {
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   moveStatus: boolean;
   textStatus: boolean;
 }) => {
@@ -26,7 +28,6 @@ export const Canvas = ({
 
   const selectedElement =
     elements.find((el) => el.id === selectedElementId) ?? null;
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragElementId = useRef<string | null>(null);
@@ -123,6 +124,7 @@ export const Canvas = ({
     if (!moveStatus) return;
     const { x: mouseX, y: mouseY } = getCanvasCoords(e);
 
+    // resize
     if (selectedElement) {
       const handles = getHandleRect(selectedElement);
       const hitHandle = handles.find(
@@ -155,6 +157,7 @@ export const Canvas = ({
       }
     }
 
+    // check : which image intersects with our mouse
     for (let i = elements.length - 1; i >= 0; i--) {
       const el = elements[i];
       if (
