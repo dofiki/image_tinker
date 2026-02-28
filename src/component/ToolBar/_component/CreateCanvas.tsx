@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEditorStore } from "../store/useEditorStore";
+import { useEditorStore } from "../../../store/useEditorStore";
 
 const PRESETS = [
   { label: "Instagram Post", width: 1080, height: 1080 },

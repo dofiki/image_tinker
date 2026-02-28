@@ -1,4 +1,4 @@
-import type { ImageElement } from "../store/useEditorStore";
+import type { Element } from "../../../types/index";
 
 type HandlePosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -10,7 +10,7 @@ export interface HandleRect {
   position: HandlePosition;
 }
 
-export function getHandleRect(el: ImageElement): HandleRect[] {
+export function getHandleRect(el: Element): HandleRect[] {
   const handlePadding = 8;
   const handleSize = 15;
 

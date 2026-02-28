@@ -1,6 +1,6 @@
-import ToolBar from "./component/ToolBar";
+import ToolBar from "./component/ToolBar/ToolBar";
 import { useEditorStore } from "./store/useEditorStore";
-import { Canvas } from "./component/Canvas";
+import { Canvas } from "./component/Canvas/Canvas";
 import { useState, useRef } from "react";
 
 export default function App() {

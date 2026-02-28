@@ -1,7 +1,7 @@
 import { getHandleRect } from "./getHandleRect";
-import type { ImageElement } from "../store/useEditorStore";
+import type { Element } from "../../../types/index";
 
-export function drawSelection(ctx: CanvasRenderingContext2D, el: ImageElement) {
+export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {
   const dashPadding = 4;
   const handles = getHandleRect(el);
 

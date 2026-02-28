@@ -1,21 +1,14 @@
 import { useState, useRef } from "react";
-import { useEditorStore } from "../store/useEditorStore";
-import { CreateCanvas } from "./CreateCanvas";
-import scaleImageToCanvas from "../utils/scaleImageToCanvas";
-import loadImage from "../utils/loadImage";
+import { useEditorStore } from "../../store/useEditorStore";
+import { CreateCanvas } from "../ToolBar/_component/CreateCanvas";
+import scaleImageToCanvas from "./utils/scaleImageToCanvas";
+import loadImage from "./utils/loadImage";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
 import { LuMove } from "react-icons/lu";
 import { RiTextSnippet } from "react-icons/ri";
 import { FaRegSave } from "react-icons/fa";
-
-interface ToolBarProps {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
-  moveStatus: boolean;
-  onMoveStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  textStatus: boolean;
-  onTextStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import type { ToolBarProps } from "../../types/index";
 
 const ToolBar = ({
   canvasRef,
@@ -71,9 +64,9 @@ const ToolBar = ({
       height,
       src,
       content: null,
-      fontSize: null,
-      textColor: null,
-      fontType: null,
+      fontSize: undefined,
+      textColor: undefined,
+      fontType: undefined,
     });
 
     // resetting the input value
