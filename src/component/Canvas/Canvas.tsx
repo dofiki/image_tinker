@@ -7,6 +7,7 @@ import { MAX_H, MAX_W } from "./contants";
 import { getCanvasCoords } from "./utils/getCanvasCoords";
 import useMouseMove from "./hooks/useMouseMove";
 import type { CanvasProps } from "./types/index";
+import Properties from "./_component/Properties";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -114,62 +115,66 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   if (!canvasConfig) return null;
 
   return (
-    <div
-      style={{
-        width: canvasConfig.width * scale,
-        height: canvasConfig.height * scale,
-        flexShrink: 0,
-        position: "relative",
-      }}
-    >
-      <canvas
-        ref={canvasRef}
-        width={canvasConfig.width}
-        height={canvasConfig.height}
+    <div className="flex gap-5">
+      <div
         style={{
-          display: "block",
-          transformOrigin: "top left",
-          transform: `scale(${scale})`,
-          border: "1px solid #013836",
-          boxShadow: "0 0 0 1px #009b6a22",
-          cursor: moveStatus ? "move" : "default",
+          width: canvasConfig.width * scale,
+          height: canvasConfig.height * scale,
+          position: "relative",
         }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onClick={handleLeftClick}
-      />
-
-      {textOverlay && (
-        <textarea
-          ref={textareaRef}
-          rows={2}
-          cols={15}
+      >
+        <canvas
+          ref={canvasRef}
+          width={canvasConfig.width}
+          height={canvasConfig.height}
           style={{
-            position: "absolute",
-            left: textOverlay.x * scale,
-            top: textOverlay.y * scale,
-            fontSize: `${20 * scale}px`,
-            fontFamily: "Verdana",
-            background: "transparent",
-            border: "1px dashed black",
-            outline: "none",
-            resize: "none",
-            color: "black",
-            lineHeight: 1,
-            padding: 5,
+            display: "block",
+            transformOrigin: "top left",
+            transform: `scale(${scale})`,
+            border: "1px solid #013836",
+            boxShadow: "0 0 0 1px #009b6a22",
+            cursor: moveStatus ? "move" : "default",
           }}
-          onBlur={(e) => handleTextCommit(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleTextCommit(e.currentTarget.value);
-            }
-            if (e.key === "Escape") setTextOverlay(null);
-          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onClick={handleLeftClick}
         />
-      )}
+
+        {textOverlay && (
+          <textarea
+            ref={textareaRef}
+            rows={2}
+            cols={15}
+            style={{
+              position: "absolute",
+              left: textOverlay.x * scale,
+              top: textOverlay.y * scale,
+              fontSize: `${20 * scale}px`,
+              fontFamily: "Verdana",
+              background: "transparent",
+              border: "1px dashed black",
+              outline: "none",
+              resize: "none",
+              color: "black",
+              lineHeight: 1,
+              padding: 5,
+            }}
+            onBlur={(e) => handleTextCommit(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleTextCommit(e.currentTarget.value);
+              }
+              if (e.key === "Escape") setTextOverlay(null);
+            }}
+          />
+        )}
+      </div>
+      <div className="absolute right-100">
+        {selectedElementId && <Properties element={selectedElement} />}
+      </div>{" "}
     </div>
   );
 };
