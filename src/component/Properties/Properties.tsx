@@ -1,4 +1,4 @@
-import type { Element } from "../../../types";
+import type { Element } from "../../types";
 
 const Properties = ({ element }: { element: Element | null }) => {
   if (!element) return null;
@@ -20,9 +20,15 @@ const Properties = ({ element }: { element: Element | null }) => {
   ];
 
   return (
-    <div className="absolute left-full top-0 ml-4 w-56 bg-[#002322] border border-[#013836] rounded-[0.2rem] shadow-xl z-10">
+    <div
+      className="h-full w-full bg-[#002322] border 
+     border-[#013836] rounded-[0.2rem] shadow-xl z-10"
+    >
       <div className="px-3 pt-3 pb-2 border-b border-[#013836]">
-        <span className="text-[0.7rem] font-bold text-[#009b6a] uppercase tracking-widest">
+        <span
+          className="text-[0.7rem] font-bold text-[#009b6a] uppercase 
+        tracking-widest"
+        >
           {element.type}
         </span>
       </div>

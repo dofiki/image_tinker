@@ -7,7 +7,6 @@ import { MAX_H, MAX_W } from "./contants";
 import { getCanvasCoords } from "./utils/getCanvasCoords";
 import useMouseMove from "./hooks/useMouseMove";
 import type { CanvasProps } from "./types/index";
-import Properties from "./_component/Properties";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -172,9 +171,6 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
           />
         )}
       </div>
-      <div className="absolute right-100">
-        {selectedElementId && <Properties element={selectedElement} />}
-      </div>{" "}
     </div>
   );
 };

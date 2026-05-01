@@ -1,6 +1,5 @@
-export interface ToolBarProps {
-  moveStatus: boolean;
+export interface MenuBarProps {
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   onMoveStatus: React.Dispatch<React.SetStateAction<boolean>>;
-  textStatus: boolean;
   onTextStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }

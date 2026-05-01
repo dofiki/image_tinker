@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { CanvasRendererProps } from "../types";
-import { getImageFromCache } from "../../ToolBar/utils/loadImage";
+import { getImageFromCache } from "../../../component/MenuBar/utils/loadImage";
 import { drawSelection } from "../utils/drawSelection";
 
 export function useCanvasRenderer({
