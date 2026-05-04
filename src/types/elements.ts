@@ -26,7 +26,6 @@ export interface TextElement extends BaseElement {
 
 export type Element = ImageElement | TextElement;
 
-// Safe update type — only geometry + text fields, never type/id
 export type ElementUpdate = {
   x?: number;
   y?: number;

@@ -4,6 +4,7 @@ import { Canvas } from "./component/Canvas/Canvas";
 import { useState, useRef } from "react";
 import { MenuBar } from "./component/MenuBar/MenuBar";
 import Properties from "./component/Properties/Properties";
+import Layers from "./component/Layers/Layers";
 export default function App() {
   const { canvasConfig, selectedElementId, elements } = useEditorStore();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,17 +47,8 @@ export default function App() {
               ) : (
                 <span className="text-gray-400">Nothing Selected.</span>
               )}
-            </div>
-            <div className="bg-[#002322] h-full text-white">
-              <div className="px-3 pt-3 pb-2 border-b border-[#013836]">
-                <span
-                  className="text-[0.7rem] font-bold text-[#009b6a] 
-                uppercase tracking-widest"
-                >
-                  Layers
-                </span>
-              </div>
-            </div>
+            </div>{" "}
+            <Layers elements={elements} selected={selectedElement} />
           </div>{" "}
         </div>
       </div>
