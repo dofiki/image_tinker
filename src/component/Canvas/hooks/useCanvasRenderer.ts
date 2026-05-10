@@ -11,25 +11,21 @@ export function useCanvasRenderer({
   elements,
   selectedElement,
 }: CanvasRendererProps) {
-  // since while moving something changes selectedElement which
-  // triggers canvas re-render and ruler overrides the pointer
-  // we again ovride that using this.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !canvasConfig) return;
     const ctx = canvas.getContext("2d");
 
-    function handlePointer(
-      e: React.MouseEvent<HTMLCanvasElement> | MouseEvent,
-    ) {
+    const handlePointer = function (e: MouseEvent) {
       if (!ctx || !canvas) return;
 
       drawRulerPointer(e, ctx, canvas);
-    }
-    document.addEventListener("mousemove", (e) => handlePointer(e));
-    return () =>
-      document.removeEventListener("mousemove", (e) => handlePointer(e));
-  });
+    };
+    document.addEventListener("mousemove", handlePointer);
+    return () => {
+      document.removeEventListener("mousemove", handlePointer);
+    };
+  }, [canvasRef, canvasConfig]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -37,10 +33,12 @@ export function useCanvasRenderer({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // rendering background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = canvasConfig.color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // rendering elements
     elements.forEach((element) => {
       if (element.type === "image") {
         const imageObject = element.src ? getImageFromCache(element.src) : null;
@@ -53,11 +51,7 @@ export function useCanvasRenderer({
             element.height,
           );
         }
-      }
-    });
-
-    elements.forEach((element) => {
-      if (element.type === "text") {
+      } else if (element.type === "text") {
         ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
         ctx.fillStyle = element.textColor ?? "red";
         ctx.fillText(
@@ -68,7 +62,7 @@ export function useCanvasRenderer({
       }
     });
 
-    // ruler background
+    // rendering ruler bg (initial)
     // vertical
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 40, 40, canvas.height);
