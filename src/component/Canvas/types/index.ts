@@ -1,3 +1,3 @@
 export * from "./hooks";
 export * from "./canvas";
-export * from "./mouse";
+export type { MouseDownProps, MouseMoveProps } from "./mouse";
