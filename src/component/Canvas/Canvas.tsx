@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useEditorStore } from "../../store/useEditorStore";
-import { useMouseDown } from "./hooks/useMouseDown";
 import { useCanvasRenderer } from "./hooks/useCanvasRenderer";
 import { useKeyboardDelete } from "./hooks/useKeyboardDelete";
-import { MAX_H, MAX_W } from "./contants";
+import { MAX_H, MAX_W } from "./constants";
 import { getCanvasCoords } from "./utils/getCanvasCoords";
-import useMouseMove from "./hooks/useMouseMove";
+import { handleMouseMove } from "./utils/handleMouseMove";
 import type { CanvasProps } from "./types/index";
+import { handleMouseDown } from "./utils/handleMouseDown";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -38,40 +38,12 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
     ? Math.min(1, MAX_W / canvasConfig.width, MAX_H / canvasConfig.height)
     : 1;
 
-  useKeyboardDelete(selectedElement);
-
   useEffect(() => {
     if (!moveStatus) setSelectedElementId(null);
   }, [moveStatus, setSelectedElementId]);
 
   useCanvasRenderer({ canvasRef, canvasConfig, elements, selectedElement });
-
-  const handleMouseDown = useMouseDown({
-    canvasRef,
-    moveStatus,
-    elements,
-    selectedElement,
-    setSelectedElementId,
-    isDragging,
-    dragOffset,
-    dragElementId,
-    isResizing,
-    resizeHandle,
-    resizeOrigin,
-  });
-
-  const handleMouseMove = useMouseMove({
-    canvasRef,
-    selectedElement,
-    updateElement,
-    isDragging,
-    dragOffset,
-    dragElementId,
-    isResizing,
-    resizeHandle,
-    resizeOrigin,
-  });
-
+  useKeyboardDelete(selectedElement);
   function handleMouseUp() {
     isDragging.current = false;
     isResizing.current = false;
@@ -124,8 +96,8 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
       >
         <canvas
           ref={canvasRef}
-          width={canvasConfig.width}
-          height={canvasConfig.height}
+          width={canvasConfig.width + 40}
+          height={canvasConfig.height + 40}
           style={{
             display: "block",
             transformOrigin: "top left",
@@ -134,8 +106,36 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
             boxShadow: "0 0 0 1px #009b6a22",
             cursor: moveStatus ? "move" : "default",
           }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
+          onMouseDown={(e) => {
+            handleMouseDown({
+              e,
+              canvasRef,
+              moveStatus,
+              elements,
+              selectedElement,
+              setSelectedElementId,
+              isDragging,
+              dragOffset,
+              dragElementId,
+              isResizing,
+              resizeHandle,
+              resizeOrigin,
+            });
+          }}
+          onMouseMove={(e) => {
+            handleMouseMove({
+              e,
+              canvasRef,
+              selectedElement,
+              updateElement,
+              isDragging,
+              dragOffset,
+              dragElementId,
+              isResizing,
+              resizeHandle,
+              resizeOrigin,
+            });
+          }}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
           onClick={handleLeftClick}

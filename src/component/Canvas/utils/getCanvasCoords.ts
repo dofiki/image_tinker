@@ -1,5 +1,5 @@
 export function getCanvasCoords(
-  e: React.MouseEvent<HTMLCanvasElement>,
+  e: React.MouseEvent<HTMLCanvasElement> | MouseEvent,
   canvas: HTMLCanvasElement,
 ) {
   const rect = canvas.getBoundingClientRect();

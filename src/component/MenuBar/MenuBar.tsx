@@ -62,8 +62,6 @@ export const MenuBar = ({
       canvasHeight: canvasConfig.height,
     });
 
-    console.log(width, height, x, y);
-
     // push image to the store
     addElement({
       id: crypto.randomUUID(),
