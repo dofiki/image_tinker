@@ -32,6 +32,7 @@ export const CreateCanvas = ({
   const [canvasWidth, setCanvasWidth] = useState<number>(1080);
   const [canvasColor, setCanvasColor] = useState<string>("#ffffff");
   const [activePreset, setActivePreset] = useState<string | null>(null);
+  const [canvasName, setCanvasName] = useState<string>("example");
 
   function applyPreset(preset: (typeof PRESETS)[0]) {
     setCanvasWidth(preset.width);
@@ -42,6 +43,7 @@ export const CreateCanvas = ({
   function handleConfirmCreation(e: React.SyntheticEvent) {
     e.preventDefault();
     setCanvasConfig({
+      name: canvasName,
       width: canvasWidth,
       height: canvasHeight,
       color: canvasColor,
@@ -107,40 +109,55 @@ export const CreateCanvas = ({
                 Custom Size
               </span>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-col">
                 <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">Width</label>
+                  <label className="text-xs text-gray-400">Project Name</label>
                   <input
-                    type="number"
+                    type="text"
                     min={5}
-                    max={5000}
-                    value={canvasWidth}
+                    max={20}
+                    value={canvasName}
                     onChange={(e) => {
-                      setCanvasWidth(Number(e.target.value));
-                      setActivePreset(null);
+                      setCanvasName(e.target.value);
                     }}
                     className="bg-[#013836] text-white text-sm px-3 py-2 rounded outline-none 
                     border border-transparent focus:border-[#009b6a]"
                   />
                 </div>
+                <div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-gray-400">Width</label>
+                    <input
+                      type="number"
+                      min={5}
+                      max={5000}
+                      value={canvasWidth}
+                      onChange={(e) => {
+                        setCanvasWidth(Number(e.target.value));
+                        setActivePreset(null);
+                      }}
+                      className="bg-[#013836] text-white text-sm px-3 py-2 rounded outline-none 
+                    border border-transparent focus:border-[#009b6a]"
+                    />
+                  </div>
 
-                <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">Height</label>
-                  <input
-                    type="number"
-                    min={5}
-                    max={5000}
-                    value={canvasHeight}
-                    onChange={(e) => {
-                      setCanvasHeight(Number(e.target.value));
-                      setActivePreset(null);
-                    }}
-                    className="bg-[#013836] text-white text-sm px-3 py-2 rounded outline-none border 
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-xs text-gray-400">Height</label>
+                    <input
+                      type="number"
+                      min={5}
+                      max={5000}
+                      value={canvasHeight}
+                      onChange={(e) => {
+                        setCanvasHeight(Number(e.target.value));
+                        setActivePreset(null);
+                      }}
+                      className="bg-[#013836] text-white text-sm px-3 py-2 rounded outline-none border 
                     border-transparent focus:border-[#009b6a]"
-                  />
+                    />
+                  </div>
                 </div>
               </div>
-
               <div className="flex flex-col gap-2">
                 <label className="text-xs text-gray-400">Background</label>
                 <div className="flex items-center gap-3 bg-[#013836] px-3 py-2 rounded">

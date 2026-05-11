@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import type { CanvasRendererProps } from "../types";
 import { getImageFromCache } from "../../../component/MenuBar/utils/loadImage";
 import { drawSelection } from "../utils/drawSelection";
-import { drawRulerMarks } from "../utils/drawRulerMarks";
-import { drawRulerPointer } from "../utils/drawRulerPointer";
+import { drawRulerMarks } from "../Ruler/drawRulerMarks";
+import { drawRulerPointer } from "../Ruler/drawRulerPointer";
 
 export function useCanvasRenderer({
   canvasRef,
@@ -40,25 +40,29 @@ export function useCanvasRenderer({
 
     // rendering elements
     elements.forEach((element) => {
-      if (element.type === "image") {
-        const imageObject = element.src ? getImageFromCache(element.src) : null;
-        if (imageObject) {
-          ctx.drawImage(
-            imageObject,
+      if (element.visibilityStatus) {
+        if (element.type === "image") {
+          const imageObject = element.src
+            ? getImageFromCache(element.src)
+            : null;
+          if (imageObject) {
+            ctx.drawImage(
+              imageObject,
+              element.x,
+              element.y,
+              element.width,
+              element.height,
+            );
+          }
+        } else if (element.type === "text") {
+          ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
+          ctx.fillStyle = element.textColor ?? "red";
+          ctx.fillText(
+            element.content ?? "",
             element.x,
-            element.y,
-            element.width,
-            element.height,
+            element.y + (element.fontSize ?? 20),
           );
         }
-      } else if (element.type === "text") {
-        ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
-        ctx.fillStyle = element.textColor ?? "red";
-        ctx.fillText(
-          element.content ?? "",
-          element.x,
-          element.y + (element.fontSize ?? 20),
-        );
       }
     });
 

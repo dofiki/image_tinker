@@ -1,6 +1,5 @@
 import { getCanvasCoords } from "../utils/getCanvasCoords";
 import type { MouseMoveProps } from "../types";
-import { drawRulerPointer } from "../utils/drawRulerPointer";
 
 export function handleMouseMove({
   e,
@@ -16,11 +15,6 @@ export function handleMouseMove({
 }: MouseMoveProps) {
   const canvas = canvasRef.current;
   if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-  // ruler pointer
-  drawRulerPointer(e, ctx, canvas);
 
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 

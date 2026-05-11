@@ -1,5 +1,5 @@
 import { drawRulerMarks } from "./drawRulerMarks";
-import { getCanvasCoords } from "./getCanvasCoords";
+import { getCanvasCoords } from "../utils/getCanvasCoords";
 
 export function drawRulerPointer(
   e: React.MouseEvent<HTMLCanvasElement> | MouseEvent,

@@ -65,6 +65,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
       const id = crypto.randomUUID();
 
       addElement({
+        name: null,
         id,
         type: "text",
         x: mouseX,
@@ -76,6 +77,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
         fontSize: 20,
         textColor: "red",
         fontType: "Verdana",
+        visibilityStatus: true,
       });
 
       setTextOverlay({ x: mouseX, y: mouseY, id });

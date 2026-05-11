@@ -1,9 +1,11 @@
 export interface BaseElement {
+  name: string | null;
   id: string;
   x: number;
   y: number;
   width: number;
   height: number;
+  visibilityStatus: boolean;
 }
 
 export interface ImageElement extends BaseElement {
@@ -27,6 +29,7 @@ export interface TextElement extends BaseElement {
 export type Element = ImageElement | TextElement;
 
 export type ElementUpdate = {
+  name?: string | null;
   x?: number;
   y?: number;
   width?: number;
@@ -35,4 +38,5 @@ export type ElementUpdate = {
   fontSize?: number;
   fontType?: string;
   textColor?: string;
+  visibilityStatus?: boolean;
 };

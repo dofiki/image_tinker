@@ -64,6 +64,7 @@ export const MenuBar = ({
 
     // push image to the store
     addElement({
+      name: null,
       id: crypto.randomUUID(),
       type: "image",
       x,
@@ -75,6 +76,7 @@ export const MenuBar = ({
       fontSize: undefined,
       textColor: undefined,
       fontType: undefined,
+      visibilityStatus: true,
     });
 
     // resetting the input value
@@ -91,7 +93,7 @@ export const MenuBar = ({
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "my-drawing.png";
+    a.download = `${canvasConfig?.name}.png`;
     a.click();
     a.remove();
   }
