@@ -6,6 +6,7 @@ export interface BaseElement {
   width: number;
   height: number;
   visibilityStatus: boolean;
+  blur: number;
 }
 
 export interface ImageElement extends BaseElement {
@@ -39,4 +40,5 @@ export type ElementUpdate = {
   fontType?: string;
   textColor?: string;
   visibilityStatus?: boolean;
+  blur?: number;
 };

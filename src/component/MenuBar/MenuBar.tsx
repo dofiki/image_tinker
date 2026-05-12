@@ -77,6 +77,7 @@ export const MenuBar = ({
       textColor: undefined,
       fontType: undefined,
       visibilityStatus: true,
+      blur: 0,
     });
 
     // resetting the input value

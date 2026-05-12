@@ -46,6 +46,7 @@ export function useCanvasRenderer({
             ? getImageFromCache(element.src)
             : null;
           if (imageObject) {
+            ctx.filter = `blur(${element.blur}px)`;
             ctx.drawImage(
               imageObject,
               element.x,
@@ -53,6 +54,7 @@ export function useCanvasRenderer({
               element.width,
               element.height,
             );
+            ctx.filter = "none";
           }
         } else if (element.type === "text") {
           ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
