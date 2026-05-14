@@ -68,22 +68,49 @@ const Properties = ({ element }: { element: Element | null }) => {
             }
           />
         </div>
-        {element.blur ? (
-          <div className="text-white flex items-center justify-between pl-4 pr-2">
-            <label>Blur :</label>
-            <input
-              type="range"
-              min={1}
-              max={100}
-              value={element.blur}
-              className="text-white bg-[#022e2c] p-2 rounded-md"
-              onChange={(e) =>
-                updateElement(element.id, {
-                  blur: Number(e.currentTarget.value),
-                })
-              }
-            />
-          </div>
+        {element.type === "image" ? (
+          <>
+            {" "}
+            {element.blur ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Blur :</label>
+                <input
+                  type="range"
+                  min={1}
+                  max={100}
+                  value={element.blur}
+                  className="text-white bg-[#022e2c] p-2 rounded-md"
+                  onChange={(e) =>
+                    updateElement(element.id, {
+                      blur: Number(e.currentTarget.value),
+                    })
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            {element.saturationStatus ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Saturation :</label>
+                <input
+                  type="range"
+                  min={0.0001}
+                  max={1}
+                  step={0.0001}
+                  value={element.saturate}
+                  className="text-white bg-[#022e2c] p-2 rounded-md"
+                  onChange={(e) =>
+                    updateElement(element.id, {
+                      saturate: Number(e.currentTarget.value),
+                    })
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </>
         ) : (
           ""
         )}

@@ -15,6 +15,17 @@ const FilterOption = () => {
         >
           Blur
         </li>
+        <li
+          className="hover:bg-[#00beb560] p-2"
+          onClick={() =>
+            updateElement(selectedElementId, {
+              saturate: 0.0001,
+              saturationStatus: true,
+            })
+          }
+        >
+          Saturate
+        </li>
         <li className="hover:bg-[#00beb560] p-2">Noise</li>
         <li className="hover:bg-[#00beb560] p-2">Distort</li>
         <li className="hover:bg-[#00beb560] p-2">Glassify</li>

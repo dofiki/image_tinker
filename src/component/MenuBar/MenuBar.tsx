@@ -78,6 +78,8 @@ export const MenuBar = ({
       fontType: undefined,
       visibilityStatus: true,
       blur: 0,
+      saturate: 1,
+      saturationStatus: undefined,
     });
 
     // resetting the input value

@@ -78,7 +78,9 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
         textColor: "red",
         fontType: "Verdana",
         visibilityStatus: true,
-        blur: 0,
+        blur: undefined,
+        saturate: undefined,
+        saturationStatus: undefined,
       });
 
       setTextOverlay({ x: mouseX, y: mouseY, id });
