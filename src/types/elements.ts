@@ -15,6 +15,7 @@ export interface BaseElement {
   contrastStatus: boolean | undefined;
   invert: boolean | undefined;
   invertStatus: boolean | undefined;
+  opacity: number | undefined;
 }
 
 export interface ImageElement extends BaseElement {
@@ -57,4 +58,5 @@ export type ElementUpdate = {
   contrastStatus?: boolean | undefined;
   invert?: boolean | undefined;
   invertStatus?: boolean | undefined;
+  opacity?: number | undefined;
 };

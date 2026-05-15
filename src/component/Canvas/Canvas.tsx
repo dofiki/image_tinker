@@ -87,6 +87,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
         contrastStatus: undefined,
         invert: undefined,
         invertStatus: undefined,
+        opacity: 100,
       });
 
       setTextOverlay({ x: mouseX, y: mouseY, id });

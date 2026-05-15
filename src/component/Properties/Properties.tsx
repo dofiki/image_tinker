@@ -133,6 +133,25 @@ const Properties = ({ element }: { element: Element | null }) => {
             ) : (
               ""
             )}
+            {element.opacity ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Opacity :</label>
+                <input
+                  type="range"
+                  min={1}
+                  max={100}
+                  value={element.opacity}
+                  className="slider"
+                  onChange={(e) =>
+                    updateElement(element.id, {
+                      opacity: Number(e.currentTarget.value),
+                    })
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
             {element.contrastStatus ? (
               <div className="text-white flex items-center justify-between pl-4 pr-2">
                 <label>Contrast :</label>

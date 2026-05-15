@@ -86,6 +86,7 @@ export const MenuBar = ({
       contrastStatus: undefined,
       invert: false,
       invertStatus: undefined,
+      opacity: 100,
     });
 
     // resetting the input value
