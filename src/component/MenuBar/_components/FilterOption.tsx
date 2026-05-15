@@ -5,7 +5,7 @@ const FilterOption = () => {
   if (!selectedElementId) return;
   return (
     <div
-      className="absolute bg-[#e9e9e9] h-55 w-55 z-999 rounded-sm
+      className="absolute bg-[#e9e9e9] h-auto w-55 z-999 rounded-sm
      text-black cursor-default"
     >
       <ul className="flex flex-col">
@@ -26,9 +26,39 @@ const FilterOption = () => {
         >
           Saturate
         </li>
-        <li className="hover:bg-[#00beb560] p-2">Noise</li>
-        <li className="hover:bg-[#00beb560] p-2">Distort</li>
-        <li className="hover:bg-[#00beb560] p-2">Glassify</li>
+        <li
+          className="hover:bg-[#00beb560] p-2"
+          onClick={() =>
+            updateElement(selectedElementId, {
+              brightness: 1,
+              brightnessStatus: true,
+            })
+          }
+        >
+          Brightness
+        </li>
+        <li
+          className="hover:bg-[#00beb560] p-2"
+          onClick={() =>
+            updateElement(selectedElementId, {
+              contrast: 1,
+              contrastStatus: true,
+            })
+          }
+        >
+          Contrast
+        </li>
+        <li
+          className="hover:bg-[#00beb560] p-2"
+          onClick={() =>
+            updateElement(selectedElementId, {
+              invert: true,
+              invertStatus: true,
+            })
+          }
+        >
+          Invert
+        </li>
       </ul>
     </div>
   );

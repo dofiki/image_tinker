@@ -9,6 +9,12 @@ export interface BaseElement {
   blur: number | undefined;
   saturate: number | undefined;
   saturationStatus: boolean | undefined;
+  brightness: number | undefined;
+  brightnessStatus: boolean | undefined;
+  contrast: number | undefined;
+  contrastStatus: boolean | undefined;
+  invert: boolean | undefined;
+  invertStatus: boolean | undefined;
 }
 
 export interface ImageElement extends BaseElement {
@@ -45,4 +51,10 @@ export type ElementUpdate = {
   blur?: number | undefined;
   saturate?: number | undefined;
   saturationStatus?: boolean | undefined;
+  brightness?: number | undefined;
+  brightnessStatus?: boolean | undefined;
+  contrast?: number | undefined;
+  contrastStatus?: boolean | undefined;
+  invert?: boolean | undefined;
+  invertStatus?: boolean | undefined;
 };

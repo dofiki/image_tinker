@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useEditorStore } from "../../store/useEditorStore";
 import type { Element } from "../../types";
 
 const Properties = ({ element }: { element: Element | null }) => {
   const { updateElement } = useEditorStore();
+  const [invertToggle, setInvertToggle] = useState(true);
+
   if (!element) return null;
   return (
     <div
@@ -79,7 +82,7 @@ const Properties = ({ element }: { element: Element | null }) => {
                   min={1}
                   max={100}
                   value={element.blur}
-                  className="text-white bg-[#022e2c] p-2 rounded-md"
+                  className="slider"
                   onChange={(e) =>
                     updateElement(element.id, {
                       blur: Number(e.currentTarget.value),
@@ -96,16 +99,80 @@ const Properties = ({ element }: { element: Element | null }) => {
                 <input
                   type="range"
                   min={0.0001}
-                  max={1}
-                  step={0.0001}
+                  max={3}
+                  step={0.00001}
                   value={element.saturate}
-                  className="text-white bg-[#022e2c] p-2 rounded-md"
+                  className="slider"
                   onChange={(e) =>
                     updateElement(element.id, {
                       saturate: Number(e.currentTarget.value),
                     })
                   }
                 />
+              </div>
+            ) : (
+              ""
+            )}
+            {element.brightnessStatus ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Brightness :</label>
+                <input
+                  type="range"
+                  min={0.0001}
+                  max={3}
+                  step={0.0001}
+                  value={element.brightness}
+                  className="slider"
+                  onChange={(e) =>
+                    updateElement(element.id, {
+                      brightness: Number(e.currentTarget.value),
+                    })
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            {element.contrastStatus ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Contrast :</label>
+                <input
+                  type="range"
+                  min={0.0001}
+                  max={3}
+                  step={0.0001}
+                  value={element.contrast}
+                  className="slider"
+                  onChange={(e) =>
+                    updateElement(element.id, {
+                      contrast: Number(e.currentTarget.value),
+                    })
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            {element.invertStatus ? (
+              <div className="text-white flex items-center justify-between pl-4 pr-2">
+                <label>Invert :</label>
+                <div
+                  className={`w-12 h-6  ${
+                    invertToggle ? "bg-green-800" : " bg-[#536755]"
+                  } rounded-xl flex items-center p-1 `}
+                >
+                  <button
+                    className={`w-5 h-5 rounded-full transition-transform duration-200
+                       bg-green-500 ${invertToggle ? "translate-x-5" : "translate-x-0 "} cursor-pointer`}
+                    onClick={() => {
+                      const next = !invertToggle;
+                      setInvertToggle(next);
+                      updateElement(element.id, {
+                        invert: Boolean(next),
+                      });
+                    }}
+                  ></button>
+                </div>
               </div>
             ) : (
               ""

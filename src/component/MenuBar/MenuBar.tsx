@@ -80,6 +80,12 @@ export const MenuBar = ({
       blur: 0,
       saturate: 1,
       saturationStatus: undefined,
+      brightness: 1,
+      brightnessStatus: undefined,
+      contrast: 1,
+      contrastStatus: undefined,
+      invert: false,
+      invertStatus: undefined,
     });
 
     // resetting the input value

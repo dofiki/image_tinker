@@ -47,7 +47,9 @@ export function useCanvasRenderer({
             : null;
           if (imageObject) {
             ctx.save();
-            ctx.filter = `blur(${element.blur ?? 0}px) saturate(${element.saturate ?? 1})`;
+            ctx.filter = `blur(${element.blur ?? 0}px) saturate(${element.saturate ?? 1}) 
+            brightness(${element.brightness ?? 1}) contrast(${element.contrast}) 
+            invert(${element.invert ? "1" : "0"})`;
             ctx.drawImage(
               imageObject,
               element.x,

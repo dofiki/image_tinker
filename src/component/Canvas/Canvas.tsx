@@ -81,6 +81,12 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
         blur: undefined,
         saturate: undefined,
         saturationStatus: undefined,
+        brightness: undefined,
+        brightnessStatus: undefined,
+        contrast: undefined,
+        contrastStatus: undefined,
+        invert: undefined,
+        invertStatus: undefined,
       });
 
       setTextOverlay({ x: mouseX, y: mouseY, id });
