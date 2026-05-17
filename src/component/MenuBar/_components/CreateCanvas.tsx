@@ -44,8 +44,8 @@ export const CreateCanvas = ({
     e.preventDefault();
     setCanvasConfig({
       name: canvasName,
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth + 40,
+      height: canvasHeight + 40,
       color: canvasColor,
     });
     setCanvasModel(false);
@@ -76,7 +76,7 @@ export const CreateCanvas = ({
                 Presets
               </span>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-100 overflow-y-auto pr-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 md:max-h-100 overflow-y-auto pr-1">
                 {PRESETS.map((preset) => (
                   <button
                     key={preset.label}

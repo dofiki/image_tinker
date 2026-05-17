@@ -18,13 +18,16 @@ export default function App() {
 
   return (
     <>
-      <div className="flex flex-col relative h-screen w-screen overflow-hidden">
+      <div className="flex flex-col relative h-auto md:h-screen w-screen md:overflow-hidden">
         <MenuBar
           canvasRef={canvasRef}
           onMoveStatus={setMoveStatus}
           onTextStatus={setTextStatus}
         />
-        <div className="flex pl-2 pr-2 pt-2 bg-[#004744] h-screen">
+        <div
+          className="flex flex-col md:flex-row gap-4 justify-between
+        pl-2 pr-2 pt-2 bg-[#004744] h-full md:h-screen"
+        >
           <ToolBar
             moveStatus={moveStatus}
             onMoveStatus={setMoveStatus}
@@ -32,8 +35,8 @@ export default function App() {
             onTextStatus={setTextStatus}
           />{" "}
           <div
-            className=" h-[90vh] w-[80vw] flex justify-center 
-          items-center"
+            className=" max-h-[90vh] w-full md:w-[78vw] md:max-w-[80vw] flex justify-center 
+          items-center "
           >
             {canvasConfig && (
               <Canvas
@@ -43,19 +46,15 @@ export default function App() {
               />
             )}
           </div>
-          <div className="flex flex-col w-100 h-full overflow-hidden">
-            <div className="h-220 bg-[#002322]">
-              {selectedElementId ? (
-                <Properties element={selectedElement} />
-              ) : (
-                <span className="text-gray-400">Nothing Selected.</span>
-              )}
-            </div>{" "}
+          <div className="flex flex-col w-full md:w-100 h-full  gap-4">
+            <Properties element={selectedElement} />
+
             <Layers elements={elements} selected={selectedElement} />
-          </div>{" "}
+          </div>
           <div
-            className={`absolute md:hidden h-40 z-9999999 bg-red-300 p-2
-           ${ignoreStatus ? "hidden" : "flex"} flex-col items-center text-center rounded-sm`}
+            className={`absolute md:hidden h-40 w-80 left-1/2 top-1/2
+              -translate-x-1/2 -translate-y-1/2 z-9999999 bg-red-300 p-2
+              ${ignoreStatus ? "hidden" : "flex"} flex-col items-center text-center rounded-sm`}
           >
             <MdWarning size={35} />
             For the best experience, use this photo editor on a desktop or

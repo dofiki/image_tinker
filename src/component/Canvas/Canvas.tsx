@@ -108,8 +108,8 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
       >
         <canvas
           ref={canvasRef}
-          width={canvasConfig.width + 40}
-          height={canvasConfig.height + 40}
+          width={canvasConfig.width}
+          height={canvasConfig.height}
           style={{
             display: "block",
             transformOrigin: "top left",

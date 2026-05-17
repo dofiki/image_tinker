@@ -23,29 +23,30 @@ const ToolBar = ({
       <div className=" flex flex-row ">
         <div>
           <div
-            className="flex flex-col items-center bg-[#002322] text-white w-12
+            className="flex flex-col  items-center bg-[#002322] text-white w-auto
           justify-center gap-2 rounded-[0.2rem] pb-2"
           >
             <div className="font-bold text-[0.8rem] text-[#009b6a] mt-2">
               Tools
             </div>
 
-            <button
-              className={` flex items-center justify-center  hover:bg-[#013836] 
-                w-full h-full p-2 cursor-pointer ${moveStatus ? "text-[#009b6a]" : "text-white"}`}
-              onClick={handleMoveStatus}
-            >
-              <LuMove size={22} />
-            </button>
-
-            <button
-              className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
-                w-full h-full p-2
+            <div className="flex md:flex-col flex-wrap">
+              <button
+                className={` flex items-center justify-center  hover:bg-[#013836] 
+                 h-full p-2 cursor-pointer ${moveStatus ? "text-[#009b6a]" : "text-white"}`}
+                onClick={handleMoveStatus}
+              >
+                <LuMove size={22} />
+              </button>
+              <button
+                className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
+                 h-full p-2
               ${textStatus ? "text-[#009b6a]" : "text-white"}`}
-              onClick={handleTextStatus}
-            >
-              <RiTextSnippet size={25} />
-            </button>
+                onClick={handleTextStatus}
+              >
+                <RiTextSnippet size={25} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

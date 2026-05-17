@@ -4,6 +4,9 @@
   font-family: "Ubuntu", sans-serif;
 }
 
+body {
+  background-color: #004744;
+}
 .slider {
   -webkit-appearance: none;
   height: 8px;
@@ -23,4 +26,20 @@
   border-radius: 50%;
   background: oklch(72.3% 0.219 149.579);
   cursor: pointer;
+}
+
+@media screen and (min-width: 600px) {
+  #layers::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  #layers::-webkit-scrollbar-track {
+    background: #002322;
+  }
+
+  #layers::-webkit-scrollbar-thumb {
+    background-color: #4b634a;
+    border-radius: 5px;
+    border: 10px none #ffffff;
+  }
 }

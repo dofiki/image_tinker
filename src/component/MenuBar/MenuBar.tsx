@@ -16,7 +16,7 @@ export const MenuBar = ({
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [showCanvasModal, setShowCanvasModal] = useState(true);
-  const { canvasConfig, addElement } = useEditorStore();
+  const { canvasConfig, addElement, selectedElementId } = useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // outside click
@@ -148,7 +148,7 @@ export const MenuBar = ({
             onClick={() =>
               setActiveOption(activeOption === "filter" ? null : "filter")
             }
-            className="hover:bg-[#001b19] pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
+            className={`hover:bg-[#001b19] ${selectedElementId ? "text-white" : "text-gray-600"} pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm`}
           >
             Filter
             {activeOption === "filter" && <FilterOption />}

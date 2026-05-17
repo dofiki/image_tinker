@@ -15,8 +15,8 @@ const Layers = ({
     useEditorStore();
 
   return (
-    <div className="bg-[#002322] h-100 text-white ">
-      <div className="px-3 pt-3 pb-2 border-b border-[#013836] fixed w-full h-10">
+    <div className="bg-[#002322] h-60 text-white ">
+      <div className="px-3 pt-3 pb-2 border-b border-[#013836] w-full h-10">
         <span
           className="text-[0.7rem] font-bold text-[#009b6a] 
                 uppercase tracking-widest "
@@ -24,7 +24,10 @@ const Layers = ({
           Layers
         </span>
       </div>
-      <div className="mt-10 overflow-scroll h-full">
+      <div
+        className="h-50 overflow-scroll md:overflow-scroll md:overflow-x-hidden "
+        id="layers"
+      >
         {[...elements].reverse().map((el) => (
           <div
             key={el.id}
