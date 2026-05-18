@@ -39,7 +39,7 @@ const Layers = ({
               {el.visibilityStatus ? (
                 <FaEye
                   className={`cursor-pointer hover:text-blue-500 transition-all ease-in
-                 ${el.id === selected?.id ? "" : "pointer-events-none cursor-not-allowed opacity-35"} `}
+                 ${el.id === selected?.id ? "" : "dont-point"} `}
                   onClick={() =>
                     updateElement(el.id, { visibilityStatus: false })
                   }
@@ -47,7 +47,7 @@ const Layers = ({
               ) : (
                 <FaEyeSlash
                   className={`cursor-pointer hover:text-blue-500 transition-all ease-in
-                 ${el.id === selected?.id ? "" : "pointer-events-none cursor-not-allowed opacity-35"} `}
+                 ${el.id === selected?.id ? "" : "dont-point"} `}
                   onClick={() =>
                     updateElement(el.id, { visibilityStatus: true })
                   }
@@ -63,7 +63,7 @@ const Layers = ({
             <div>
               <RiDeleteBin6Line
                 className={`cursor-pointer hover:text-red-500 transition-all ease-in
-                 ${el.id === selected?.id ? "" : "pointer-events-none cursor-not-allowed opacity-35"} `}
+                 ${el.id === selected?.id ? "" : "dont-point"} `}
                 onClick={() => removeElement(el.id)}
               />
             </div>

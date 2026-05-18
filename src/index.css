@@ -1,45 +1,54 @@
 @import "tailwindcss";
 
-* {
-  font-family: "Ubuntu", sans-serif;
-}
-
-body {
-  background-color: #004744;
-}
-.slider {
-  -webkit-appearance: none;
-  height: 8px;
-  border-radius: 5px;
-  background: #536755;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: oklch(72.3% 0.219 149.579);
-  cursor: pointer;
-}
-
-@media screen and (min-width: 600px) {
-  #layers::-webkit-scrollbar {
-    width: 5px;
+@layer base {
+  * {
+    font-family: "Ubuntu", sans-serif;
+    outline: 0;
   }
 
-  #layers::-webkit-scrollbar-track {
-    background: #002322;
+  body {
+    @apply bg-[#004744];
+  }
+}
+
+@layer components {
+  .slider {
+    @apply h-2 rounded-md outline-none opacity-70 transition-opacity;
+    -webkit-appearance: none;
+    background: #536755;
   }
 
-  #layers::-webkit-scrollbar-thumb {
-    background-color: #4b634a;
-    border-radius: 5px;
-    border: 10px none #ffffff;
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+
+    @apply size-[15px] cursor-pointer rounded-full;
+    background: oklch(72.3% 0.219 149.579);
+  }
+
+  .dont-point {
+    @apply pointer-events-none cursor-not-allowed opacity-35;
+  }
+
+  .input-style {
+    @apply text-white bg-[#022e2c] p-2 rounded-md focus:outline-1
+     focus:outline-lime-400 hover:outline-lime-400  hover:outline-1;
+  }
+}
+
+@layer utilities {
+  @media (min-width: 600px) {
+    #layers::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #layers::-webkit-scrollbar-track {
+      background: #002322;
+    }
+
+    #layers::-webkit-scrollbar-thumb {
+      background-color: #4b634a;
+      border-radius: 5px;
+    }
   }
 }
