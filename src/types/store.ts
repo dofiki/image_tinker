@@ -3,7 +3,7 @@ import type { CanvasConfig } from "./canvas";
 import type { Commands } from "./commands";
 
 export interface EditorStore {
-  // undo redo stack — was Element[][], now Command[]
+  // undo redo stack
   past: Commands[];
   future: Commands[];
 
@@ -24,4 +24,8 @@ export interface EditorStore {
   // selection
   selectedElementId: string | null;
   setSelectedElementId: (id: string | null) => void;
+
+  // view
+  rulerStatus: boolean;
+  setRulerStatus: (rulerStatus: boolean) => void;
 }

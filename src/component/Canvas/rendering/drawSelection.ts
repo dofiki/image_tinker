@@ -1,4 +1,4 @@
-import { getHandleRect } from "./getHandleRect";
+import { getHandleRect } from "../utils/getHandleRect";
 import type { Element } from "../../../types/index";
 
 export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {

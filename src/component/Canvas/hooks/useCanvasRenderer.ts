@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import type { CanvasRendererProps } from "../types";
-import { getImageFromCache } from "../../../component/MenuBar/utils/loadImage";
-import { drawSelection } from "../utils/drawSelection";
-import { drawRulerMarks } from "../Ruler/drawRulerMarks";
-import { drawRulerPointer } from "../Ruler/drawRulerPointer";
+import { drawSelection } from "../rendering/drawSelection";
+import { useEditorStore } from "../../../store/useEditorStore";
+import { handleRulerVisibility } from "../rendering/handleRulerVisibility";
+import useRuler from "./useRuler";
+import { renderCanvasBackground } from "../rendering/renderCanvasBackground";
+import { renderElements } from "../rendering/renderElements";
 
 export function useCanvasRenderer({
   canvasRef,
@@ -11,21 +13,7 @@ export function useCanvasRenderer({
   elements,
   selectedElement,
 }: CanvasRendererProps) {
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || !canvasConfig) return;
-    const ctx = canvas.getContext("2d");
-
-    const handlePointer = function (e: MouseEvent) {
-      if (!ctx || !canvas) return;
-
-      drawRulerPointer(e, ctx, canvas);
-    };
-    document.addEventListener("mousemove", handlePointer);
-    return () => {
-      document.removeEventListener("mousemove", handlePointer);
-    };
-  }, [canvasRef, canvasConfig]);
+  const { rulerStatus } = useEditorStore();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,58 +21,14 @@ export function useCanvasRenderer({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // rendering background
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = canvasConfig.color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    renderCanvasBackground({ ctx, canvas, canvasConfig });
 
-    // rendering elements
-    elements.forEach((element) => {
-      if (element.visibilityStatus) {
-        if (element.type === "image") {
-          const imageObject = element.src
-            ? getImageFromCache(element.src)
-            : null;
-          if (imageObject) {
-            ctx.save();
-            ctx.filter = `blur(${element.blur ?? 0}px) saturate(${element.saturate ?? 1}) 
-            brightness(${element.brightness ?? 1}) contrast(${element.contrast}) 
-            invert(${element.invert ? "1" : "0"}) opacity(${element.opacity}%)`;
-            ctx.drawImage(
-              imageObject,
-              element.x,
-              element.y,
-              element.width,
-              element.height,
-            );
-            ctx.restore();
-          }
-        } else if (element.type === "text") {
-          ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
-          ctx.fillStyle = element.textColor ?? "red";
-          ctx.fillText(
-            element.content ?? "",
-            element.x,
-            element.y + (element.fontSize ?? 20),
-          );
-        }
-      }
-    });
+    renderElements({ elements, ctx });
 
-    // rendering ruler bg (initial)
-    // vertical
-    ctx.fillStyle = "gray";
-    ctx.fillRect(0, 40, 40, canvas.height);
-    // horizontal
-    ctx.fillStyle = "gray";
-    ctx.fillRect(40, 0, canvas.width, 40);
-    // corner
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, 40, 40);
-
-    // ruler marks
-    drawRulerMarks(ctx, canvas);
+    handleRulerVisibility({ canvas, ctx, rulerStatus });
 
     if (selectedElement) drawSelection(ctx, selectedElement);
-  }, [elements, canvasConfig, selectedElement]);
+  }, [elements, canvasConfig, selectedElement, rulerStatus, canvasRef]);
+
+  useRuler({ canvasRef, canvasConfig, rulerStatus });
 }

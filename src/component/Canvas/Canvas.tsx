@@ -3,10 +3,10 @@ import { useEditorStore } from "../../store/useEditorStore";
 import { useCanvasRenderer } from "./hooks/useCanvasRenderer";
 import { useKeyboardDelete } from "./hooks/useKeyboardDelete";
 import { MAX_H, MAX_W } from "./constants";
-import { getCanvasCoords } from "./utils/getCanvasCoords";
-import { handleMouseMove } from "./utils/handleMouseMove";
+import { handleMouseMove } from "./interaction/handleMouseMove";
 import type { CanvasProps } from "./types/index";
-import { handleMouseDown } from "./utils/handleMouseDown";
+import { handleMouseDown } from "./interaction/handleMouseDown";
+import { handleLeftClick } from "./interaction/handleLeftClick";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -33,7 +33,6 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
     id: string;
   } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const scale = canvasConfig
     ? Math.min(1, MAX_W / canvasConfig.width, MAX_H / canvasConfig.height)
     : 1;
@@ -44,6 +43,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
 
   useCanvasRenderer({ canvasRef, canvasConfig, elements, selectedElement });
   useKeyboardDelete(selectedElement);
+
   function handleMouseUp() {
     isDragging.current = false;
     isResizing.current = false;
@@ -55,44 +55,6 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
       updateElement(textOverlay.id, { content: value });
     }
     setTextOverlay(null);
-  }
-
-  function handleLeftClick(e: React.MouseEvent<HTMLCanvasElement>) {
-    if (textStatus) {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
-      const id = crypto.randomUUID();
-
-      addElement({
-        name: null,
-        id,
-        type: "text",
-        x: mouseX,
-        y: mouseY,
-        width: 200,
-        height: 30,
-        src: null,
-        content: null,
-        fontSize: 20,
-        textColor: "red",
-        fontType: "Verdana",
-        visibilityStatus: true,
-        blur: undefined,
-        saturate: undefined,
-        saturationStatus: undefined,
-        brightness: undefined,
-        brightnessStatus: undefined,
-        contrast: undefined,
-        contrastStatus: undefined,
-        invert: undefined,
-        invertStatus: undefined,
-        opacity: 100,
-      });
-
-      setTextOverlay({ x: mouseX, y: mouseY, id });
-      setTimeout(() => textareaRef.current?.focus(), 0);
-    }
   }
 
   if (!canvasConfig) return null;
@@ -150,7 +112,16 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
           }}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          onClick={handleLeftClick}
+          onClick={(e) => {
+            handleLeftClick({
+              e,
+              textStatus,
+              canvasRef,
+              addElement,
+              setTextOverlay,
+              textareaRef,
+            });
+          }}
         />
 
         {textOverlay && (

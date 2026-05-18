@@ -22,7 +22,7 @@
     -webkit-appearance: none;
     appearance: none;
 
-    @apply size-[15px] cursor-pointer rounded-full;
+    @apply size-3.75 cursor-pointer rounded-full;
     background: oklch(72.3% 0.219 149.579);
   }
 
