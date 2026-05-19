@@ -20,6 +20,12 @@ export interface handleRulerVisibilityProps {
   rulerStatus: boolean;
 }
 
+export interface handleGridVisibilityProps {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  gridStatus: boolean;
+}
+
 export interface renderCanvasBackgroundProps {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;

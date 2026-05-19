@@ -28,4 +28,6 @@ export interface EditorStore {
   // view
   rulerStatus: boolean;
   setRulerStatus: (rulerStatus: boolean) => void;
+  gridStatus: boolean;
+  setGridStatus: (rulerStatus: boolean) => void;
 }

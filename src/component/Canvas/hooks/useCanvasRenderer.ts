@@ -6,6 +6,7 @@ import { handleRulerVisibility } from "../rendering/handleRulerVisibility";
 import useRuler from "./useRuler";
 import { renderCanvasBackground } from "../rendering/renderCanvasBackground";
 import { renderElements } from "../rendering/renderElements";
+import { handleGridVisibility } from "../rendering/handleGridVisibility";
 
 export function useCanvasRenderer({
   canvasRef,
@@ -13,7 +14,7 @@ export function useCanvasRenderer({
   elements,
   selectedElement,
 }: CanvasRendererProps) {
-  const { rulerStatus } = useEditorStore();
+  const { rulerStatus, gridStatus } = useEditorStore();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -27,8 +28,17 @@ export function useCanvasRenderer({
 
     handleRulerVisibility({ canvas, ctx, rulerStatus });
 
+    handleGridVisibility({ canvas, ctx, gridStatus });
+
     if (selectedElement) drawSelection(ctx, selectedElement);
-  }, [elements, canvasConfig, selectedElement, rulerStatus, canvasRef]);
+  }, [
+    elements,
+    canvasConfig,
+    selectedElement,
+    rulerStatus,
+    canvasRef,
+    gridStatus,
+  ]);
 
   useRuler({ canvasRef, canvasConfig, rulerStatus });
 }
