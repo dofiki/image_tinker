@@ -3,6 +3,7 @@ const FileOption = ({
   onCreateCanvas,
   onHandleImage,
   onHandleSave,
+  onHandleElement,
 }: FileProps) => {
   return (
     <>
@@ -19,6 +20,9 @@ const FileOption = ({
           </li>
           <li className="hover:bg-[#00beb560] p-2" onClick={onHandleSave}>
             Export as PNG
+          </li>
+          <li className="hover:bg-[#00beb560] p-2" onClick={onHandleElement}>
+            Export Element JSON
           </li>
         </ul>
       </div>

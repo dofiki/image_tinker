@@ -16,7 +16,8 @@ export const MenuBar = ({
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [showCanvasModal, setShowCanvasModal] = useState(true);
-  const { canvasConfig, addElement, selectedElementId } = useEditorStore();
+  const { elements, canvasConfig, addElement, selectedElementId } =
+    useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // outside click
@@ -108,6 +109,24 @@ export const MenuBar = ({
     a.remove();
   }
 
+  // exporting Element context
+  function handleElementContext() {
+    const data = JSON.stringify(elements, null, 2);
+    const blob = new Blob([data], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ElementContextJSON.json";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    // Cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
       {" "}
@@ -132,6 +151,7 @@ export const MenuBar = ({
                 onCreateCanvas={() => setShowCanvasModal(true)}
                 onHandleImage={handleAddImage}
                 onHandleSave={handleSaveCanvas}
+                onHandleElement={handleElementContext}
               />
             )}
           </li>
