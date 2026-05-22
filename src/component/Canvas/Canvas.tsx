@@ -7,6 +7,7 @@ import { handleMouseMove } from "./interaction/handleMouseMove";
 import type { CanvasProps } from "./types/index";
 import { handleMouseDown } from "./interaction/handleMouseDown";
 import { handleLeftClick } from "./interaction/handleLeftClick";
+import { useMemo } from "react";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -18,8 +19,10 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
     addElement,
   } = useEditorStore();
 
-  const selectedElement =
-    elements.find((el) => el.id === selectedElementId) ?? null;
+  const selectedElement = useMemo(
+    () => elements.find((el) => el.id === selectedElementId) ?? null,
+    [elements, selectedElementId],
+  );
 
   const isDragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });

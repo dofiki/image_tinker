@@ -8,6 +8,11 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
         const imageObject = element.src ? getImageFromCache(element.src) : null;
         if (imageObject) {
           ctx.save();
+
+          ctx.globalCompositeOperation =
+            element.blendMode === "source-over"
+              ? "source-over"
+              : `${element.blendMode}`;
           ctx.filter = `blur(${element.blur ?? 0}px) saturate(${element.saturate ?? 1}) 
             brightness(${element.brightness ?? 1}) contrast(${element.contrast}) 
             invert(${element.invert ? "1" : "0"}) opacity(${element.opacity}%)`;

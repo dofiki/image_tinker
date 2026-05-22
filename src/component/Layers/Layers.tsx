@@ -3,6 +3,7 @@ import { FaEye } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useEditorStore } from "../../store/useEditorStore";
+import type { ChangeEvent } from "react";
 
 const Layers = ({
   elements,
@@ -11,18 +12,57 @@ const Layers = ({
   elements: Element[];
   selected: Element | null;
 }) => {
-  const { updateElement, setSelectedElementId, removeElement } =
-    useEditorStore();
+  const {
+    updateElement,
+    setSelectedElementId,
+    removeElement,
+    selectedElementId,
+  } = useEditorStore();
+
+  function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
+    if (!selectedElementId) return;
+    updateElement(selectedElementId, {
+      blendMode: e.target.value as GlobalCompositeOperation,
+    });
+  }
 
   return (
     <div className="bg-[#002322] h-60 text-white ">
-      <div className="px-3 pt-3 pb-2 border-b border-[#013836] w-full h-10">
-        <span
-          className="text-[0.7rem] font-bold text-[#009b6a] 
+      <div className="flex justify-between items-center px-3 border-b border-[#013836] w-full h-10">
+        <div>
+          {" "}
+          <span
+            className="text-[0.7rem] font-bold text-[#009b6a] 
                 uppercase tracking-widest "
-        >
-          Layers
-        </span>
+          >
+            Layers
+          </span>
+        </div>
+        <div>
+          <select
+            className="select"
+            id="blend-modes"
+            defaultValue={"source-out"}
+            onChange={(e) => handleSelect(e)}
+          >
+            <option value="source-over">normal</option>
+            <option value="screen">screen</option>
+            <option value="multiply">multiply</option>
+            <option value="overlay">overlay</option>
+            <option value="darken">darken</option>
+            <option value="lighten">lighten</option>
+            <option value="color-dodge">color-dodge</option>
+            <option value="color-burn">color-burn</option>
+            <option value="hard-light">hard-light</option>
+            <option value="soft-light">soft-light</option>
+            <option value="difference">difference</option>
+            <option value="exclusion">exclusion</option>
+            <option value="hue">hue</option>
+            <option value="saturation">saturation</option>
+            <option value="color">color</option>
+            <option value="luminosity">luminosity</option>
+          </select>
+        </div>
       </div>
       <div
         className="h-50 overflow-scroll md:overflow-scroll md:overflow-x-hidden "

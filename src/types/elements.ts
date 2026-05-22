@@ -16,6 +16,7 @@ export interface BaseElement {
   invert: boolean | undefined;
   invertStatus: boolean | undefined;
   opacity: number | undefined;
+  blendMode: GlobalCompositeOperation;
 }
 
 export interface ImageElement extends BaseElement {
@@ -59,4 +60,5 @@ export type ElementUpdate = {
   invert?: boolean | undefined;
   invertStatus?: boolean | undefined;
   opacity?: number | undefined;
+  blendMode?: GlobalCompositeOperation;
 };

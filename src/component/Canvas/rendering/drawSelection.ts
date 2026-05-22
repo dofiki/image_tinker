@@ -5,8 +5,6 @@ export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {
   const dashPadding = 4;
   const handles = getHandleRect(el);
 
-  ctx.save();
-
   ctx.strokeStyle = "#0099ff";
   ctx.lineWidth = 2;
   ctx.setLineDash([6, 3]);
@@ -25,6 +23,4 @@ export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {
     ctx.lineWidth = 1;
     ctx.strokeRect(x, y, width, height);
   });
-
-  ctx.restore();
 }

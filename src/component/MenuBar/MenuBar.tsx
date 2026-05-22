@@ -88,6 +88,7 @@ export const MenuBar = ({
       invert: false,
       invertStatus: undefined,
       opacity: 100,
+      blendMode: "source-over",
     });
 
     // resetting the input value

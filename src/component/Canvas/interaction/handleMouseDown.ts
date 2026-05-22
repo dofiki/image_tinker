@@ -20,8 +20,6 @@ export function handleMouseDown({
 
   const canvas = canvasRef.current;
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
 
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
@@ -39,6 +37,7 @@ export function handleMouseDown({
       isResizing.current = true;
       resizeHandle.current = hitHandle.position;
 
+      //look up table... to find diagonally opposite handler
       const anchorMap: Record<string, { x: number; y: number }> = {
         "top-left": {
           x: selectedElement.x + selectedElement.width,
@@ -58,11 +57,14 @@ export function handleMouseDown({
         },
       };
 
-      resizeOrigin.current = anchorMap[hitHandle.position];
+      // and that will be our resize origin
+      resizeOrigin.current = anchorMap[resizeHandle.current];
       return;
     }
   }
 
+  // if clicked inside the image
+  // initiate the draggin process
   for (let i = elements.length - 1; i >= 0; i--) {
     const el = elements[i];
     if (

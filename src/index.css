@@ -34,6 +34,10 @@
     @apply text-white bg-[#022e2c] p-2 rounded-md focus:outline-1
      focus:outline-lime-400 hover:outline-lime-400  hover:outline-1;
   }
+
+  .select {
+    @apply bg-green-600 text-black text-sm rounded-sm;
+  }
 }
 
 @layer utilities {
