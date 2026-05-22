@@ -3,7 +3,6 @@ import { FaEye } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useEditorStore } from "../../store/useEditorStore";
-import type { ChangeEvent } from "react";
 
 const Layers = ({
   elements,
@@ -12,19 +11,8 @@ const Layers = ({
   elements: Element[];
   selected: Element | null;
 }) => {
-  const {
-    updateElement,
-    setSelectedElementId,
-    removeElement,
-    selectedElementId,
-  } = useEditorStore();
-
-  function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
-    if (!selectedElementId) return;
-    updateElement(selectedElementId, {
-      blendMode: e.target.value as GlobalCompositeOperation,
-    });
-  }
+  const { updateElement, setSelectedElementId, removeElement } =
+    useEditorStore();
 
   return (
     <div className="bg-[#002322] h-60 text-white ">
@@ -37,31 +25,6 @@ const Layers = ({
           >
             Layers
           </span>
-        </div>
-        <div>
-          <select
-            className="select"
-            id="blend-modes"
-            defaultValue={"source-out"}
-            onChange={(e) => handleSelect(e)}
-          >
-            <option value="source-over">normal</option>
-            <option value="screen">screen</option>
-            <option value="multiply">multiply</option>
-            <option value="overlay">overlay</option>
-            <option value="darken">darken</option>
-            <option value="lighten">lighten</option>
-            <option value="color-dodge">color-dodge</option>
-            <option value="color-burn">color-burn</option>
-            <option value="hard-light">hard-light</option>
-            <option value="soft-light">soft-light</option>
-            <option value="difference">difference</option>
-            <option value="exclusion">exclusion</option>
-            <option value="hue">hue</option>
-            <option value="saturation">saturation</option>
-            <option value="color">color</option>
-            <option value="luminosity">luminosity</option>
-          </select>
         </div>
       </div>
       <div
@@ -100,6 +63,32 @@ const Layers = ({
             >
               {el.type === "text" ? el.content?.slice(0, 5) + "..." : el.type}
             </div>{" "}
+            <select
+              value={el.blendMode ?? "source-over"}
+              onChange={(e) =>
+                updateElement(el.id, {
+                  blendMode: e.target.value as GlobalCompositeOperation,
+                })
+              }
+              className={`${el.id === selected?.id ? "select" : "select dont-point"}`}
+            >
+              <option value="source-over">normal</option>
+              <option value="multiply">multiply</option>
+              <option value="screen">screen</option>
+              <option value="overlay">overlay</option>
+              <option value="darken">darken</option>
+              <option value="lighten">lighten</option>
+              <option value="color-dodge">color-dodge</option>
+              <option value="color-burn">color-burn</option>
+              <option value="hard-light">hard-light</option>
+              <option value="soft-light">soft-light</option>
+              <option value="difference">difference</option>
+              <option value="exclusion">exclusion</option>
+              <option value="hue">hue</option>
+              <option value="saturation">saturation</option>
+              <option value="color">color</option>
+              <option value="luminosity">luminosity</option>
+            </select>
             <div>
               <RiDeleteBin6Line
                 className={`cursor-pointer hover:text-red-500 transition-all ease-in
