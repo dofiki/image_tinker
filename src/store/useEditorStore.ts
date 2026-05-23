@@ -18,7 +18,17 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   setCanvasConfig: (config) => set({ canvasConfig: config }),
 
   elements: [],
+  setElements: (newElements) => {
+    const { elements, past } = get();
+    const temp = [...elements];
 
+    const commands: Commands = {
+      execute: (_elements: Element[]) => [...newElements],
+      reverse: (_elements: Element[]) => [...temp],
+    };
+
+    set(dispatch(commands, elements, past));
+  },
   addElement: (newElement) => {
     const { elements, past } = get();
 

@@ -3,6 +3,8 @@ import { FaEye } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useEditorStore } from "../../store/useEditorStore";
+import { PiDotsThreeVerticalBold } from "react-icons/pi";
+import { useRef } from "react";
 
 const Layers = ({
   elements,
@@ -11,8 +13,35 @@ const Layers = ({
   elements: Element[];
   selected: Element | null;
 }) => {
-  const { updateElement, setSelectedElementId, removeElement } =
+  const { updateElement, setSelectedElementId, removeElement, setElements } =
     useEditorStore();
+
+  const draggingItem = useRef<null | number>(null);
+  const draggingOverItem = useRef<null | number>(null);
+
+  function handleDragStart(index: number) {
+    draggingItem.current = index;
+  }
+
+  function handleDragEnter(index: number) {
+    draggingOverItem.current = index;
+    console.log("end:" + index);
+  }
+
+  function handleDragEnd() {
+    if (draggingItem.current === null || draggingOverItem.current === null)
+      return;
+    const canvasContext = [...elements].reverse();
+
+    const draggingItemContent = canvasContext[draggingItem.current];
+    canvasContext.splice(draggingItem.current, 1);
+    canvasContext.splice(draggingOverItem.current, 0, draggingItemContent);
+
+    draggingItem.current = null;
+    draggingOverItem.current = null;
+
+    setElements(canvasContext.reverse());
+  }
 
   return (
     <div className="bg-[#002322] h-60 text-white ">
@@ -31,13 +60,23 @@ const Layers = ({
         className="h-50 overflow-scroll md:overflow-scroll md:overflow-x-hidden "
         id="layers"
       >
-        {[...elements].reverse().map((el) => (
+        {[...elements].reverse().map((el, index) => (
           <div
             key={el.id}
-            className="bg-black/50 flex pl-5 pr-5 pt-2 pb-2 items-center 
-            justify-between cursor-pointer"
+            className="bg-black/50 flex items-center  
+            justify-between cursor-pointer w-full pr-2 h-10 border-b border-white/30"
             onClick={() => setSelectedElementId(el.id)}
+            onDragStart={() => handleDragStart(index)}
+            onDragEnter={() => handleDragEnter(index)}
+            onDragEnd={handleDragEnd}
+            draggable
           >
+            <div
+              className="bg-black/30 py-1 w-8 h-full flex justify-center 
+            items-center text-white/80 hover:text-green-500 cursor-grab"
+            >
+              <PiDotsThreeVerticalBold size={20} />
+            </div>
             <div>
               {el.visibilityStatus ? (
                 <FaEye
@@ -58,7 +97,7 @@ const Layers = ({
               )}
             </div>
             <div
-              className={`${el.id === selected?.id ? "text-green-500" : "opacity-35"}
+              className={`select-none ${el.id === selected?.id ? "text-green-500" : "opacity-35"}
                transition-all ease-in`}
             >
               {el.type === "text" ? el.content?.slice(0, 5) + "..." : el.type}
@@ -70,7 +109,7 @@ const Layers = ({
                   blendMode: e.target.value as GlobalCompositeOperation,
                 })
               }
-              className={`${el.id === selected?.id ? "select" : "select dont-point"}`}
+              className={`select-none ${el.id === selected?.id ? "select" : "select dont-point"}`}
             >
               <option value="source-over">normal</option>
               <option value="multiply">multiply</option>

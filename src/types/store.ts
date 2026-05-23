@@ -13,6 +13,8 @@ export interface EditorStore {
 
   // elements
   elements: Element[];
+  setElements: (element: Element[]) => void;
+
   addElement: (element: Element) => void;
   updateElement: (id: string, update: ElementUpdate) => void;
   removeElement: (id: string) => void;
