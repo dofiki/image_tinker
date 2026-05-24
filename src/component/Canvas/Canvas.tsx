@@ -54,15 +54,8 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   }
 
   function handleTextCommit(value: string) {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const textData = ctx?.measureText(value);
-    const textWidth = Number(textData?.width);
-
     if (textOverlay) {
       updateElement(textOverlay.id, {
-        width: textWidth * 4,
         content: value,
       });
     }
