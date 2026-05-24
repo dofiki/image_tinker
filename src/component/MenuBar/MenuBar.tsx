@@ -16,7 +16,7 @@ export const MenuBar = ({
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [showCanvasModal, setShowCanvasModal] = useState(true);
-  const { elements, canvasConfig, addElement, selectedElementId, past } =
+  const { elements, canvasConfig, addElement, selectedElementId } =
     useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 

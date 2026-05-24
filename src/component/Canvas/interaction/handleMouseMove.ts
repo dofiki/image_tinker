@@ -16,6 +16,9 @@ export function handleMouseMove({
   const canvas = canvasRef.current;
   if (!canvas) return;
 
+  const ctx = canvas.getContext("2d");
+  if (!selectedElement || !ctx) return;
+
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
   // Resize logic
@@ -77,15 +80,17 @@ export function handleMouseMove({
         newY = anchor.y - MIN_SIZE;
       }
     }
+    const nextFontSize = Math.max(20, newHeight * 0.6);
+
+    ctx.font = `${nextFontSize}px Arial`;
 
     updateElement(selectedElement.id, {
       x: newX,
       y: newY,
       width: newWidth,
       height: newHeight,
+      fontSize: Number(nextFontSize.toFixed()),
     });
-
-    return;
   }
 
   // Drag logic

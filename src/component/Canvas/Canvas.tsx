@@ -54,8 +54,17 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   }
 
   function handleTextCommit(value: string) {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const textData = ctx?.measureText(value);
+    const textWidth = Number(textData?.width);
+
     if (textOverlay) {
-      updateElement(textOverlay.id, { content: value });
+      updateElement(textOverlay.id, {
+        width: textWidth * 4,
+        content: value,
+      });
     }
     setTextOverlay(null);
   }
@@ -142,7 +151,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               position: "absolute",
               left: textOverlay.x * scale,
               top: textOverlay.y * scale,
-              fontSize: `${20 * scale}px`,
+              fontSize: `${40 * scale}px`,
               fontFamily: "Verdana",
               background: "transparent",
               border: "1px dashed black",
@@ -152,6 +161,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               lineHeight: 1,
               padding: 5,
             }}
+            wrap="soft"
             onBlur={(e) => handleTextCommit(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
