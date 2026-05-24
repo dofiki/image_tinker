@@ -4,12 +4,10 @@ import type { Element } from "../../types";
 import { Field } from "./_component/Field";
 
 const Properties = ({ element }: { element: Element | null }) => {
-  const { updateElement, globalColor } = useEditorStore();
+  const { updateElement } = useEditorStore();
   const [invertToggle, setInvertToggle] = useState(true);
 
-  if (!element) return null;
-
-  const update = (patch: Partial<Element>) => updateElement(element.id, patch);
+  const update = (patch: Partial<Element>) => updateElement(element?.id, patch);
 
   return (
     <div
@@ -18,49 +16,54 @@ const Properties = ({ element }: { element: Element | null }) => {
     >
       <div className="px-3 pt-3 pb-2 border-b border-[#013836]">
         <span className="text-[0.7rem] font-bold text-[#009b6a] uppercase tracking-widest">
-          {element.type}
+          {element?.type ?? "Properties"}
         </span>
       </div>
 
-      <div className="flex flex-col gap-5 pt-5 h-60 md:h-135 overflow-scroll md:overflow-hidden pb-5">
-        <div className="flex justify-between ">
-          <Field label="X :">
-            <input
-              type="number"
-              className="w-25 ml-5 input-style"
-              value={element.x.toFixed()}
-              onChange={(e) => update({ x: +e.target.value })}
-            />
-          </Field>
-          <Field label="Y :">
-            <input
-              type="number"
-              className="w-25 ml-5 input-style"
-              value={element.y.toFixed()}
-              onChange={(e) => update({ y: +e.target.value })}
-            />
-          </Field>
-        </div>
-        <div className="flex justify-between ">
-          <Field label="Height :">
-            <input
-              type="number"
-              className="w-25 ml-5 input-style"
-              value={element.height.toFixed()}
-              onChange={(e) => update({ height: +e.target.value })}
-            />
-          </Field>
-          <Field label="Width :">
-            <input
-              type="number"
-              className="w-25 ml-5 input-style"
-              value={element.width.toFixed()}
-              onChange={(e) => update({ width: +e.target.value })}
-            />
-          </Field>
-        </div>
+      <div className="flex flex-col gap-5 pt-5 h-60 md:h-auto overflow-scroll md:overflow-hidden pb-5">
+        {element?.type && (
+          <>
+            {" "}
+            <div className="flex justify-between ">
+              <Field label="X :">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style"
+                  value={element?.x.toFixed()}
+                  onChange={(e) => update({ x: +e.target.value })}
+                />
+              </Field>
+              <Field label="Y :">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style"
+                  value={element?.y.toFixed()}
+                  onChange={(e) => update({ y: +e.target.value })}
+                />
+              </Field>
+            </div>
+            <div className="flex justify-between ">
+              <Field label="Height :">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style"
+                  value={element?.height.toFixed()}
+                  onChange={(e) => update({ height: +e.target.value })}
+                />
+              </Field>
+              <Field label="Width :">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style"
+                  value={element?.width.toFixed()}
+                  onChange={(e) => update({ width: +e.target.value })}
+                />
+              </Field>
+            </div>
+          </>
+        )}
 
-        {element.type === "image" && (
+        {element?.type === "image" && (
           <div className="flex flex-col gap-4 pt-2">
             {element.blur != null && element.blur > 0 && (
               <Field label="Blur :">
@@ -149,7 +152,7 @@ const Properties = ({ element }: { element: Element | null }) => {
           </div>
         )}
 
-        {element.type === "text" && (
+        {element?.type === "text" && (
           <div className="flex flex-col gap-4 pt-4">
             <Field label="Content :">
               <input

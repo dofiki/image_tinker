@@ -1,11 +1,14 @@
 import { create } from "zustand";
 import type { EditorStore, Element } from "../types/index";
 import type { Commands } from "../types/commands";
+import type { CanvasConfig } from "../types/index";
 
 function dispatch(commands: Commands, elements: Element[], past: Commands[]) {
+  const MAX_HISTORY = 30;
+
   return {
     elements: commands.execute(elements),
-    past: [...past, commands],
+    past: [...past, commands].slice(-MAX_HISTORY),
     future: [],
   };
 }
@@ -15,8 +18,12 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   future: [],
 
   canvasConfig: null,
-  setCanvasConfig: (config) => set({ canvasConfig: config }),
-
+  setCanvasConfig: (config) =>
+    set((state) => ({
+      canvasConfig: state.canvasConfig
+        ? ({ ...state.canvasConfig, ...config } as CanvasConfig)
+        : (config as CanvasConfig),
+    })),
   elements: [],
   setElements: (newElements) => {
     const { elements, past } = get();
@@ -111,7 +118,4 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
-
-  globalColor: "#50C878",
-  setGlobalColor: (globalColor: string) => set({ globalColor: globalColor }),
 }));

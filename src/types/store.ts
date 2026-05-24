@@ -9,14 +9,14 @@ export interface EditorStore {
 
   // canvas config
   canvasConfig: CanvasConfig | null;
-  setCanvasConfig: (config: CanvasConfig) => void;
+  setCanvasConfig: (config: Partial<CanvasConfig> | CanvasConfig) => void;
 
   // elements
   elements: Element[];
   setElements: (element: Element[]) => void;
 
   addElement: (element: Element) => void;
-  updateElement: (id: string, update: ElementUpdate) => void;
+  updateElement: (id: string | undefined, update: ElementUpdate) => void;
   removeElement: (id: string) => void;
 
   // undo redo
@@ -32,6 +32,4 @@ export interface EditorStore {
   setRulerStatus: (rulerStatus: boolean) => void;
   gridStatus: boolean;
   setGridStatus: (rulerStatus: boolean) => void;
-  globalColor: string;
-  setGlobalColor: (globalColor: string) => void;
 }

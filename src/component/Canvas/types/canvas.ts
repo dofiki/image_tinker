@@ -10,7 +10,6 @@ export interface CanvasProps {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   moveStatus: boolean;
   textStatus: boolean;
-  colorPickerStatus: boolean;
 }
 
 export interface handleLeftClickProps {
@@ -20,7 +19,4 @@ export interface handleLeftClickProps {
   addElement: (element: Element) => void;
   setTextOverlay: (arg: setTextOverlayPops) => void;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
-  colorPickerStatus: Boolean;
-  globalColor: string;
-  setGlobalColor: (globalColor: string) => void;
 }

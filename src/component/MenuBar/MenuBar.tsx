@@ -16,7 +16,7 @@ export const MenuBar = ({
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [showCanvasModal, setShowCanvasModal] = useState(true);
-  const { elements, canvasConfig, addElement, selectedElementId } =
+  const { elements, canvasConfig, addElement, selectedElementId, past } =
     useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,7 +112,7 @@ export const MenuBar = ({
 
   // exporting Element context
   function handleElementContext() {
-    const data = JSON.stringify(elements, null, 2);
+    const data = JSON.stringify(past, null, 2);
     const blob = new Blob([data], {
       type: "application/json",
     });

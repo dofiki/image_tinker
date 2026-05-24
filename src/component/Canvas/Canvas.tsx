@@ -9,12 +9,7 @@ import { handleMouseDown } from "./interaction/handleMouseDown";
 import { handleLeftClick } from "./interaction/handleLeftClick";
 import { useMemo } from "react";
 
-export const Canvas = ({
-  canvasRef,
-  moveStatus,
-  textStatus,
-  colorPickerStatus,
-}: CanvasProps) => {
+export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
     canvasConfig,
     elements,
@@ -22,7 +17,6 @@ export const Canvas = ({
     setSelectedElementId,
     updateElement,
     addElement,
-    setGlobalColor,
   } = useEditorStore();
 
   const selectedElement = useMemo(
@@ -67,7 +61,6 @@ export const Canvas = ({
   }
 
   function getCanvasCursor() {
-    if (colorPickerStatus) return "crosshair";
     if (moveStatus) return "move";
     if (textStatus) return "text";
     return "default";
@@ -136,8 +129,6 @@ export const Canvas = ({
               addElement,
               setTextOverlay,
               textareaRef,
-              colorPickerStatus,
-              setGlobalColor,
             });
           }}
         />
