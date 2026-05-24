@@ -32,4 +32,6 @@ export interface EditorStore {
   setRulerStatus: (rulerStatus: boolean) => void;
   gridStatus: boolean;
   setGridStatus: (rulerStatus: boolean) => void;
+  globalColor: string;
+  setGlobalColor: (globalColor: string) => void;
 }

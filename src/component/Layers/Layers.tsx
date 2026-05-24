@@ -100,7 +100,7 @@ const Layers = ({
               className={`select-none ${el.id === selected?.id ? "text-green-500" : "opacity-35"}
                transition-all ease-in`}
             >
-              {el.type === "text" ? el.content?.slice(0, 5) + "..." : el.type}
+              {el.type === "text" ? el.content?.slice(0, 5) : el.type}
             </div>{" "}
             <select
               value={el.blendMode ?? "source-over"}

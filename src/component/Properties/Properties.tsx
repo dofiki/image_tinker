@@ -4,7 +4,7 @@ import type { Element } from "../../types";
 import { Field } from "./_component/Field";
 
 const Properties = ({ element }: { element: Element | null }) => {
-  const { updateElement } = useEditorStore();
+  const { updateElement, globalColor } = useEditorStore();
   const [invertToggle, setInvertToggle] = useState(true);
 
   if (!element) return null;
@@ -177,8 +177,7 @@ const Properties = ({ element }: { element: Element | null }) => {
             </Field>
             <Field label="Color :">
               <input
-                type="text"
-                className="input-style"
+                type="color"
                 value={element.textColor}
                 onChange={(e) => update({ textColor: e.target.value })}
               />

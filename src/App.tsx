@@ -14,6 +14,8 @@ export default function App() {
     elements.find((el) => el.id === selectedElementId) ?? null;
   const [moveStatus, setMoveStatus] = useState(false);
   const [textStatus, setTextStatus] = useState(false);
+  const [colorPickerStatus, setColorPickerStatus] = useState(false);
+  const [colorPlaceholderStatus, setColorPlaceholderStatus] = useState(false);
   const [ignoreStatus, setIgnoreStatus] = useState(false);
 
   return (
@@ -33,6 +35,10 @@ export default function App() {
             onMoveStatus={setMoveStatus}
             textStatus={textStatus}
             onTextStatus={setTextStatus}
+            colorPickerStatus={colorPickerStatus}
+            onPickerStatus={setColorPickerStatus}
+            colorPlaceholderStatus={colorPlaceholderStatus}
+            onColorPlaceholderStatus={setColorPlaceholderStatus}
           />{" "}
           <div
             className=" max-h-[90vh] w-full md:w-[78vw] md:max-w-[80vw] flex justify-center 
@@ -43,6 +49,7 @@ export default function App() {
                 canvasRef={canvasRef}
                 moveStatus={moveStatus}
                 textStatus={textStatus}
+                colorPickerStatus={colorPickerStatus}
               />
             )}
           </div>

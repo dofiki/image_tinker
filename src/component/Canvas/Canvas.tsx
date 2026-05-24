@@ -9,7 +9,12 @@ import { handleMouseDown } from "./interaction/handleMouseDown";
 import { handleLeftClick } from "./interaction/handleLeftClick";
 import { useMemo } from "react";
 
-export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
+export const Canvas = ({
+  canvasRef,
+  moveStatus,
+  textStatus,
+  colorPickerStatus,
+}: CanvasProps) => {
   const {
     canvasConfig,
     elements,
@@ -17,6 +22,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
     setSelectedElementId,
     updateElement,
     addElement,
+    setGlobalColor,
   } = useEditorStore();
 
   const selectedElement = useMemo(
@@ -60,6 +66,13 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
     setTextOverlay(null);
   }
 
+  function getCanvasCursor() {
+    if (colorPickerStatus) return "crosshair";
+    if (moveStatus) return "move";
+    if (textStatus) return "text";
+    return "default";
+  }
+
   if (!canvasConfig) return null;
 
   return (
@@ -81,7 +94,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
             transform: `scale(${scale})`,
             border: "1px solid #013836",
             boxShadow: "0 0 0 1px #009b6a22",
-            cursor: moveStatus ? "move" : "default",
+            cursor: getCanvasCursor(),
           }}
           onMouseDown={(e) => {
             handleMouseDown({
@@ -123,6 +136,8 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               addElement,
               setTextOverlay,
               textareaRef,
+              colorPickerStatus,
+              setGlobalColor,
             });
           }}
         />

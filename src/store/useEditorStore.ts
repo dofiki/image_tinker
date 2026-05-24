@@ -111,4 +111,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
+
+  globalColor: "#50C878",
+  setGlobalColor: (globalColor: string) => set({ globalColor: globalColor }),
 }));
