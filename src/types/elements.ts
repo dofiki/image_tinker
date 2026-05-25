@@ -35,6 +35,8 @@ export interface TextElement extends BaseElement {
   fontSize: number;
   fontType: string;
   textColor: string;
+  boldStatus: boolean;
+  italicStatus: boolean;
 }
 
 export type Element = ImageElement | TextElement;
@@ -61,4 +63,6 @@ export type ElementUpdate = {
   invertStatus?: boolean | undefined;
   opacity?: number | undefined;
   blendMode?: GlobalCompositeOperation;
+  boldStatus?: boolean | undefined;
+  italicStatus?: boolean | undefined;
 };

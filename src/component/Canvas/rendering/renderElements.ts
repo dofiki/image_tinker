@@ -31,7 +31,12 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
         );
       }
     } else if (element.type === "text") {
-      ctx.font = `${element.fontSize ?? 20}px ${element.fontType ?? "Verdana"}`;
+      ctx.font = `
+      ${element.boldStatus ? "bold" : ""}
+      ${element.italicStatus ? "italic" : ""}
+      ${element.fontSize ?? 20}px 
+      ${element.fontType ?? "Verdana"}
+`;
 
       ctx.fillStyle = element.textColor ?? "red";
 

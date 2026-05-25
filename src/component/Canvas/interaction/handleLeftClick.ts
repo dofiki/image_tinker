@@ -40,6 +40,8 @@ export function handleLeftClick({
       invertStatus: undefined,
       opacity: 100,
       blendMode: "source-over",
+      boldStatus: false,
+      italicStatus: false,
     });
 
     setTextOverlay({ x: mouseX, y: mouseY, id });

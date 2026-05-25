@@ -49,7 +49,7 @@ const Layers = ({
         <div>
           {" "}
           <span
-            className="text-[0.7rem] font-bold text-[#009b6a] 
+            className="text-[0.7rem] font-bold text-green-500 
                 uppercase tracking-widest "
           >
             Layers

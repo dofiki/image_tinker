@@ -36,7 +36,7 @@
   }
 
   .select {
-    @apply bg-green-600 text-black text-sm rounded-sm;
+    @apply bg-green-900 p-0.5 text-white text-sm rounded-sm;
   }
 }
 
