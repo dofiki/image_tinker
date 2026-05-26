@@ -96,6 +96,20 @@ const Properties = ({ element }: { element: Element | null }) => {
                 </div>
               </div>
             </div>
+            <div className="grid grid-cols-2 items-center px-4 ">
+              <div className="text-sm text-green-500 relative">Rotation</div>
+              <div className="text-white/50 absolute right-53 text-sm">
+                {element.rotation}&deg;
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={360}
+                value={element.rotation}
+                className="slider"
+                onChange={(e) => update({ rotation: +e.target.value })}
+              />
+            </div>
           </>
         )}
         {/* image : )  */}

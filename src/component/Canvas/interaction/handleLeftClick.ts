@@ -42,6 +42,7 @@ export function handleLeftClick({
       blendMode: "source-over",
       boldStatus: false,
       italicStatus: false,
+      rotation: 0,
     });
 
     setTextOverlay({ x: mouseX, y: mouseY, id });

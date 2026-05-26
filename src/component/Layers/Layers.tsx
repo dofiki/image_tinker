@@ -44,7 +44,7 @@ const Layers = ({
   }
 
   return (
-    <div className="bg-[#002322] h-60 text-white ">
+    <div className="bg-[#002322] h-60 text-white rounded-sm">
       <div className="flex justify-between items-center px-3 border-b border-[#013836] w-full h-10">
         <div>
           {" "}

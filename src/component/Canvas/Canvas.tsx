@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useEditorStore } from "../../store/useEditorStore";
 import { useCanvasRenderer } from "./hooks/useCanvasRenderer";
 import { useKeyboardDelete } from "./hooks/useKeyboardDelete";
@@ -7,7 +7,6 @@ import { handleMouseMove } from "./interaction/handleMouseMove";
 import type { CanvasProps } from "./types/index";
 import { handleMouseDown } from "./interaction/handleMouseDown";
 import { handleLeftClick } from "./interaction/handleLeftClick";
-import { useMemo } from "react";
 
 export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const {
@@ -30,12 +29,16 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const isResizing = useRef(false);
   const resizeHandle = useRef("");
   const resizeOrigin = useRef({ x: 0, y: 0 });
+  const resizePivot = useRef({ x: 0, y: 0 });
+  const resizeLocalAnchor = useRef({ x: 0, y: 0 });
+
   const [textOverlay, setTextOverlay] = useState<{
     x: number;
     y: number;
     id: string;
   } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const scale = canvasConfig
     ? Math.min(1, MAX_W / canvasConfig.width, MAX_H / canvasConfig.height)
     : 1;
@@ -54,11 +57,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   }
 
   function handleTextCommit(value: string) {
-    if (textOverlay) {
-      updateElement(textOverlay.id, {
-        content: value,
-      });
-    }
+    if (textOverlay) updateElement(textOverlay.id, { content: value });
     setTextOverlay(null);
   }
 
@@ -91,7 +90,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
             boxShadow: "0 0 0 1px #009b6a22",
             cursor: getCanvasCursor(),
           }}
-          onMouseDown={(e) => {
+          onMouseDown={(e) =>
             handleMouseDown({
               e,
               canvasRef,
@@ -105,9 +104,11 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               isResizing,
               resizeHandle,
               resizeOrigin,
-            });
-          }}
-          onMouseMove={(e) => {
+              resizePivot,
+              resizeLocalAnchor,
+            })
+          }
+          onMouseMove={(e) =>
             handleMouseMove({
               e,
               canvasRef,
@@ -119,11 +120,13 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               isResizing,
               resizeHandle,
               resizeOrigin,
-            });
-          }}
+              resizePivot,
+              resizeLocalAnchor,
+            })
+          }
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          onClick={(e) => {
+          onClick={(e) =>
             handleLeftClick({
               e,
               textStatus,
@@ -131,8 +134,8 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               addElement,
               setTextOverlay,
               textareaRef,
-            });
-          }}
+            })
+          }
         />
 
         {textOverlay && (

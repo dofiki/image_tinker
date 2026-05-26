@@ -10,37 +10,37 @@ export interface HandleRect {
   position: HandlePosition;
 }
 
-export function getHandleRect(el: Element): HandleRect[] {
-  const handlePadding = 8;
-  const handleSize = 15;
+const HANDLE_PADDING = 8;
+const HANDLE_SIZE = 20;
 
+export function getHandleRect(el: Element): HandleRect[] {
   return [
     {
-      x: el.x - handlePadding,
-      y: el.y - handlePadding,
-      width: handleSize,
-      height: handleSize,
+      x: el.x - HANDLE_PADDING,
+      y: el.y - HANDLE_PADDING,
+      width: HANDLE_SIZE,
+      height: HANDLE_SIZE,
       position: "top-left",
     },
     {
-      x: el.x - handlePadding + el.width,
-      y: el.y - handlePadding,
-      width: handleSize,
-      height: handleSize,
+      x: el.x - HANDLE_PADDING + el.width,
+      y: el.y - HANDLE_PADDING,
+      width: HANDLE_SIZE,
+      height: HANDLE_SIZE,
       position: "top-right",
     },
     {
-      x: el.x - handlePadding,
-      y: el.y - handlePadding + el.height,
-      width: handleSize,
-      height: handleSize,
+      x: el.x - HANDLE_PADDING,
+      y: el.y - HANDLE_PADDING + el.height,
+      width: HANDLE_SIZE,
+      height: HANDLE_SIZE,
       position: "bottom-left",
     },
     {
-      x: el.x - handlePadding + el.width,
-      y: el.y - handlePadding + el.height,
-      width: handleSize,
-      height: handleSize,
+      x: el.x - HANDLE_PADDING + el.width,
+      y: el.y - HANDLE_PADDING + el.height,
+      width: HANDLE_SIZE,
+      height: HANDLE_SIZE,
       position: "bottom-right",
     },
   ];

@@ -13,6 +13,8 @@ export interface MouseDownProps {
   isResizing: React.MutableRefObject<boolean>;
   resizeHandle: React.MutableRefObject<string>;
   resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
+  resizePivot: React.MutableRefObject<{ x: number; y: number }>;
+  resizeLocalAnchor: React.MutableRefObject<{ x: number; y: number }>;
 }
 
 export interface MouseMoveProps {
@@ -28,4 +30,6 @@ export interface MouseMoveProps {
   isResizing: React.MutableRefObject<boolean>;
   resizeHandle: React.MutableRefObject<string>;
   resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
+  resizePivot: React.MutableRefObject<{ x: number; y: number }>;
+  resizeLocalAnchor: React.MutableRefObject<{ x: number; y: number }>;
 }

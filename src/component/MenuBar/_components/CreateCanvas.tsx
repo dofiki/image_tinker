@@ -43,9 +43,9 @@ export const CreateCanvas = ({
   function handleConfirmCreation(e: React.SyntheticEvent) {
     e.preventDefault();
     setCanvasConfig({
-      name: canvasName,
+      name: canvasName + 40,
       width: canvasWidth + 40,
-      height: canvasHeight + 40,
+      height: canvasHeight,
       color: canvasColor,
     });
     setCanvasModel(false);

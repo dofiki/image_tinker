@@ -1,5 +1,7 @@
 import { getCanvasCoords } from "../utils/getCanvasCoords";
 import type { MouseMoveProps } from "../types";
+import { toLocalSpace } from "../utils/toLocalSpace";
+import { toWorldSpace } from "../utils/toWorldSpace";
 
 export function handleMouseMove({
   e,
@@ -11,53 +13,62 @@ export function handleMouseMove({
   dragElementId,
   isResizing,
   resizeHandle,
-  resizeOrigin,
+  resizePivot,
+  resizeLocalAnchor,
 }: MouseMoveProps) {
   const canvas = canvasRef.current;
   if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-  if (!selectedElement || !ctx) return;
+  if (!selectedElement) return;
 
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
-  // Resize logic
-  if (isResizing.current && selectedElement) {
-    const anchor = resizeOrigin.current;
+  if (isResizing.current) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const MIN_SIZE = 20;
 
-    let newX = selectedElement.x;
-    let newY = selectedElement.y;
+    const cx = resizePivot.current.x;
+    const cy = resizePivot.current.y;
+
+    const localMouse = toLocalSpace(
+      mouseX,
+      mouseY,
+      cx,
+      cy,
+      selectedElement.rotation,
+    );
+    const localAnchor = resizeLocalAnchor.current;
+
+    let localX = selectedElement.x;
+    let localY = selectedElement.y;
     let newWidth = selectedElement.width;
     let newHeight = selectedElement.height;
 
     switch (resizeHandle.current) {
       case "top-left":
-        newX = mouseX;
-        newY = mouseY;
-        newWidth = anchor.x - mouseX;
-        newHeight = anchor.y - mouseY;
+        localX = localMouse.x;
+        localY = localMouse.y;
+        newWidth = localAnchor.x - localMouse.x;
+        newHeight = localAnchor.y - localMouse.y;
         break;
-
       case "top-right":
-        newX = anchor.x;
-        newY = mouseY;
-        newWidth = mouseX - anchor.x;
-        newHeight = anchor.y - mouseY;
+        localX = localAnchor.x;
+        localY = localMouse.y;
+        newWidth = localMouse.x - localAnchor.x;
+        newHeight = localAnchor.y - localMouse.y;
         break;
-
       case "bottom-left":
-        newX = mouseX;
-        newY = anchor.y;
-        newWidth = anchor.x - mouseX;
-        newHeight = mouseY - anchor.y;
+        localX = localMouse.x;
+        localY = localAnchor.y;
+        newWidth = localAnchor.x - localMouse.x;
+        newHeight = localMouse.y - localAnchor.y;
         break;
-
       case "bottom-right":
-        newX = anchor.x;
-        newY = anchor.y;
-        newWidth = mouseX - anchor.x;
-        newHeight = mouseY - anchor.y;
+        localX = localAnchor.x;
+        localY = localAnchor.y;
+        newWidth = localMouse.x - localAnchor.x;
+        newHeight = localMouse.y - localAnchor.y;
         break;
     }
 
@@ -67,7 +78,7 @@ export function handleMouseMove({
         resizeHandle.current === "top-left" ||
         resizeHandle.current === "bottom-left"
       ) {
-        newX = anchor.x - MIN_SIZE;
+        localX = localAnchor.x - MIN_SIZE;
       }
     }
 
@@ -77,23 +88,34 @@ export function handleMouseMove({
         resizeHandle.current === "top-left" ||
         resizeHandle.current === "top-right"
       ) {
-        newY = anchor.y - MIN_SIZE;
+        localY = localAnchor.y - MIN_SIZE;
       }
     }
-    const nextFontSize = Math.max(20, newHeight * 0.6);
 
+    const newLocalCx = localX + newWidth / 2;
+    const newLocalCy = localY + newHeight / 2;
+    const newWorldCenter = toWorldSpace(
+      newLocalCx,
+      newLocalCy,
+      cx,
+      cy,
+      selectedElement.rotation,
+    );
+
+    const nextFontSize = Math.max(20, newHeight * 0.6);
     ctx.font = `${nextFontSize}px Arial`;
 
     updateElement(selectedElement.id, {
-      x: newX,
-      y: newY,
+      x: newWorldCenter.x - newWidth / 2,
+      y: newWorldCenter.y - newHeight / 2,
       width: newWidth,
       height: newHeight,
       fontSize: Number(nextFontSize.toFixed()),
     });
+
+    return;
   }
 
-  // Drag logic
   if (!isDragging.current || !dragElementId.current) return;
 
   updateElement(dragElementId.current, {

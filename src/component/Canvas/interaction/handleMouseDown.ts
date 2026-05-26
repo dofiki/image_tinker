@@ -1,6 +1,7 @@
 import type { MouseDownProps } from "../types/mouse";
 import { getCanvasCoords } from "../utils/getCanvasCoords";
 import { getHandleRect } from "../utils/getHandleRect";
+import { toLocalSpace } from "../utils/toLocalSpace";
 
 export function handleMouseDown({
   e,
@@ -15,6 +16,8 @@ export function handleMouseDown({
   isResizing,
   resizeHandle,
   resizeOrigin,
+  resizePivot,
+  resizeLocalAnchor,
 }: MouseDownProps) {
   if (!moveStatus) return;
 
@@ -23,55 +26,96 @@ export function handleMouseDown({
 
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
+  // handle hit detection
   if (selectedElement) {
+    const cx = selectedElement.x + selectedElement.width / 2;
+    const cy = selectedElement.y + selectedElement.height / 2;
+    const { x: localX, y: localY } = toLocalSpace(
+      mouseX,
+      mouseY,
+      cx,
+      cy,
+      selectedElement.rotation,
+    );
+
     const handles = getHandleRect(selectedElement);
     const hitHandle = handles.find(
       (h) =>
-        mouseX >= h.x &&
-        mouseX <= h.x + h.width &&
-        mouseY >= h.y &&
-        mouseY <= h.y + h.height,
+        localX >= h.x &&
+        localX <= h.x + h.width &&
+        localY >= h.y &&
+        localY <= h.y + h.height,
     );
 
     if (hitHandle) {
       isResizing.current = true;
+      // "top-left" " top-right" "bottom-left" "bottom-right"
       resizeHandle.current = hitHandle.position;
 
-      //look up table... to find diagonally opposite handler
-      const anchorMap: Record<string, { x: number; y: number }> = {
-        "top-left": {
-          x: selectedElement.x + selectedElement.width,
-          y: selectedElement.y + selectedElement.height,
-        },
-        "top-right": {
-          x: selectedElement.x,
-          y: selectedElement.y + selectedElement.height,
-        },
-        "bottom-left": {
-          x: selectedElement.x + selectedElement.width,
-          y: selectedElement.y,
-        },
-        "bottom-right": {
-          x: selectedElement.x,
-          y: selectedElement.y,
-        },
+      const rad = (selectedElement.rotation * Math.PI) / 180;
+      const cos = Math.cos(rad);
+      const sin = Math.sin(rad);
+      const hw = selectedElement.width / 2;
+      const hh = selectedElement.height / 2;
+
+      // 3rd
+      function rotateCorner(ox: number, oy: number) {
+        return {
+          x: cx + ox * cos - oy * sin,
+          y: cy + ox * sin + oy * cos,
+        };
+      }
+
+      // second
+      const corners = {
+        "top-left": rotateCorner(-hw, -hh),
+        "top-right": rotateCorner(hw, -hh),
+        "bottom-left": rotateCorner(-hw, hh),
+        "bottom-right": rotateCorner(hw, hh),
       };
 
-      // and that will be our resize origin
-      resizeOrigin.current = anchorMap[resizeHandle.current];
+      // first
+      const oppositeMap: Record<string, { x: number; y: number }> = {
+        "top-left": corners["bottom-right"],
+        "top-right": corners["bottom-left"],
+        "bottom-left": corners["top-right"],
+        "bottom-right": corners["top-left"],
+      };
+
+      // zero
+      const worldAnchor = oppositeMap[resizeHandle.current];
+      resizeOrigin.current = worldAnchor;
+      resizePivot.current = { x: cx, y: cy };
+      resizeLocalAnchor.current = toLocalSpace(
+        worldAnchor.x,
+        worldAnchor.y,
+        cx,
+        cy,
+        selectedElement.rotation,
+      );
+
       return;
     }
   }
 
-  // if clicked inside the image
-  // initiate the draggin process
+  // image selection
   for (let i = elements.length - 1; i >= 0; i--) {
     const el = elements[i];
+    const cx = el.x + el.width / 2;
+    const cy = el.y + el.height / 2;
+    const { x: localX, y: localY } = toLocalSpace(
+      mouseX,
+      mouseY,
+      cx,
+      cy,
+      el.rotation,
+    );
+
     if (
-      mouseX >= el.x &&
-      mouseX <= el.x + el.width &&
-      mouseY >= el.y &&
-      mouseY <= el.y + el.height
+      localX >= el.x &&
+      localX <= el.x + el.width &&
+      localY >= el.y &&
+      localY <= el.y + el.height
     ) {
       isDragging.current = true;
       dragElementId.current = el.id;

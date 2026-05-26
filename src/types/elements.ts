@@ -5,6 +5,7 @@ export interface BaseElement {
   y: number;
   width: number;
   height: number;
+  rotation: number;
   visibilityStatus: boolean;
   blur: number | undefined;
   saturate: number | undefined;
@@ -47,6 +48,7 @@ export type ElementUpdate = {
   y?: number;
   width?: number;
   height?: number;
+  rotation?: number;
   content?: string | null;
   fontSize?: number;
   fontType?: string;

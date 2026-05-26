@@ -72,6 +72,7 @@ export const MenuBar = ({
       y,
       width,
       height,
+      rotation: 0,
       src,
       content: null,
       fontSize: undefined,
