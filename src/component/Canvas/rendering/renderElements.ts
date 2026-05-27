@@ -1,7 +1,12 @@
 import { getImageFromCache } from "../../MenuBar/utils/loadImage";
 import type { renderElementsProps } from "../types";
 
-export function renderElements({ elements, ctx }: renderElementsProps) {
+export function renderElements({
+  elements,
+  ctx,
+  strokeStyle,
+  lineWidth,
+}: renderElementsProps) {
   elements.forEach((element) => {
     if (!element.visibilityStatus) return;
 
@@ -69,6 +74,25 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
         -element.width / 2,
         -element.height / 2 + fontSize,
       );
+    } else if (element.type === "draw") {
+      const points = element.drawingPoint;
+      if (points.length < 2) {
+        ctx.restore();
+        return;
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(element.startPoint[0], element.startPoint[1]);
+
+      for (let i = 0; i < points.length; i += 2) {
+        ctx.lineTo(points[i], points[i + 1]);
+      }
+
+      ctx.strokeStyle = strokeStyle ?? "black";
+      ctx.lineWidth = Number(lineWidth) ?? 10;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.stroke();
     }
     // this resets canvas rotation as well...
     ctx.restore();

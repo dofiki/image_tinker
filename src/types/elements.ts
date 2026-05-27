@@ -35,12 +35,28 @@ export interface TextElement extends BaseElement {
   content: string | null;
   fontSize: number;
   fontType: string;
+
   textColor: string;
   boldStatus: boolean;
   italicStatus: boolean;
 }
 
-export type Element = ImageElement | TextElement;
+export interface DrawElement extends BaseElement {
+  type: "draw";
+  src: null;
+  content: null;
+  fontSize: undefined;
+  textColor: "#000000";
+  fontType: string;
+  strokeStyle: string;
+  lineWidth: string;
+  startPoint: [number, number];
+  drawingPoint: number[];
+  boldStatus: boolean;
+  italicStatus: boolean;
+}
+
+export type Element = ImageElement | TextElement | DrawElement;
 
 export type ElementUpdate = {
   name?: string | null;
@@ -67,4 +83,8 @@ export type ElementUpdate = {
   blendMode?: GlobalCompositeOperation;
   boldStatus?: boolean | undefined;
   italicStatus?: boolean | undefined;
+  strokeStyle?: string;
+  lineWidth?: string;
+  startPoint?: [number, number];
+  drawingPoint?: number[];
 };

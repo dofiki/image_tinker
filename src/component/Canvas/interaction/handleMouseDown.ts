@@ -6,7 +6,9 @@ import { toLocalSpace } from "../utils/toLocalSpace";
 export function handleMouseDown({
   e,
   canvasRef,
+  drawId,
   moveStatus,
+  drawStatus,
   elements,
   selectedElement,
   setSelectedElementId,
@@ -14,19 +16,59 @@ export function handleMouseDown({
   dragOffset,
   dragElementId,
   isResizing,
+  isDrawing,
   resizeHandle,
   resizeOrigin,
   resizePivot,
   resizeLocalAnchor,
+  addElement,
 }: MouseDownProps) {
-  if (!moveStatus) return;
-
   const canvas = canvasRef.current;
   if (!canvas) return;
-
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
-  // handle hit detection
+  // start drawing
+  if (drawStatus) {
+    isDrawing.current = true;
+    const id = crypto.randomUUID();
+    drawId.current = id;
+    addElement({
+      name: null,
+      id,
+      type: "draw",
+      x: mouseX,
+      y: mouseY,
+      width: 100,
+      height: 100,
+      src: null,
+      content: null,
+      fontSize: undefined,
+      textColor: "#000000",
+      fontType: "Verdana",
+      visibilityStatus: true,
+      blur: undefined,
+      saturate: undefined,
+      saturationStatus: undefined,
+      brightness: undefined,
+      brightnessStatus: undefined,
+      contrast: undefined,
+      contrastStatus: undefined,
+      invert: undefined,
+      invertStatus: undefined,
+      opacity: 100,
+      blendMode: "source-over",
+      boldStatus: false,
+      italicStatus: false,
+      rotation: 0,
+      strokeStyle: "black",
+      lineWidth: "10",
+      startPoint: [mouseX, mouseY],
+      drawingPoint: [],
+    });
+  }
+
+  if (!moveStatus) return;
+  //  hit detection
   if (selectedElement) {
     const cx = selectedElement.x + selectedElement.width / 2;
     const cy = selectedElement.y + selectedElement.height / 2;

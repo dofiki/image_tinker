@@ -9,15 +9,27 @@ import { useRef } from "react";
 const Layers = ({
   elements,
   selected,
+  onTextStatus,
+  onMoveStatus,
+  onDrawStatus,
 }: {
   elements: Element[];
   selected: Element | null;
+  onMoveStatus: (arg0: boolean) => void;
+  onTextStatus: (arg0: boolean) => void;
+  onDrawStatus: (arg0: boolean) => void;
 }) => {
   const { updateElement, setSelectedElementId, removeElement, setElements } =
     useEditorStore();
 
   const draggingItem = useRef<null | number>(null);
   const draggingOverItem = useRef<null | number>(null);
+
+  function handleMoveStatus() {
+    onTextStatus(false);
+    onMoveStatus(true);
+    onDrawStatus(false);
+  }
 
   function handleDragStart(index: number) {
     draggingItem.current = index;
@@ -65,7 +77,10 @@ const Layers = ({
             key={el.id}
             className="bg-black/50 flex items-center  
             justify-between cursor-pointer w-full pr-2 h-10 border-b border-white/30"
-            onClick={() => setSelectedElementId(el.id)}
+            onClick={() => {
+              setSelectedElementId(el.id);
+              handleMoveStatus();
+            }}
             onDragStart={() => handleDragStart(index)}
             onDragEnter={() => handleDragEnter(index)}
             onDragEnd={handleDragEnd}

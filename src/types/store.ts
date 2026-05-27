@@ -32,4 +32,10 @@ export interface EditorStore {
   setRulerStatus: (rulerStatus: boolean) => void;
   gridStatus: boolean;
   setGridStatus: (rulerStatus: boolean) => void;
+
+  // draw default value
+  strokeStyle: string;
+  lineWidth: number;
+  setStrokeStyle: (strokeStyle: string) => void;
+  setLineWidth: (lineWidth: number) => void;
 }

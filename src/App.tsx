@@ -14,6 +14,8 @@ export default function App() {
     elements.find((el) => el.id === selectedElementId) ?? null;
   const [moveStatus, setMoveStatus] = useState(false);
   const [textStatus, setTextStatus] = useState(false);
+  const [drawStatus, setDrawStatus] = useState(false);
+
   const [ignoreStatus, setIgnoreStatus] = useState(false);
 
   return (
@@ -33,6 +35,8 @@ export default function App() {
             onMoveStatus={setMoveStatus}
             textStatus={textStatus}
             onTextStatus={setTextStatus}
+            drawStatus={drawStatus}
+            onDrawStatus={setDrawStatus}
           />{" "}
           <div
             className=" max-h-[90vh] w-full md:w-[78vw] md:max-w-[80vw] flex justify-center 
@@ -43,13 +47,20 @@ export default function App() {
                 canvasRef={canvasRef}
                 moveStatus={moveStatus}
                 textStatus={textStatus}
+                drawStatus={drawStatus}
               />
             )}
           </div>
           <div className="flex flex-col w-full md:w-100 h-full  gap-4">
-            <Properties element={selectedElement} />
+            <Properties element={selectedElement} drawStatus={drawStatus} />
 
-            <Layers elements={elements} selected={selectedElement} />
+            <Layers
+              elements={elements}
+              selected={selectedElement}
+              onMoveStatus={setMoveStatus}
+              onTextStatus={setTextStatus}
+              onDrawStatus={setDrawStatus}
+            />
           </div>
           <div
             className={`absolute md:hidden h-40 w-80 left-1/2 top-1/2

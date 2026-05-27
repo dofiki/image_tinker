@@ -118,4 +118,11 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
+
+  strokeStyle: "#000000",
+  lineWidth: 10,
+
+  setStrokeStyle: (strokeStyle: string) => set({ strokeStyle }),
+
+  setLineWidth: (lineWidth: number) => set({ lineWidth }),
 }));

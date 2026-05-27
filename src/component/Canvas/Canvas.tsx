@@ -8,7 +8,12 @@ import type { CanvasProps } from "./types/index";
 import { handleMouseDown } from "./interaction/handleMouseDown";
 import { handleLeftClick } from "./interaction/handleLeftClick";
 
-export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
+export const Canvas = ({
+  canvasRef,
+  moveStatus,
+  textStatus,
+  drawStatus,
+}: CanvasProps) => {
   const {
     canvasConfig,
     elements,
@@ -27,11 +32,13 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragElementId = useRef<string | null>(null);
   const isResizing = useRef(false);
+  const isDrawing = useRef(true);
+
   const resizeHandle = useRef("");
   const resizeOrigin = useRef({ x: 0, y: 0 });
   const resizePivot = useRef({ x: 0, y: 0 });
   const resizeLocalAnchor = useRef({ x: 0, y: 0 });
-
+  const drawId = useRef<string | null>(null);
   const [textOverlay, setTextOverlay] = useState<{
     x: number;
     y: number;
@@ -51,6 +58,7 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
   useKeyboardDelete(selectedElement);
 
   function handleMouseUp() {
+    isDrawing.current = false;
     isDragging.current = false;
     isResizing.current = false;
     dragElementId.current = null;
@@ -94,7 +102,9 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
             handleMouseDown({
               e,
               canvasRef,
+              drawId,
               moveStatus,
+              drawStatus,
               elements,
               selectedElement,
               setSelectedElementId,
@@ -102,22 +112,28 @@ export const Canvas = ({ canvasRef, moveStatus, textStatus }: CanvasProps) => {
               dragOffset,
               dragElementId,
               isResizing,
+              isDrawing,
               resizeHandle,
               resizeOrigin,
               resizePivot,
               resizeLocalAnchor,
+              addElement,
             })
           }
           onMouseMove={(e) =>
             handleMouseMove({
               e,
+              drawStatus,
+              drawId,
               canvasRef,
               selectedElement,
               updateElement,
+              elements,
               isDragging,
               dragOffset,
               dragElementId,
               isResizing,
+              isDrawing,
               resizeHandle,
               resizeOrigin,
               resizePivot,

@@ -1,5 +1,7 @@
 import { LuMove } from "react-icons/lu";
 import { RiTextSnippet } from "react-icons/ri";
+import { MdDraw } from "react-icons/md";
+
 import type { ToolBarProps } from "../../types/index";
 
 const ToolBar = ({
@@ -7,15 +9,25 @@ const ToolBar = ({
   onMoveStatus,
   textStatus,
   onTextStatus,
+  drawStatus,
+  onDrawStatus,
 }: ToolBarProps) => {
   function handleMoveStatus() {
     onMoveStatus(!moveStatus);
     onTextStatus(false);
+    onDrawStatus(false);
   }
 
   function handleTextStatus() {
     onTextStatus(!textStatus);
     onMoveStatus(false);
+    onDrawStatus(false);
+  }
+
+  function handleDrawStatus() {
+    onDrawStatus(!drawStatus);
+    onMoveStatus(false);
+    onTextStatus(false);
   }
 
   return (
@@ -37,6 +49,14 @@ const ToolBar = ({
                 onClick={handleMoveStatus}
               >
                 <LuMove size={22} />
+              </button>
+              <button
+                className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
+                 h-full p-2
+              ${drawStatus ? "text-green-500" : "text-white"}`}
+                onClick={handleDrawStatus}
+              >
+                <MdDraw size={25} />
               </button>
               <button
                 className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 

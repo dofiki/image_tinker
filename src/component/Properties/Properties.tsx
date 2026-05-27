@@ -15,11 +15,40 @@ const fonts = [
   "system-ui",
 ];
 
-const Properties = ({ element }: { element: Element | null }) => {
-  const { updateElement } = useEditorStore();
+const Properties = ({
+  element,
+  drawStatus,
+}: {
+  element: Element | null;
+  drawStatus: boolean;
+}) => {
+  const {
+    strokeStyle,
+    lineWidth,
+    setStrokeStyle,
+    setLineWidth,
+    updateElement,
+  } = useEditorStore();
   const [invertToggle, setInvertToggle] = useState(true);
 
-  const update = (patch: Partial<Element>) => updateElement(element?.id, patch);
+  const update = (patch: Partial<Element>) => {
+    if (element?.type === "draw") {
+      const dx = patch.x !== undefined ? patch.x - element.x : 0;
+      const dy = patch.y !== undefined ? patch.y - element.y : 0;
+
+      if (dx !== 0 || dy !== 0) {
+        patch = {
+          ...patch,
+          startPoint: [element.startPoint[0] + dx, element.startPoint[1] + dy],
+          drawingPoint: element.drawingPoint.map((val, i) =>
+            i % 2 === 0 ? val + dx : val + dy,
+          ),
+        };
+      }
+    }
+
+    updateElement(element?.id, patch);
+  };
 
   return (
     <div
@@ -39,8 +68,93 @@ const Properties = ({ element }: { element: Element | null }) => {
         className="flex flex-col gap-5 pt-5 h-60 md:h-auto overflow-scroll
        md:overflow-hidden pb-5"
       >
+        {/* draw : )  */}
+        {drawStatus && element?.type !== "draw" && (
+          <>
+            <div className="grid grid-cols-2 items-center px-4">
+              <div className="text-sm text-green-500">Color</div>
+
+              <input
+                type="color"
+                value={strokeStyle}
+                className="cursor-pointer"
+                onChange={(e) => setStrokeStyle(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 items-center px-4">
+              <div className="text-sm text-green-500">Line Width</div>
+              <div className="relative">
+                <input
+                  type="number"
+                  className="w-25 input-style"
+                  value={lineWidth}
+                  onChange={(e) => setLineWidth(+e.target.value)}
+                />
+                <div className="absolute top-2 right-21 font-bold text-white/50">
+                  px
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {element?.type === "draw" && (
+          <div className="flex flex-col gap-4 pt-2">
+            <div className="grid grid-cols-3 items-center px-4 ">
+              <div className="text-sm text-green-500">Position</div>
+              <div className="relative">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style "
+                  value={element?.x.toFixed()}
+                  onChange={(e) => update({ x: +e.target.value })}
+                />
+                <div className="absolute top-2 right-2 font-bold text-white/50">
+                  X
+                </div>
+              </div>
+              <div className="relative">
+                <input
+                  type="number"
+                  className="w-25 ml-5 input-style"
+                  value={element?.y.toFixed()}
+                  onChange={(e) => update({ y: +e.target.value })}
+                />
+                <div className="absolute top-2 right-2 font-bold text-white/50">
+                  Y
+                </div>
+              </div>
+            </div>
+            <hr className="text-white/10"></hr>
+
+            <div className="grid grid-cols-2 items-center px-4">
+              <div className="text-sm text-green-500">Color</div>
+              <input
+                type="color"
+                value={element.strokeStyle}
+                className="cursor-pointer"
+                onChange={(e) => update({ strokeStyle: e.target.value })}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 items-center px-4">
+              <div className="text-sm text-green-500">Line Width</div>
+              <div className="relative">
+                <input
+                  type="number"
+                  className="w-25  input-style"
+                  value={element.lineWidth}
+                  onChange={(e) => update({ lineWidth: e.target.value })}
+                />
+                <div className="absolute top-2 right-21 font-bold text-white/50">
+                  px
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {/* position and size : )  */}
-        {element?.type && (
+        {element?.type && element.type !== "draw" && (
           <>
             {" "}
             <div className="grid grid-cols-3 items-center px-4 ">

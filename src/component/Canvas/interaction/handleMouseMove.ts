@@ -5,22 +5,37 @@ import { toWorldSpace } from "../utils/toWorldSpace";
 
 export function handleMouseMove({
   e,
+  drawStatus,
+  drawId,
   canvasRef,
   selectedElement,
+  elements,
   updateElement,
   isDragging,
   dragOffset,
   dragElementId,
   isResizing,
+  isDrawing,
   resizeHandle,
   resizePivot,
   resizeLocalAnchor,
 }: MouseMoveProps) {
   const canvas = canvasRef.current;
   if (!canvas) return;
-  if (!selectedElement) return;
-
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
+
+  if (isDrawing.current && drawStatus) {
+    if (!drawId.current) return;
+    const el = elements.find((el) => el.id === drawId.current);
+    if (!el || el.type !== "draw") return;
+
+    updateElement(drawId.current, {
+      drawingPoint: [...el.drawingPoint, mouseX, mouseY],
+    });
+
+    return;
+  }
+  if (!selectedElement) return;
 
   if (isResizing.current) {
     const ctx = canvas.getContext("2d");
@@ -117,6 +132,29 @@ export function handleMouseMove({
   }
 
   if (!isDragging.current || !dragElementId.current) return;
+  const el = elements.find((el) => el.id === dragElementId.current);
+  if (!el) return;
+
+  if (el.type === "draw") {
+    const newX = mouseX - dragOffset.current.x;
+    const newY = mouseY - dragOffset.current.y;
+
+    const dx = newX - el.x;
+    const dy = newY - el.y;
+
+    const movedPoints = el.drawingPoint.map((val, i) =>
+      i % 2 === 0 ? val + dx : val + dy,
+    );
+
+    updateElement(dragElementId.current, {
+      x: newX,
+      y: newY,
+      startPoint: [el.startPoint[0] + dx, el.startPoint[1] + dy],
+      drawingPoint: movedPoints,
+    });
+
+    return;
+  }
 
   updateElement(dragElementId.current, {
     x: mouseX - dragOffset.current.x,

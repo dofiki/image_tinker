@@ -14,7 +14,7 @@ export function useCanvasRenderer({
   elements,
   selectedElement,
 }: CanvasRendererProps) {
-  const { rulerStatus, gridStatus } = useEditorStore();
+  const { rulerStatus, gridStatus, strokeStyle, lineWidth } = useEditorStore();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,7 +24,7 @@ export function useCanvasRenderer({
 
     renderCanvasBackground({ ctx, canvas, canvasConfig });
 
-    renderElements({ elements, ctx });
+    renderElements({ elements, ctx, strokeStyle, lineWidth });
 
     handleRulerVisibility({ canvas, ctx, rulerStatus });
 
