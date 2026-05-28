@@ -1,6 +1,16 @@
-import type { Element, ElementUpdate } from "./elements";
-import type { CanvasConfig } from "./canvas";
-import type { Commands } from "./commands";
+import type { Element } from "./elements";
+
+export interface CanvasConfig {
+  name: string;
+  width: number;
+  height: number;
+  color: string;
+}
+
+export interface Commands {
+  execute: (elements: Element[]) => Element[];
+  reverse: (elements: Element[]) => Element[];
+}
 
 export interface EditorStore {
   // undo redo stack
@@ -16,7 +26,7 @@ export interface EditorStore {
   setElements: (element: Element[]) => void;
 
   addElement: (element: Element) => void;
-  updateElement: (id: string | undefined, update: ElementUpdate) => void;
+  updateElement: (id: string | undefined, update: Partial<Element>) => void;
   removeElement: (id: string) => void;
 
   // undo redo
@@ -32,10 +42,4 @@ export interface EditorStore {
   setRulerStatus: (rulerStatus: boolean) => void;
   gridStatus: boolean;
   setGridStatus: (rulerStatus: boolean) => void;
-
-  // draw default value
-  strokeStyle: string;
-  lineWidth: number;
-  setStrokeStyle: (strokeStyle: string) => void;
-  setLineWidth: (lineWidth: number) => void;
 }

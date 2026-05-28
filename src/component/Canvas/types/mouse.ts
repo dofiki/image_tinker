@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Element } from "../../../types/index";
+import type { Element, DrawElement } from "../../../types/index";
 
 export interface MouseDownProps {
   e: React.MouseEvent<HTMLCanvasElement>;
@@ -19,7 +19,7 @@ export interface MouseDownProps {
   resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
   resizePivot: React.MutableRefObject<{ x: number; y: number }>;
   resizeLocalAnchor: React.MutableRefObject<{ x: number; y: number }>;
-  addElement: (element: Element) => void;
+  addElement: (element: DrawElement) => void;
 }
 
 export interface MouseMoveProps {

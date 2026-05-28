@@ -1,7 +1,10 @@
 import { create } from "zustand";
-import type { EditorStore, Element } from "../types/index";
-import type { Commands } from "../types/commands";
-import type { CanvasConfig } from "../types/index";
+import type {
+  EditorStore,
+  Element,
+  Commands,
+  CanvasConfig,
+} from "../types/index";
 
 function dispatch(commands: Commands, elements: Element[], past: Commands[]) {
   const MAX_HISTORY = 30;
@@ -118,11 +121,4 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
-
-  strokeStyle: "#000000",
-  lineWidth: 10,
-
-  setStrokeStyle: (strokeStyle: string) => set({ strokeStyle }),
-
-  setLineWidth: (lineWidth: number) => set({ lineWidth }),
 }));

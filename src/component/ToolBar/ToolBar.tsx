@@ -2,7 +2,14 @@ import { LuMove } from "react-icons/lu";
 import { RiTextSnippet } from "react-icons/ri";
 import { MdDraw } from "react-icons/md";
 
-import type { ToolBarProps } from "../../types/index";
+interface ToolBarProps {
+  moveStatus: boolean;
+  onMoveStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  textStatus: boolean;
+  onTextStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  drawStatus: boolean;
+  onDrawStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const ToolBar = ({
   moveStatus,
@@ -35,8 +42,8 @@ const ToolBar = ({
       <div className=" flex flex-row ">
         <div>
           <div
-            className="flex flex-col  items-center bg-[#002322] text-white w-auto
-          justify-center gap-2 rounded-[0.2rem]"
+            className="flex flex-col  items-center bg-[#002322]
+             text-white w-auto justify-center gap-2 rounded-[0.2rem]"
           >
             <div className="font-bold text-[0.8rem] text-green-500 mt-2">
               Tools
@@ -44,39 +51,26 @@ const ToolBar = ({
 
             <div className="flex md:flex-col flex-wrap">
               <button
-                className={` flex items-center justify-center  hover:bg-[#013836] 
-                 h-full p-2 cursor-pointer ${moveStatus ? "text-green-500" : "text-white"}`}
+                className={` toolbar-btn
+                  ${moveStatus ? "text-green-500" : "text-white"}`}
                 onClick={handleMoveStatus}
               >
                 <LuMove size={22} />
               </button>
               <button
-                className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
-                 h-full p-2
+                className={`toolbar-btn
               ${drawStatus ? "text-green-500" : "text-white"}`}
                 onClick={handleDrawStatus}
               >
                 <MdDraw size={25} />
               </button>
               <button
-                className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
-                 h-full p-2
+                className={`toolbar-btn
               ${textStatus ? "text-green-500" : "text-white"}`}
                 onClick={handleTextStatus}
               >
                 <RiTextSnippet size={25} />
               </button>
-
-              {/*
-              <button
-                className={`flex items-center justify-center cursor-pointer hover:bg-[#013836] 
-                 h-full p-2
-              ${textStatus ? "text-green-500" : "text-white"}`}
-                onClick={handleTextStatus}
-              >
-                <FaCropSimple size={22} />
-              </button>
-               */}
             </div>
           </div>
         </div>

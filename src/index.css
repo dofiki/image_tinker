@@ -38,6 +38,15 @@
   .select {
     @apply bg-green-900 p-0.5 text-white text-sm rounded-sm;
   }
+
+  .toolbar-btn {
+    @apply flex items-center justify-center  hover:bg-[#013836] 
+    h-full p-2 cursor-pointer;
+  }
+
+  .properties-btn-label {
+    @apply absolute top-2 right-2 font-bold text-white/50;
+  }
 }
 
 @layer utilities {

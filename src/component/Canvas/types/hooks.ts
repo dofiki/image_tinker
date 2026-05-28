@@ -35,6 +35,4 @@ export interface renderCanvasBackgroundProps {
 export interface renderElementsProps {
   ctx: CanvasRenderingContext2D;
   elements: Element[];
-  strokeStyle: string;
-  lineWidth: number;
 }

@@ -1,12 +1,7 @@
 import { getImageFromCache } from "../../MenuBar/utils/loadImage";
 import type { renderElementsProps } from "../types";
 
-export function renderElements({
-  elements,
-  ctx,
-  strokeStyle,
-  lineWidth,
-}: renderElementsProps) {
+export function renderElements({ elements, ctx }: renderElementsProps) {
   elements.forEach((element) => {
     if (!element.visibilityStatus) return;
 
@@ -88,8 +83,8 @@ export function renderElements({
         ctx.lineTo(points[i], points[i + 1]);
       }
 
-      ctx.strokeStyle = strokeStyle ?? "black";
-      ctx.lineWidth = Number(lineWidth) ?? 10;
+      ctx.strokeStyle = element.strokeStyle ?? "black";
+      ctx.lineWidth = Number(element.lineWidth) ?? 10;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.stroke();

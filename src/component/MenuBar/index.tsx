@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import FileOption from "./_components/FileOption";
-import EditOption from "./_components/EditOption";
-import FilterOption from "./_components/FilterOption";
-import ViewOption from "./_components/ViewOption";
-import { CreateCanvas } from "../MenuBar/_components/CreateCanvas";
+import FileOption from "./components/FileOption";
+import EditOption from "./components/EditOption";
+import FilterOption from "./components/FilterOption";
+import ViewOption from "./components/ViewOption";
+import { CreateCanvas } from "./components/CreateCanvas";
 import scaleImageToCanvas from "./utils/scaleImageToCanvas";
 import loadImage from "./utils/loadImage";
 import { useEditorStore } from "../../store/useEditorStore";
@@ -74,10 +74,6 @@ export const MenuBar = ({
       height,
       rotation: 0,
       src,
-      content: null,
-      fontSize: undefined,
-      textColor: undefined,
-      fontType: undefined,
       visibilityStatus: true,
       blur: 0,
       saturate: 1,
