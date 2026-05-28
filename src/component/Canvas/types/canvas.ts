@@ -1,4 +1,4 @@
-import type { Element } from "../../../types";
+import type { TextElement } from "../../../types";
 
 interface setTextOverlayPops {
   x: number;
@@ -17,7 +17,7 @@ export interface handleLeftClickProps {
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>;
   textStatus: boolean;
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
-  addElement: (element: Element) => void;
+  addElement: (element: TextElement) => void;
   setTextOverlay: (arg: setTextOverlayPops) => void;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }
