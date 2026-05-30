@@ -12,7 +12,6 @@ export function handleMouseDown({
   moveStatus,
   drawStatus,
   rectStatus,
-
   elements,
   selectedElement,
   setSelectedElementId,

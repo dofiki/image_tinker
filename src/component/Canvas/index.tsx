@@ -14,7 +14,6 @@ export const Canvas = ({
   textStatus,
   drawStatus,
   rectStatus,
-  lineStatus,
 }: CanvasProps) => {
   const {
     canvasConfig,
@@ -42,7 +41,6 @@ export const Canvas = ({
   const resizeLocalAnchor = useRef({ x: 0, y: 0 });
   const drawId = useRef<string | null>(null);
   const rectId = useRef<string | null>(null);
-  const lineId = useRef<string | null>(null);
   const rectOrigin = useRef({ x: 0, y: 0 });
   const [textOverlay, setTextOverlay] = useState<{
     x: number;
@@ -69,7 +67,6 @@ export const Canvas = ({
     dragElementId.current = null;
     rectOrigin.current = { x: 0, y: 0 };
     rectId.current = null;
-    lineId.current = null;
   }
 
   function handleTextCommit(value: string) {
@@ -113,12 +110,10 @@ export const Canvas = ({
               canvasRef,
               drawId,
               rectId,
-              lineId,
               rectOrigin,
               moveStatus,
               drawStatus,
               rectStatus,
-              lineStatus,
               elements,
               selectedElement,
               setSelectedElementId,
@@ -140,7 +135,7 @@ export const Canvas = ({
               drawStatus,
               drawId,
               rectId,
-              lineId,
+
               rectOrigin,
               canvasRef,
               selectedElement,

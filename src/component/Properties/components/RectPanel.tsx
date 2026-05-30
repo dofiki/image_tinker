@@ -1,7 +1,3 @@
-import { ImBold } from "react-icons/im";
-import { FaItalic } from "react-icons/fa";
-import { useEditorStore } from "../../../store/useEditorStore";
-import { FONTS } from "../constants";
 import type { Element } from "../../../types";
 
 interface RectPanelProps {
