@@ -4,6 +4,7 @@ import { DrawPanel } from "./components/DrawPanel";
 import { ImagePanel } from "./components/ImagePanel";
 import { PositionSizePanel } from "./components/PositionSizePanel";
 import { TextPanel } from "./components/TextPanel";
+import { RectPanel } from "./components/RectPanel";
 
 const Properties = ({ element }: { element: Element | null }) => {
   const update = useElementUpdate(element);
@@ -32,6 +33,10 @@ const Properties = ({ element }: { element: Element | null }) => {
 
         {element?.type && element.type !== "draw" && (
           <PositionSizePanel element={element} update={update} />
+        )}
+
+        {element?.type === "rect" && (
+          <RectPanel element={element} update={update} />
         )}
 
         {element?.type === "image" && (

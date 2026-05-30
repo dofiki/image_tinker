@@ -3,10 +3,6 @@ import type { Element } from "../../../types/index";
 
 export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {
   ctx.save();
-  /* if (el.type === "draw") {
-    ctx.restore();
-    return;
-  }*/
 
   const DASH_PADDING = 5;
 

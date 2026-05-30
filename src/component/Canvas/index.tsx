@@ -13,6 +13,8 @@ export const Canvas = ({
   moveStatus,
   textStatus,
   drawStatus,
+  rectStatus,
+  lineStatus,
 }: CanvasProps) => {
   const {
     canvasConfig,
@@ -39,6 +41,9 @@ export const Canvas = ({
   const resizePivot = useRef({ x: 0, y: 0 });
   const resizeLocalAnchor = useRef({ x: 0, y: 0 });
   const drawId = useRef<string | null>(null);
+  const rectId = useRef<string | null>(null);
+  const lineId = useRef<string | null>(null);
+  const rectOrigin = useRef({ x: 0, y: 0 });
   const [textOverlay, setTextOverlay] = useState<{
     x: number;
     y: number;
@@ -62,6 +67,9 @@ export const Canvas = ({
     isDragging.current = false;
     isResizing.current = false;
     dragElementId.current = null;
+    rectOrigin.current = { x: 0, y: 0 };
+    rectId.current = null;
+    lineId.current = null;
   }
 
   function handleTextCommit(value: string) {
@@ -72,6 +80,7 @@ export const Canvas = ({
   function getCanvasCursor() {
     if (moveStatus) return "move";
     if (textStatus) return "text";
+    if (rectStatus) return "crosshair";
     return "default";
   }
 
@@ -103,8 +112,13 @@ export const Canvas = ({
               e,
               canvasRef,
               drawId,
+              rectId,
+              lineId,
+              rectOrigin,
               moveStatus,
               drawStatus,
+              rectStatus,
+              lineStatus,
               elements,
               selectedElement,
               setSelectedElementId,
@@ -125,6 +139,9 @@ export const Canvas = ({
               e,
               drawStatus,
               drawId,
+              rectId,
+              lineId,
+              rectOrigin,
               canvasRef,
               selectedElement,
               updateElement,

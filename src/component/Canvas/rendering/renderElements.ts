@@ -88,6 +88,26 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.stroke();
+    } else if (element.type === "rect") {
+      ctx.globalAlpha = element.opacity / 100;
+
+      ctx.translate(
+        element.x + element.width / 2,
+        element.y + element.height / 2,
+      );
+      ctx.rotate((element.rotation * Math.PI) / 180);
+
+      ctx.beginPath();
+      ctx.rect(
+        -element.width / 2,
+        -element.height / 2,
+        element.width,
+        element.height,
+      );
+      ctx.fillStyle = element.fillStyle;
+      ctx.strokeStyle = element.strokeStyle;
+      ctx.fill();
+      ctx.stroke();
     }
     // this resets canvas rotation as well...
     ctx.restore();

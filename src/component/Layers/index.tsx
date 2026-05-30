@@ -9,12 +9,14 @@ const Layers = ({
   onTextStatus,
   onMoveStatus,
   onDrawStatus,
+  onRectStatus,
 }: {
   elements: Element[];
   selected: Element | null;
   onMoveStatus: (arg0: boolean) => void;
   onTextStatus: (arg0: boolean) => void;
   onDrawStatus: (arg0: boolean) => void;
+  onRectStatus: (arg0: boolean) => void;
 }) => {
   const { updateElement, setSelectedElementId, removeElement, setElements } =
     useEditorStore();
@@ -26,6 +28,7 @@ const Layers = ({
     onTextStatus(false);
     onMoveStatus(true);
     onDrawStatus(false);
+    onRectStatus(false);
   }
 
   function handleDragStart(index: number) {

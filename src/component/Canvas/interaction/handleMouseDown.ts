@@ -7,8 +7,12 @@ export function handleMouseDown({
   e,
   canvasRef,
   drawId,
+  rectId,
+  rectOrigin,
   moveStatus,
   drawStatus,
+  rectStatus,
+
   elements,
   selectedElement,
   setSelectedElementId,
@@ -26,6 +30,29 @@ export function handleMouseDown({
   const canvas = canvasRef.current;
   if (!canvas) return;
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
+
+  // rectangle starts
+  if (rectStatus) {
+    const id = crypto.randomUUID();
+    rectId.current = id;
+    rectOrigin.current.x = mouseX;
+    rectOrigin.current.y = mouseY;
+    addElement({
+      name: null,
+      id,
+      type: "rect",
+      x: mouseX,
+      y: mouseY,
+      width: 0,
+      height: 0,
+      rotation: 0,
+      opacity: 100,
+      visibilityStatus: true,
+      blendMode: "source-over",
+      fillStyle: "red",
+      strokeStyle: "red",
+    });
+  }
 
   // start drawing
   if (drawStatus) {

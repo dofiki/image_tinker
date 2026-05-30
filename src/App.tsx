@@ -15,7 +15,7 @@ export default function App() {
   const [moveStatus, setMoveStatus] = useState(false);
   const [textStatus, setTextStatus] = useState(false);
   const [drawStatus, setDrawStatus] = useState(false);
-
+  const [rectStatus, setRectStatus] = useState(false);
   const [ignoreStatus, setIgnoreStatus] = useState(false);
 
   return (
@@ -41,6 +41,8 @@ export default function App() {
             onTextStatus={setTextStatus}
             drawStatus={drawStatus}
             onDrawStatus={setDrawStatus}
+            rectStatus={rectStatus}
+            onRectStatus={setRectStatus}
           />{" "}
           <div
             className=" max-h-[90vh] w-full md:w-[78vw]
@@ -53,6 +55,7 @@ export default function App() {
                 moveStatus={moveStatus}
                 textStatus={textStatus}
                 drawStatus={drawStatus}
+                rectStatus={rectStatus}
               />
             )}
           </div>
@@ -68,6 +71,7 @@ export default function App() {
               onMoveStatus={setMoveStatus}
               onTextStatus={setTextStatus}
               onDrawStatus={setDrawStatus}
+              onRectStatus={setRectStatus}
             />
           </div>
           <div

@@ -11,6 +11,12 @@ export interface BaseElement {
   blendMode: GlobalCompositeOperation;
 }
 
+export interface RectElement extends BaseElement {
+  type: "rect";
+  fillStyle: string;
+  strokeStyle: string;
+}
+
 export interface ImageElement extends BaseElement {
   type: "image";
   src: string;
@@ -43,4 +49,4 @@ export interface DrawElement extends BaseElement {
   drawingPoint: number[];
 }
 
-export type Element = ImageElement | TextElement | DrawElement;
+export type Element = ImageElement | TextElement | DrawElement | RectElement;

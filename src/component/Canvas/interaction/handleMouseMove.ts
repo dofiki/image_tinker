@@ -7,6 +7,9 @@ export function handleMouseMove({
   e,
   drawStatus,
   drawId,
+  rectId,
+
+  rectOrigin,
   canvasRef,
   selectedElement,
   elements,
@@ -24,6 +27,15 @@ export function handleMouseMove({
   if (!canvas) return;
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
+  // rect element
+  if (rectId.current) {
+    updateElement(rectId.current, {
+      width: mouseX - rectOrigin.current.x,
+      height: mouseY - rectOrigin.current.y,
+    });
+  }
+
+  // drawing...
   if (isDrawing.current && drawStatus) {
     if (!drawId.current) return;
     const el = elements.find((el) => el.id === drawId.current);
@@ -36,7 +48,7 @@ export function handleMouseMove({
     return;
   }
   if (!selectedElement) return;
-
+  // resizing...
   if (isResizing.current) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -134,7 +146,7 @@ export function handleMouseMove({
   if (!isDragging.current || !dragElementId.current) return;
   const el = elements.find((el) => el.id === dragElementId.current);
   if (!el) return;
-
+  // dragging draw element
   if (el.type === "draw") {
     const newX = mouseX - dragOffset.current.x;
     const newY = mouseY - dragOffset.current.y;
@@ -156,6 +168,7 @@ export function handleMouseMove({
     return;
   }
 
+  // draggin other elements
   updateElement(dragElementId.current, {
     x: mouseX - dragOffset.current.x,
     y: mouseY - dragOffset.current.y,

@@ -11,6 +11,7 @@ export interface CanvasProps {
   moveStatus: boolean;
   textStatus: boolean;
   drawStatus: boolean;
+  rectStatus: boolean;
 }
 
 export interface handleLeftClickProps {
