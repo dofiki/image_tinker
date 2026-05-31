@@ -15,6 +15,8 @@ const FilterOption = () => {
         >
           Blur
         </li>
+        <hr className="text-black/25"></hr>
+
         <li
           className="hover:bg-[#00beb560] p-2"
           onClick={() =>

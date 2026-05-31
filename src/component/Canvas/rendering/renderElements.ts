@@ -36,13 +36,32 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
        Instead, we want the image itself to be centered around the origin. To achieve this,
        we offset the image upward and to the left by half of its width and height.
         */
-        ctx.drawImage(
-          imageObject,
-          -element.width / 2,
-          -element.height / 2,
-          element.width,
-          element.height,
-        );
+        let cX = element.crop?.sx;
+        let cY = element.crop?.sy;
+        let cW = element.crop?.width;
+        let cH = element.crop?.height;
+
+        if (element.cropStatus && cX && cY && cW && cH) {
+          ctx.drawImage(
+            imageObject,
+            cX,
+            cY,
+            cW,
+            cH,
+            -element.width / 2,
+            -element.height / 2,
+            element.width,
+            element.height,
+          );
+        } else {
+          ctx.drawImage(
+            imageObject,
+            -element.width / 2,
+            -element.height / 2,
+            element.width,
+            element.height,
+          );
+        }
       }
     } else if (element.type === "text") {
       const fontSize = element.fontSize ?? 20;

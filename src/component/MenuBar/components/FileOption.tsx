@@ -18,6 +18,8 @@ const FileOption = ({
           <li className="hover:bg-[#00beb560] p-2" onClick={onHandleImage}>
             Open
           </li>
+          <hr className="text-black/25"></hr>
+
           <li className="hover:bg-[#00beb560] p-2" onClick={onHandleSave}>
             Export as PNG
           </li>

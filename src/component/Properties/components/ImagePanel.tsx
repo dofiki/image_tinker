@@ -9,10 +9,107 @@ interface ImagePanelProps {
 export const ImagePanel = ({ element, update }: ImagePanelProps) => {
   const [invertToggle, setInvertToggle] = useState(true);
   if (element.type != "image") return;
+
   return (
     <div className="flex flex-col gap-4 pt-2">
       <hr className="text-white/10" />
 
+      {/* crop */}
+      {element.cropStatus && element.crop && (
+        <>
+          <div className="grid grid-cols-3 items-center px-4">
+            <div className="text-sm text-green-500">Crop Position</div>
+            <div className="relative">
+              <input
+                type="number"
+                className="w-25 ml-5 input-style"
+                min={"0"}
+                value={element.crop.sx}
+                onChange={(e) =>
+                  update({
+                    crop: {
+                      ...element.crop,
+                      sx: +e.target.value,
+                    },
+                  })
+                }
+              />
+              <div className="properties-btn-label ">X</div>
+            </div>
+            <div className="relative">
+              <input
+                type="number"
+                className="w-25 ml-5 input-style"
+                min={"0"}
+                value={element.crop.sy}
+                onChange={(e) =>
+                  update({
+                    crop: {
+                      ...element.crop,
+                      sy: +e.target.value,
+                    },
+                  })
+                }
+              />
+              <div className="properties-btn-label ">Y</div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 items-center px-4">
+            <div className="text-sm text-green-500">CropSize</div>
+            <div className="relative">
+              <input
+                type="number"
+                className="w-25 ml-5 input-style"
+                min={"5"}
+                value={element.crop.height}
+                onChange={(e) =>
+                  update({
+                    crop: {
+                      ...element.crop,
+                      height: +e.target.value,
+                    },
+                  })
+                }
+              />
+              <div className="properties-btn-label ">H</div>
+            </div>
+            <div className="relative">
+              <input
+                type="number"
+                className="w-25 ml-5 input-style"
+                min={"5"}
+                value={element.crop.width}
+                onChange={(e) =>
+                  update({
+                    crop: {
+                      ...element.crop,
+                      width: +e.target.value,
+                    },
+                  })
+                }
+              />
+              <div className="properties-btn-label">W</div>
+            </div>
+          </div>
+          <div className="flex justify-end pr-3">
+            <button
+              className="rounded-sm bg-green-800 text-white w-25 h-8
+                        cursor-pointer hover:bg-green-700 transition-all 
+                        ease-in"
+              onClick={() =>
+                update({
+                  cropStatus: false,
+                })
+              }
+            >
+              #cancelcrop
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* filters */}
       {element.blur != null && element.blur > 0 && (
         <div className="grid grid-cols-2 items-center px-4">
           <div className="text-sm text-green-500">Blur</div>

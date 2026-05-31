@@ -17,6 +17,13 @@ export interface RectElement extends BaseElement {
   strokeStyle: string;
 }
 
+export interface CropProperies {
+  sx?: number;
+  sy?: number;
+  width?: number;
+  height?: number;
+}
+
 export interface ImageElement extends BaseElement {
   type: "image";
   src: string;
@@ -29,6 +36,8 @@ export interface ImageElement extends BaseElement {
   contrastStatus?: boolean;
   invert?: boolean;
   invertStatus?: boolean;
+  croptStatus: boolean;
+  crop?: CropProperies;
 }
 
 export interface TextElement extends BaseElement {
