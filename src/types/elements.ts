@@ -36,7 +36,7 @@ export interface ImageElement extends BaseElement {
   contrastStatus?: boolean;
   invert?: boolean;
   invertStatus?: boolean;
-  croptStatus: boolean;
+  cropStatus: boolean;
   crop?: CropProperies;
 }
 

@@ -8,4 +8,6 @@ export interface LayerRowProps {
   onDragStart: () => void;
   onDragEnter: () => void;
   onDragEnd: () => void;
+  updateElement: (id: string | undefined, update: Partial<Element>) => void;
+  selectedElementId: string | null;
 }

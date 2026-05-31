@@ -13,6 +13,8 @@ export const LayerRow = ({
   onDragStart,
   onDragEnter,
   onDragEnd,
+  updateElement,
+  selectedElementId,
 }: LayerRowProps) => {
   return (
     <div
@@ -25,8 +27,8 @@ export const LayerRow = ({
       draggable
     >
       <div
-        className="bg-black/30 py-1 w-8 h-full flex justify-center
-          items-center text-white/80 hover:text-green-500 cursor-grab"
+        className="py-1 w-5 h-full flex justify-center
+          items-center text-white/50 hover:text-green-500 cursor-grab"
       >
         <PiDotsThreeVerticalBold size={20} />
       </div>
@@ -48,10 +50,27 @@ export const LayerRow = ({
       </div>
 
       <div
+        contentEditable="plaintext-only"
         className={`select-none transition-all ease-in
-          ${isSelected ? "text-green-500" : "opacity-35"}`}
+    ${isSelected ? "text-green-500" : "opacity-35"}
+   h-full w-20 flex justify-center items-center
+    overflow-hidden`}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+        onInput={(e) => {
+          const text = e.currentTarget.textContent || "";
+
+          if (text.length > 10) {
+            e.currentTarget.textContent = text.slice(0, 7);
+          }
+          if (!selectedElementId) return;
+          updateElement(selectedElementId, { name: text });
+        }}
       >
-        {el.type === "text" ? el.content?.slice(0, 5) : el.type}
+        {el.type === "text" ? el.name : el.type}
       </div>
 
       <BlendMode

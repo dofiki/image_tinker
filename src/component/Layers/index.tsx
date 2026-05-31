@@ -18,8 +18,13 @@ const Layers = ({
   onDrawStatus: (arg0: boolean) => void;
   onRectStatus: (arg0: boolean) => void;
 }) => {
-  const { updateElement, setSelectedElementId, removeElement, setElements } =
-    useEditorStore();
+  const {
+    updateElement,
+    setSelectedElementId,
+    removeElement,
+    setElements,
+    selectedElementId,
+  } = useEditorStore();
 
   const draggingItem = useRef<null | number>(null);
   const draggingOverItem = useRef<null | number>(null);
@@ -83,6 +88,8 @@ const Layers = ({
             onDragStart={() => handleDragStart(index)}
             onDragEnter={() => handleDragEnter(index)}
             onDragEnd={handleDragEnd}
+            updateElement={updateElement}
+            selectedElementId={selectedElementId}
           />
         ))}
       </div>
