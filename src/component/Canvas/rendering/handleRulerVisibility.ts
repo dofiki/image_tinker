@@ -9,10 +9,10 @@ export function handleRulerVisibility({
   if (rulerStatus) {
     // rendering ruler bg (initial)
     // vertical
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = "#007054";
     ctx.fillRect(0, 40, 40, canvas.height);
     // horizontal
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = "#007054";
     ctx.fillRect(40, 0, canvas.width, 40);
     // corner
     ctx.fillStyle = "white";
@@ -20,7 +20,7 @@ export function handleRulerVisibility({
     // ruler marks
     drawRulerMarks(ctx, canvas);
   } else {
-    ctx.fillStyle = "#004744";
+    ctx.fillStyle = "#007054";
     ctx.fillRect(0, 40, 40, canvas.height);
     ctx.fillStyle = "#004744";
     ctx.fillRect(40, 0, canvas.width, 40);

@@ -12,6 +12,7 @@ export const MenuBar = ({
   canvasRef,
   onMoveStatus,
   onTextStatus,
+  copiedElementRef,
 }: MenuBarProps) => {
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -20,7 +21,7 @@ export const MenuBar = ({
     useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // outside click
+  // outside clicks
   useEffect(() => {
     function handleClickOutside(event: Event) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -99,8 +100,32 @@ export const MenuBar = ({
     onTextStatus(false);
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const url = canvas.toDataURL("image/png");
+    // to not render the ruler
+    const cropX = 40;
+    const cropY = 40;
 
+    const croppedWidth = canvas.width - cropX;
+    const croppedHeight = canvas.height - cropY;
+
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = croppedWidth;
+    tempCanvas.height = croppedHeight;
+
+    const ctx = tempCanvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(
+      canvas,
+      cropX, // source x
+      cropY, // source y
+      croppedWidth, // source width
+      croppedHeight, // source height
+      0, // destination x
+      0, // destination y
+      croppedWidth, // destination width
+      croppedHeight, // destination height
+    );
+
+    const url = tempCanvas.toDataURL("image/png");
     const a = document.createElement("a");
     a.href = url;
     a.download = `${canvasConfig?.name}.png`;
@@ -161,7 +186,9 @@ export const MenuBar = ({
             className="hover:bg-[#001b19] pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
           >
             Edit
-            {activeOption === "edit" && <EditOption />}
+            {activeOption === "edit" && (
+              <EditOption copiedElementRef={copiedElementRef} />
+            )}
           </li>
           <li
             onClick={() =>

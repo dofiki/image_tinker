@@ -6,6 +6,7 @@ import { MenuBar } from "./component/MenuBar";
 import Properties from "./component/Properties";
 import Layers from "./component/Layers";
 import { MdWarning } from "react-icons/md";
+import type { Element } from "./types";
 
 export default function App() {
   const { canvasConfig, selectedElementId, elements } = useEditorStore();
@@ -17,7 +18,7 @@ export default function App() {
   const [drawStatus, setDrawStatus] = useState(false);
   const [rectStatus, setRectStatus] = useState(false);
   const [ignoreStatus, setIgnoreStatus] = useState(false);
-
+  const copiedElementRef = useRef<Element | null>(null);
   return (
     <>
       <div
@@ -28,6 +29,7 @@ export default function App() {
           canvasRef={canvasRef}
           onMoveStatus={setMoveStatus}
           onTextStatus={setTextStatus}
+          copiedElementRef={copiedElementRef}
         />
         <div
           className="flex flex-col md:flex-row gap-4

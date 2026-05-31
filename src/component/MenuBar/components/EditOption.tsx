@@ -1,7 +1,13 @@
 import { useEditorStore } from "../../../store/useEditorStore";
+import type { Element } from "../../../types";
 
-const EditOption = () => {
-  const { undo, redo, selectedElementId, updateElement } = useEditorStore();
+type EditOptionProps = {
+  copiedElementRef: React.MutableRefObject<Element | null>;
+};
+
+const EditOption = ({ copiedElementRef }: EditOptionProps) => {
+  const { undo, redo, selectedElementId, updateElement, elements } =
+    useEditorStore();
 
   function initiateCrop() {
     if (!selectedElementId) return;
@@ -9,6 +15,24 @@ const EditOption = () => {
       cropStatus: true,
       crop: { sx: 5, sy: 5, width: 500, height: 500 },
     });
+  }
+  function handleCopy() {
+    if (!selectedElementId) return;
+
+    const element = elements.find((el) => el.id === selectedElementId);
+
+    copiedElementRef.current = element ? structuredClone(element) : null;
+  }
+
+  function handlePaste() {
+    if (!copiedElementRef.current) return;
+
+    const pastedElement = {
+      ...structuredClone(copiedElementRef.current),
+      id: crypto.randomUUID(),
+    };
+
+    elements.push(pastedElement);
   }
 
   return (
@@ -22,8 +46,18 @@ const EditOption = () => {
           Redo
         </li>
         <hr className="text-black/25"></hr>
-        <li className="hover:bg-[#00beb560] p-2 cursor-pointer">Copy</li>
-        <li className="hover:bg-[#00beb560] p-2 cursor-pointer">Paste</li>
+        <li
+          className="hover:bg-[#00beb560] p-2 cursor-pointer"
+          onClick={handleCopy}
+        >
+          Copy
+        </li>
+        <li
+          className="hover:bg-[#00beb560] p-2 cursor-pointer"
+          onClick={handlePaste}
+        >
+          Paste
+        </li>
         <hr className="text-black/25"></hr>
         <li
           className="hover:bg-[#00beb560] p-2 cursor-pointer"

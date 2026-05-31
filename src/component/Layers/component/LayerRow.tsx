@@ -70,7 +70,7 @@ export const LayerRow = ({
           updateElement(selectedElementId, { name: text });
         }}
       >
-        {el.type === "text" ? el.name : el.type}
+        {el.type === "text" ? el.content?.slice(0, 5) : el.type}
       </div>
 
       <BlendMode
