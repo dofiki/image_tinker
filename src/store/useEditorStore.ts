@@ -121,4 +121,30 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
+
+  handleCopy: (
+    selectedElementId: string,
+    elements: Element[],
+    copiedElementRef: React.MutableRefObject<Element | null>,
+  ) => {
+    if (!selectedElementId) return;
+
+    const element = elements.find((el) => el.id === selectedElementId);
+
+    copiedElementRef.current = element ? structuredClone(element) : null;
+  },
+
+  handlePaste: (
+    elements: Element[],
+    copiedElementRef: React.MutableRefObject<Element | null>,
+  ) => {
+    if (!copiedElementRef.current) return;
+
+    const pastedElement = {
+      ...structuredClone(copiedElementRef.current),
+      id: crypto.randomUUID(),
+    };
+
+    elements.push(pastedElement as Element);
+  },
 }));

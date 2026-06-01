@@ -42,4 +42,15 @@ export interface EditorStore {
   setRulerStatus: (rulerStatus: boolean) => void;
   gridStatus: boolean;
   setGridStatus: (rulerStatus: boolean) => void;
+
+  handleCopy: (
+    selectedElementId: string,
+    elements: Element[],
+    copiedElementRef: React.MutableRefObject<Element | null>,
+  ) => void;
+
+  handlePaste: (
+    elements: Element[],
+    copiedElementRef: React.MutableRefObject<Element | null>,
+  ) => void;
 }

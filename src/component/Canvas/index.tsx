@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useEditorStore } from "../../store/useEditorStore";
 import { useCanvasRenderer } from "./hooks/useCanvasRenderer";
-import { useKeyboardDelete } from "./hooks/useKeyboardDelete";
+import { useKeyboard } from "./hooks/useKeyboard";
 import { MAX_H, MAX_W } from "./constants";
 import { handleMouseMove } from "./interaction/handleMouseMove";
 import type { CanvasProps } from "./types/index";
@@ -14,6 +14,7 @@ export const Canvas = ({
   textStatus,
   drawStatus,
   rectStatus,
+  copiedElementRef,
 }: CanvasProps) => {
   const {
     canvasConfig,
@@ -58,7 +59,7 @@ export const Canvas = ({
   }, [moveStatus, setSelectedElementId]);
 
   useCanvasRenderer({ canvasRef, canvasConfig, elements, selectedElement });
-  useKeyboardDelete(selectedElement);
+  useKeyboard(selectedElement, copiedElementRef);
 
   function handleMouseUp() {
     isDrawing.current = false;

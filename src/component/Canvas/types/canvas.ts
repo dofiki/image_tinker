@@ -1,5 +1,5 @@
 import type { TextElement } from "../../../types";
-
+import type { Element } from "../../../types";
 interface setTextOverlayPops {
   x: number;
   y: number;
@@ -12,6 +12,7 @@ export interface CanvasProps {
   textStatus: boolean;
   drawStatus: boolean;
   rectStatus: boolean;
+  copiedElementRef: React.MutableRefObject<Element | null>;
 }
 
 export interface handleLeftClickProps {

@@ -58,6 +58,7 @@ export default function App() {
                 textStatus={textStatus}
                 drawStatus={drawStatus}
                 rectStatus={rectStatus}
+                copiedElementRef={copiedElementRef}
               />
             )}
           </div>
