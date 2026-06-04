@@ -17,14 +17,14 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
       <hr className="text-white/10" />
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500">Style</div>
+        <div className="text-sm text-normtex">Style</div>
         <div className="flex justify-around w-full">
           <button
             className={`w-8 flex justify-center items-center
                  rounded-sm cursor-pointer transition-colors ${
                    element.boldStatus
-                     ? "text-green-500"
-                     : "text-green-900 hover:text-green-500"
+                     ? "text-normtex"
+                     : "text-[#005969] hover:text-normtex"
                  }`}
             onClick={() =>
               updateElement(element.id, { boldStatus: !element.boldStatus })
@@ -37,8 +37,8 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
             className={`w-8 flex justify-center items-center rounded-sm 
                 cursor-pointer transition-colors ${
                   element.italicStatus
-                    ? "text-green-500"
-                    : "text-green-900 hover:text-green-500"
+                    ? "text-normtex"
+                     : "text-[#005969] hover:text-normtex"
                 }`}
             onClick={() =>
               updateElement(element.id, { italicStatus: !element.italicStatus })
@@ -57,7 +57,7 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
       </div>
 
       <div className="grid grid-cols-5 items-center pl-4 gap-5">
-        <div className="text-sm text-green-500">Size</div>
+        <div className="text-sm text-normtex">Size</div>
         <div className="relative">
           <input
             type="number"
@@ -70,7 +70,7 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
           </div>
         </div>
 
-        <div className="text-sm text-green-500">Font</div>
+        <div className="text-sm text-normtex">Font</div>
         <div>
           <select
             id="fontSelect"
@@ -90,9 +90,9 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
       </div>
 
       <div className="grid grid-cols-2 items-start px-4">
-        <div className="text-sm text-green-500">Content</div>
+        <div className="text-sm text-normtex">Content</div>
         <textarea
-          className="text-white bg-[#022e2c] p-2 rounded-md focus:outline-1
+          className="text-white bg-[#07046d] p-2 rounded-md focus:outline-1
            focus:outline-lime-400 hover:outline-lime-400 
            hover:outline-1 min-h-20 w-full resize-none"
           value={element.content || ""}

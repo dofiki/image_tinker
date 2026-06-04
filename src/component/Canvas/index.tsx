@@ -91,6 +91,7 @@ export const Canvas = ({
           width: canvasConfig.width * scale,
           height: canvasConfig.height * scale,
           position: "relative",
+
         }}
       >
         <canvas

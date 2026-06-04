@@ -9,10 +9,10 @@ export const RectPanel = ({ element, update }: RectPanelProps) => {
   if (element.type !== "rect") return;
   return (
     <div className="flex flex-col gap-4 pt-4">
-      <hr className="text-white/10" />
+      <hr className="text-accent" />
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500">Fill</div>
+        <div className="text-sm text-normtex">Fill</div>
         <input
           type="color"
           value={element.fillStyle}
@@ -22,7 +22,7 @@ export const RectPanel = ({ element, update }: RectPanelProps) => {
       </div>
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500">Border</div>
+        <div className="text-sm text-normtex">Border</div>
         <input
           type="color"
           value={element.strokeStyle}

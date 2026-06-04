@@ -32,7 +32,8 @@ const EditOption = ({ copiedElementRef }: EditOptionProps) => {
       <ul className="flex flex-col">
         <li
           onClick={undo}
-          className="hover:bg-[#00beb560] p-2 cursor-pointer relative"
+          className="hover:bg-normtex hover:rounded-sm 
+          p-2 cursor-pointer relative"
         >
           Undo
           <span className="absolute right-2 text-black/50">CTRL + Z</span>
@@ -40,14 +41,14 @@ const EditOption = ({ copiedElementRef }: EditOptionProps) => {
 
         <li
           onClick={redo}
-          className="hover:bg-[#00beb560] p-2 cursor-pointer relative"
+          className="hover:bg-normtex p-2 cursor-pointer relative"
         >
           Redo
           <span className="absolute right-2 text-black/50">CTRL + R</span>
         </li>
         <hr className="text-black/25"></hr>
         <li
-          className="hover:bg-[#00beb560] p-2 cursor-pointer relative"
+          className="hover:bg-normtex p-2 cursor-pointer relative"
           onClick={() => {
             if (!selectedElementId) return;
             handleCopy(selectedElementId, elements, copiedElementRef);
@@ -57,7 +58,7 @@ const EditOption = ({ copiedElementRef }: EditOptionProps) => {
           <span className="absolute right-2 text-black/50">CTRL + C</span>
         </li>
         <li
-          className="hover:bg-[#00beb560] p-2 cursor-pointer relative"
+          className="hover:bg-normtex p-2 cursor-pointer relative"
           onClick={() => {
             handlePaste(elements, copiedElementRef);
           }}
@@ -67,7 +68,7 @@ const EditOption = ({ copiedElementRef }: EditOptionProps) => {
         </li>
         <hr className="text-black/25"></hr>
         <li
-          className="hover:bg-[#00beb560] p-2 cursor-pointer"
+          className="hover:bg-normtex p-2 cursor-pointer"
           onClick={initiateCrop}
         >
           Crop

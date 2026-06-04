@@ -161,7 +161,7 @@ export const MenuBar = ({
         className="hidden"
         onChange={handleFileChange}
       />
-      <div ref={menuRef} className="h-10 flex bg-[#00302d] text-white">
+      <div ref={menuRef} className="h-10 flex bg-navbar text-white border-b border-accent">
         <ul className="flex gap-2 p-2 items-center text-sm cursor-pointer">
           <li
             onClick={() =>

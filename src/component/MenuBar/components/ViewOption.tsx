@@ -11,7 +11,7 @@ const ViewOption = () => {
       onClick={(e) => e.stopPropagation()}
     >
       <ul className="flex flex-col">
-        <li className="hover:bg-[#00beb560] p-2 flex gap-2">
+        <li className="hover:bg-normtex p-2 flex gap-2">
           <input
             type="checkbox"
             checked={gridStatus}
@@ -20,7 +20,7 @@ const ViewOption = () => {
           />
           <label>Grid</label>
         </li>
-        <li className="hover:bg-[#00beb560] p-2 flex gap-2">
+        <li className="hover:bg-normtex p-2 flex gap-2">
           <input
             type="checkbox"
             checked={rulerStatus}

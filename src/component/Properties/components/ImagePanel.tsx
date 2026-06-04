@@ -12,13 +12,13 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
   return (
     <div className="flex flex-col gap-4 pt-2">
-      <hr className="text-white/10" />
+      <hr className="text-accent" />
 
       {/* crop */}
       {element.cropStatus && element.crop && (
         <>
           <div className="grid grid-cols-3 items-center px-4">
-            <div className="text-sm text-green-500">Crop Position</div>
+            <div className="text-sm text-normtex">Crop Position</div>
             <div className="relative">
               <input
                 type="number"
@@ -56,7 +56,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
           </div>
 
           <div className="grid grid-cols-3 items-center px-4">
-            <div className="text-sm text-green-500">CropSize</div>
+            <div className="text-sm text-normtex">CropSize</div>
             <div className="relative">
               <input
                 type="number"
@@ -103,7 +103,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
                 })
               }
             >
-              #cancelcrop
+              Cancel Crop
             </button>
           </div>
         </>
@@ -112,7 +112,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
       {/* filters */}
       {element.blur != null && element.blur > 0 && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Blur</div>
+          <div className="text-sm text-normtex">Blur</div>
           <input
             type="range"
             min={1}
@@ -126,7 +126,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
       {element.saturationStatus && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Saturation</div>
+          <div className="text-sm text-normtex">Saturation</div>
           <input
             type="range"
             min={0.0001}
@@ -141,7 +141,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
       {element.brightnessStatus && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Brightness</div>
+          <div className="text-sm text-normtex">Brightness</div>
           <input
             type="range"
             min={0.0001}
@@ -156,7 +156,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
       {element.opacity && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Opacity</div>
+          <div className="text-sm text-normtex">Opacity</div>
           <input
             type="range"
             min={1}
@@ -170,7 +170,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
       {element.contrastStatus && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Contrast</div>
+          <div className="text-sm text-normtex">Contrast</div>
           <input
             type="range"
             min={0.0001}
@@ -185,7 +185,7 @@ export const ImagePanel = ({ element, update }: ImagePanelProps) => {
 
       {element.invertStatus && (
         <div className="grid grid-cols-2 items-center px-4">
-          <div className="text-sm text-green-500">Invert</div>
+          <div className="text-sm text-normtex">Invert</div>
           <div
             className={`w-12 h-6 ${
               invertToggle ? "bg-green-800" : "bg-[#536755]"

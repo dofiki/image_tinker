@@ -12,7 +12,7 @@ export const PositionSizePanel = ({
   return (
     <>
       <div className="grid grid-cols-3 items-center px-4">
-        <div className="text-sm text-green-500">Position</div>
+        <div className="text-sm text-normtex">Position</div>
         <div className="relative">
           <input
             type="number"
@@ -34,7 +34,7 @@ export const PositionSizePanel = ({
       </div>
 
       <div className="grid grid-cols-3 items-center px-4">
-        <div className="text-sm text-green-500">Size</div>
+        <div className="text-sm text-normtex">Size</div>
         <div className="relative">
           <input
             type="number"
@@ -56,7 +56,7 @@ export const PositionSizePanel = ({
       </div>
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500 relative">Rotation</div>
+        <div className="text-sm text-normtex relative">Rotation</div>
         <div className="text-white/50 absolute right-53 text-sm">
           {element.rotation}&deg;
         </div>

@@ -2,22 +2,22 @@ export function drawRulerMarks(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
 ) {
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "#aecee3";
 
   // Vertical marks
   for (let i = 0; i < 3; i++) {
     const oneThird = canvas.height / 3;
-    ctx.fillRect(0, 40 + i * oneThird, 40, 4);
+    ctx.fillRect(0, 25 + i * oneThird, 25, 4);
     for (let j = 0; j < 9; j++) {
-      ctx.fillRect(25, 40 + j * (oneThird / 3), 15, 2);
+      ctx.fillRect(10, 25 + j * (oneThird / 3), 15, 2);
     }
   }
   // Horizontal marks
   for (let i = 0; i < 3; i++) {
     const oneThird = canvas.width / 3;
-    ctx.fillRect(40 + i * oneThird, 0, 4, 40);
+    ctx.fillRect(25 + i * oneThird, 0, 4, 25);
     for (let j = 0; j < 9; j++) {
-      ctx.fillRect(40 + j * (oneThird / 3), 25, 2, 15);
+      ctx.fillRect(25 + j * (oneThird / 3), 10, 2, 15);
     }
   }
 }

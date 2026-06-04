@@ -33,16 +33,16 @@ export const LayerRow = ({
         <PiDotsThreeVerticalBold size={20} />
       </div>
 
-      <div>
+      <div className="text-white">
         {el.visibilityStatus ? (
           <FaEye
-            className={`cursor-pointer hover:text-blue-500 transition-all ease-in
+            className={`cursor-pointer hover:text-blue-300 transition-all ease-in
               ${isSelected ? "" : "dont-point"}`}
             onClick={() => onUpdate({ visibilityStatus: false })}
           />
         ) : (
           <FaEyeSlash
-            className={`cursor-pointer hover:text-blue-500 transition-all ease-in
+            className={`cursor-pointer hover:text-blue-300 transition-all ease-in
               ${isSelected ? "" : "dont-point"}`}
             onClick={() => onUpdate({ visibilityStatus: true })}
           />
@@ -51,8 +51,8 @@ export const LayerRow = ({
 
       <div
         contentEditable="plaintext-only"
-        className={`select-none transition-all ease-in
-    ${isSelected ? "text-green-500" : "opacity-35"}
+        className={`select-none transition-all ease-in 
+    ${isSelected ? "text-green-500" : "opacity-35 text-white"}
    h-full w-20 flex justify-center items-center
     overflow-hidden`}
         onKeyDown={(e) => {
@@ -79,9 +79,9 @@ export const LayerRow = ({
         disabled={!isSelected}
       />
 
-      <div>
+      <div className="text-white">
         <RiDeleteBin6Line
-          className={`cursor-pointer hover:text-red-500 transition-all ease-in
+          className={`cursor-pointer hover:text-red-300 transition-all ease-in
             ${isSelected ? "" : "dont-point"}`}
           onClick={onRemove}
         />

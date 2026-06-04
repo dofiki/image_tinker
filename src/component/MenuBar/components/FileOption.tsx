@@ -12,18 +12,18 @@ const FileOption = ({
        text-black cursor-default"
       >
         <ul className="flex flex-col">
-          <li className="hover:bg-[#00beb560] p-2" onClick={onCreateCanvas}>
+          <li className="hover:bg-normtex p-2" onClick={onCreateCanvas}>
             New...
           </li>
-          <li className="hover:bg-[#00beb560] p-2" onClick={onHandleImage}>
+          <li className="hover:bg-normtex p-2" onClick={onHandleImage}>
             Open
           </li>
           <hr className="text-black/25"></hr>
 
-          <li className="hover:bg-[#00beb560] p-2" onClick={onHandleSave}>
+          <li className="hover:bg-normtex p-2" onClick={onHandleSave}>
             Export as PNG
           </li>
-          <li className="hover:bg-[#00beb560] p-2" onClick={onHandleElement}>
+          <li className="hover:bg-normtex p-2" onClick={onHandleElement}>
             Export Element JSON
           </li>
         </ul>

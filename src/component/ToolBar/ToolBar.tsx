@@ -1,6 +1,7 @@
 import { LuMove } from "react-icons/lu";
 import { RiTextSnippet } from "react-icons/ri";
 import { MdDraw } from "react-icons/md";
+import { FaHand } from "react-icons/fa6";
 
 import { RiRectangleFill } from "react-icons/ri";
 
@@ -58,10 +59,12 @@ const ToolBar = ({
       <div className=" flex flex-row ">
         <div>
           <div
-            className="flex flex-col  items-center bg-[#002322]
-             text-white w-auto justify-center gap-2 rounded-[0.2rem]"
+            className="flex flex-col  items-center bg-primary
+             text-white w-12 justify-center gap-2 rounded-[0.2rem]
+             border border-accent"
           >
-            <div className="font-bold text-[0.8rem] text-green-500 mt-2">
+            <div className="font-bold text-[0.8rem] text-accent-text w-full
+                flex justify-center items-center h-8 border-b border-accent">
               Tools
             </div>
 
@@ -94,6 +97,15 @@ const ToolBar = ({
                 onClick={handleRectStatus}
               >
                 <RiRectangleFill size={25} />
+              </button>
+
+              <button
+                className={`toolbar-btn
+                  ${rectStatus ? "text-green-500" : "text-white"}`}
+                onClick={handleRectStatus}
+              >
+               <FaHand size={22}/>
+
               </button>
             </div>
           </div>

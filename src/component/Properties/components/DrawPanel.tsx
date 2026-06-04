@@ -10,7 +10,7 @@ export const DrawPanel = ({ element, update }: DrawPanelProps) => {
   return (
     <div className="flex flex-col gap-4 pt-2">
       <div className="grid grid-cols-3 items-center px-4">
-        <div className="text-sm text-green-500">Position</div>
+        <div className="text-sm text-normtex">Position</div>
         <div className="relative">
           <input
             type="number"
@@ -41,10 +41,10 @@ export const DrawPanel = ({ element, update }: DrawPanelProps) => {
         </div>
       </div>
 
-      <hr className="text-white/10" />
+      <hr className="text-accent" />
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500">Color</div>
+        <div className="text-sm text-normtex">Color</div>
         <input
           type="color"
           value={element.strokeStyle}
@@ -54,7 +54,7 @@ export const DrawPanel = ({ element, update }: DrawPanelProps) => {
       </div>
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-green-500">Line Width</div>
+        <div className="text-sm text-normtex">Line Width</div>
         <div className="relative">
           <input
             type="number"

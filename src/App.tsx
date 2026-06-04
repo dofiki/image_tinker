@@ -33,10 +33,10 @@ export default function App() {
         />
         <div
           className="flex flex-col md:flex-row gap-4
-           justify-between pl-2 pr-2 pt-2 bg-[#004744]
+           justify-between pl-2 pr-2 pt-5 bg-background
             h-full md:h-screen"
         >
-          <ToolBar
+          <ToolBar 
             moveStatus={moveStatus}
             onMoveStatus={setMoveStatus}
             textStatus={textStatus}
@@ -48,8 +48,9 @@ export default function App() {
           />{" "}
           <div
             className=" max-h-[90vh] w-full md:w-[78vw]
-             md:max-w-[80vw] flex justify-center 
-             items-center "
+             md:max-w-[80vw] flex justify-center rounded-sm
+             items-center bg-background outline-balck/10 bg-size-[24px_24px]
+             bg-[radial-gradient(circle,#6e6e6e_1px,transparent_0)]"
           >
             {canvasConfig && (
               <Canvas
@@ -64,7 +65,7 @@ export default function App() {
           </div>
           <div
             className="flex flex-col w-full md:w-100 h-full 
-             gap-4"
+             gap-8"
           >
             <Properties element={selectedElement} />
 

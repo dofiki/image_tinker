@@ -10,7 +10,7 @@ const FilterOption = () => {
     >
       <ul className="flex flex-col">
         <li
-          className="hover:bg-[#00beb560] p-2"
+          className="hover:bg-normtex p-2"
           onClick={() => updateElement(selectedElementId, { blur: 20 })}
         >
           Blur
@@ -18,7 +18,7 @@ const FilterOption = () => {
         <hr className="text-black/25"></hr>
 
         <li
-          className="hover:bg-[#00beb560] p-2"
+          className="hover:bg-normtex p-2"
           onClick={() =>
             updateElement(selectedElementId, {
               saturate: 0.0001,
@@ -29,7 +29,7 @@ const FilterOption = () => {
           Saturate
         </li>
         <li
-          className="hover:bg-[#00beb560] p-2"
+          className="hover:bg-normtex p-2"
           onClick={() =>
             updateElement(selectedElementId, {
               brightness: 1,
@@ -40,7 +40,7 @@ const FilterOption = () => {
           Brightness
         </li>
         <li
-          className="hover:bg-[#00beb560] p-2"
+          className="hover:bg-normtex p-2"
           onClick={() =>
             updateElement(selectedElementId, {
               contrast: 1,
@@ -51,7 +51,7 @@ const FilterOption = () => {
           Contrast
         </li>
         <li
-          className="hover:bg-[#00beb560] p-2"
+          className="hover:bg-normtex p-2"
           onClick={() =>
             updateElement(selectedElementId, {
               invert: true,

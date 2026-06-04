@@ -60,12 +60,13 @@ const Layers = ({
   }
 
   return (
-    <div className="bg-[#002322] h-60 text-white rounded-sm">
+    <div className="bg-primary h-60 rounded-sm border
+     border-accent">
       <div
         className="flex justify-between items-center px-3 border-b
-          border-[#013836] w-full h-10"
+          border-hr w-full h-10"
       >
-        <span className="text-[0.7rem] font-bold text-green-500 uppercase tracking-widest">
+        <span className="text-[0.7rem] font-bold text-accent-text uppercase tracking-widest">
           Layers
         </span>
       </div>

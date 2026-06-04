@@ -9,21 +9,21 @@ export function drawRulerPointer(
   const { x, y } = getCanvasCoords(e, canvas);
 
   // Vertical ruler
-  ctx.fillStyle = "#007054";
-  ctx.fillRect(0, 40, 40, canvas.height);
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, y, 40, 10);
+  ctx.fillStyle = "#172038";
+  ctx.fillRect(0, 25, 25, canvas.height);
+  ctx.fillStyle = "#aecee3";
+  ctx.fillRect(0, y, 25, 10);
 
   // Horizontal ruler
-  ctx.fillStyle = "#007054";
-  ctx.fillRect(40, 0, canvas.width, 40);
-  ctx.fillStyle = "black  ";
-  ctx.fillRect(x, 0, 10, 40);
+  ctx.fillStyle = "#172038";
+  ctx.fillRect(25, 0, canvas.width, 25);
+  ctx.fillStyle = "#aecee3";
+  ctx.fillRect(x, 0, 10, 25);
 
   // Marks on top of gray background
   drawRulerMarks(ctx, canvas);
 
   // Corner
   ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, 40, 40);
+  ctx.fillRect(0, 0, 25, 25);
 }
