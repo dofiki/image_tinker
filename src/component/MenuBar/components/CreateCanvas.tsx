@@ -25,8 +25,8 @@ export const CreateCanvas = ({
     e.preventDefault();
     setCanvasConfig({
       name: canvasName,
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth +25,
+      height: canvasHeight+25,
       color: canvasColor,
     });
     setCanvasModel(false);
@@ -47,7 +47,7 @@ export const CreateCanvas = ({
                   key={preset.label}
                   type="button"
                   onClick={() => applyPreset(preset)}
-                  className={`w-30 h-30 bg-accent/30 rounded-sm flex items-center
+                  className={`w-30 h-32 bg-accent/18 rounded-sm flex items-center
                     flex-col justify-around p-2 gap-2 transition-colors
                     ${activePreset === preset.label
                       ? "text-green-600"
@@ -120,7 +120,7 @@ export const CreateCanvas = ({
             <button
               type="submit"
               className="mt-4 px-4 py-1.5 rounded-md text-sm font-semibold
-                bg-blue-800 hover:bg-blue-900 transition-all ease-in text-white"
+                bg-green-800 hover:bg-green-900 transition-all ease-in text-white"
             >
               Create Canvas
             </button>

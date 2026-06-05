@@ -101,8 +101,8 @@ export const MenuBar = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
     // to not render the ruler
-    const cropX = 40;
-    const cropY = 40;
+    const cropX = 25;
+    const cropY = 25;
 
     const croppedWidth = canvas.width - cropX;
     const croppedHeight = canvas.height - cropY;
@@ -167,7 +167,7 @@ export const MenuBar = ({
             onClick={() =>
               setActiveOption(activeOption === "file" ? null : "file")
             }
-            className="hover:bg-[#001b19] pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
+            className="hover:bg-primary pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
           >
             File
             {activeOption === "file" && (
@@ -183,7 +183,7 @@ export const MenuBar = ({
             onClick={() =>
               setActiveOption(activeOption === "edit" ? null : "edit")
             }
-            className="hover:bg-[#001b19] pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
+            className="hover:bg-primary pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
           >
             Edit
             {activeOption === "edit" && (
@@ -194,7 +194,8 @@ export const MenuBar = ({
             onClick={() =>
               setActiveOption(activeOption === "filter" ? null : "filter")
             }
-            className={`hover:bg-[#001b19] ${selectedElementId ? "text-white" : "text-gray-600"}
+            className={`hover:bg-primary
+               ${elements.find((el)=>el.id==selectedElementId)?.type==="image" ? "text-white" : "text-primary"}
              pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm`}
           >
             Filter
@@ -204,7 +205,7 @@ export const MenuBar = ({
             onClick={() =>
               setActiveOption(activeOption === "view" ? null : "view")
             }
-            className="hover:bg-[#001b19] pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
+            className="hover:bg-primary pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm"
           >
             View
             {activeOption === "view" && <ViewOption />}

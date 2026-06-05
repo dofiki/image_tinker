@@ -23,8 +23,8 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
             className={`w-8 flex justify-center items-center
                  rounded-sm cursor-pointer transition-colors ${
                    element.boldStatus
-                     ? "text-normtex"
-                     : "text-[#005969] hover:text-normtex"
+                 ? "text-[#0dc052]"
+                     : "text-[#707070] hover:text-[#0dc052]"
                  }`}
             onClick={() =>
               updateElement(element.id, { boldStatus: !element.boldStatus })
@@ -37,8 +37,8 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
             className={`w-8 flex justify-center items-center rounded-sm 
                 cursor-pointer transition-colors ${
                   element.italicStatus
-                    ? "text-normtex"
-                     : "text-[#005969] hover:text-normtex"
+                    ? "text-[#0dc052]"
+                     : "text-[#707070] hover:text-[#0dc052]"
                 }`}
             onClick={() =>
               updateElement(element.id, { italicStatus: !element.italicStatus })
@@ -66,7 +66,7 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
             onChange={(e) => update({ fontSize: +e.target.value })}
           />
           <div className="absolute top-2 right-1 font-bold text-white/50 z-999">
-            Pt
+            Px
           </div>
         </div>
 
@@ -92,8 +92,8 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
       <div className="grid grid-cols-2 items-start px-4">
         <div className="text-sm text-normtex">Content</div>
         <textarea
-          className="text-white bg-[#07046d] p-2 rounded-md focus:outline-1
-           focus:outline-lime-400 hover:outline-lime-400 
+          className="text-white bg-[#434343] p-2 rounded-md focus:outline-1
+           focus:outline-[#6b6b6b] hover:outline-[#6b6b6b]
            hover:outline-1 min-h-20 w-full resize-none"
           value={element.content || ""}
           onChange={(e) => update({ content: e.target.value })}

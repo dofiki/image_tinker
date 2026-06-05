@@ -12,7 +12,10 @@ export interface CanvasProps {
   textStatus: boolean;
   drawStatus: boolean;
   rectStatus: boolean;
+  panStatus: boolean;
   copiedElementRef: React.MutableRefObject<Element | null>;
+  tempPos: {top: number,left: number}
+  zoom: number
 }
 
 export interface handleLeftClickProps {

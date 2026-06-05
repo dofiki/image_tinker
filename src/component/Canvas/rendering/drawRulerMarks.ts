@@ -2,7 +2,7 @@ export function drawRulerMarks(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
 ) {
-  ctx.fillStyle = "#aecee3";
+  ctx.fillStyle = "#999999";
 
   // Vertical marks
   for (let i = 0; i < 3; i++) {

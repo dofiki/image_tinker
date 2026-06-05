@@ -116,7 +116,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   selectedElementId: null,
   setSelectedElementId: (id) => set({ selectedElementId: id }),
 
-  rulerStatus: false,
+  rulerStatus: true,
   setRulerStatus: (rulerStatus: boolean) => set({ rulerStatus: rulerStatus }),
 
   gridStatus: false,

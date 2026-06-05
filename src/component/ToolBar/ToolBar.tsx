@@ -14,6 +14,8 @@ interface ToolBarProps {
   onDrawStatus: React.Dispatch<React.SetStateAction<boolean>>;
   rectStatus: boolean;
   onRectStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  panStatus: boolean;
+  onPanStatus: (val:boolean)=>void;
 }
 
 const ToolBar = ({
@@ -25,12 +27,16 @@ const ToolBar = ({
   onDrawStatus,
   rectStatus,
   onRectStatus,
+  panStatus,
+  onPanStatus
 }: ToolBarProps) => {
   function handleMoveStatus() {
     onMoveStatus(!moveStatus);
     onTextStatus(false);
     onDrawStatus(false);
     onRectStatus(false);
+    onPanStatus(false)
+
   }
 
   function handleTextStatus() {
@@ -38,6 +44,8 @@ const ToolBar = ({
     onMoveStatus(false);
     onDrawStatus(false);
     onRectStatus(false);
+    onPanStatus(false)
+
   }
 
   function handleDrawStatus() {
@@ -45,10 +53,21 @@ const ToolBar = ({
     onMoveStatus(false);
     onTextStatus(false);
     onRectStatus(false);
+    onPanStatus(false)
+
   }
 
   function handleRectStatus() {
     onRectStatus(!rectStatus);
+    onDrawStatus(false);
+    onMoveStatus(false);
+    onTextStatus(false);
+    onPanStatus(false)
+  }
+
+  function handlePanStatus(){
+    onPanStatus(!panStatus)
+    onRectStatus(false);
     onDrawStatus(false);
     onMoveStatus(false);
     onTextStatus(false);
@@ -60,7 +79,7 @@ const ToolBar = ({
         <div>
           <div
             className="flex flex-col  items-center bg-primary
-             text-white w-12 justify-center gap-2 rounded-[0.2rem]
+             text-white w-auto md:w-12 justify-center gap-2 rounded-[0.2rem]
              border border-accent"
           >
             <div className="font-bold text-[0.8rem] text-accent-text w-full
@@ -68,7 +87,7 @@ const ToolBar = ({
               Tools
             </div>
 
-            <div className="flex md:flex-col flex-wrap">
+            <div className="flex  md:flex-col ">
               <button
                 className={` toolbar-btn
                   ${moveStatus ? "text-green-500" : "text-white"}`}
@@ -101,8 +120,8 @@ const ToolBar = ({
 
               <button
                 className={`toolbar-btn
-                  ${rectStatus ? "text-green-500" : "text-white"}`}
-                onClick={handleRectStatus}
+                  ${panStatus ? "text-green-500" : "text-white"}`}
+                onClick={handlePanStatus}
               >
                <FaHand size={22}/>
 

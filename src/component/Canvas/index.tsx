@@ -14,7 +14,10 @@ export const Canvas = ({
   textStatus,
   drawStatus,
   rectStatus,
+  panStatus,
   copiedElementRef,
+  tempPos,
+  zoom,
 }: CanvasProps) => {
   const {
     canvasConfig,
@@ -54,6 +57,8 @@ export const Canvas = ({
     ? Math.min(1, MAX_W / canvasConfig.width, MAX_H / canvasConfig.height)
     : 1;
 
+  const totalScale = scale * zoom;
+
   useEffect(() => {
     if (!moveStatus) setSelectedElementId(null);
   }, [moveStatus, setSelectedElementId]);
@@ -79,126 +84,126 @@ export const Canvas = ({
     if (moveStatus) return "move";
     if (textStatus) return "text";
     if (rectStatus) return "crosshair";
+    if (panStatus) return "grab";
     return "default";
   }
 
   if (!canvasConfig) return null;
 
   return (
-    <div className="flex gap-5">
-      <div
+    <div
+      style={{
+        position: "absolute",
+        width: canvasConfig.width * totalScale,
+        height: canvasConfig.height * totalScale,
+        top: tempPos.top ?? 0,
+        left: tempPos.left ?? 0,
+        
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        width={canvasConfig.width}
+        height={canvasConfig.height}
         style={{
-          width: canvasConfig.width * scale,
-          height: canvasConfig.height * scale,
-          position: "relative",
-
+          display: "block",
+          transformOrigin: "top left",
+          transform: `scale(${totalScale})`,
+          border: "1px solid #013836",
+          boxShadow: "0 0 0 1px #009b6a22",
+          cursor: getCanvasCursor(),
         }}
-      >
-        <canvas
-          ref={canvasRef}
-          width={canvasConfig.width}
-          height={canvasConfig.height}
+        onMouseDown={(e) =>
+          handleMouseDown({
+            e,
+            canvasRef,
+            drawId,
+            rectId,
+            rectOrigin,
+            moveStatus,
+            drawStatus,
+            rectStatus,
+            elements,
+            selectedElement,
+            setSelectedElementId,
+            isDragging,
+            dragOffset,
+            dragElementId,
+            isResizing,
+            isDrawing,
+            resizeHandle,
+            resizeOrigin,
+            resizePivot,
+            resizeLocalAnchor,
+            addElement,
+          })
+        }
+        onMouseMove={(e) =>
+          handleMouseMove({
+            e,
+            drawStatus,
+            drawId,
+            rectId,
+            rectOrigin,
+            canvasRef,
+            selectedElement,
+            updateElement,
+            elements,
+            isDragging,
+            dragOffset,
+            dragElementId,
+            isResizing,
+            isDrawing,
+            resizeHandle,
+            resizeOrigin,
+            resizePivot,
+            resizeLocalAnchor,
+          })
+        }
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onClick={(e) =>
+          handleLeftClick({
+            e,
+            textStatus,
+            canvasRef,
+            addElement,
+            setTextOverlay,
+            textareaRef,
+          })
+        }
+      />
+
+      {textOverlay && (
+        <textarea
+          ref={textareaRef}
+          rows={2}
+          cols={15}
           style={{
-            display: "block",
-            transformOrigin: "top left",
-            transform: `scale(${scale})`,
-            border: "1px solid #013836",
-            boxShadow: "0 0 0 1px #009b6a22",
-            cursor: getCanvasCursor(),
+            position: "absolute",
+            left: textOverlay.x * totalScale,
+            top: textOverlay.y * totalScale,
+            fontSize: `${40 * totalScale}px`,
+            fontFamily: "Verdana",
+            background: "transparent",
+            border: "1px dashed black",
+            outline: "none",
+            resize: "none",
+            color: "black",
+            lineHeight: 1,
+            padding: 5,
           }}
-          onMouseDown={(e) =>
-            handleMouseDown({
-              e,
-              canvasRef,
-              drawId,
-              rectId,
-              rectOrigin,
-              moveStatus,
-              drawStatus,
-              rectStatus,
-              elements,
-              selectedElement,
-              setSelectedElementId,
-              isDragging,
-              dragOffset,
-              dragElementId,
-              isResizing,
-              isDrawing,
-              resizeHandle,
-              resizeOrigin,
-              resizePivot,
-              resizeLocalAnchor,
-              addElement,
-            })
-          }
-          onMouseMove={(e) =>
-            handleMouseMove({
-              e,
-              drawStatus,
-              drawId,
-              rectId,
-
-              rectOrigin,
-              canvasRef,
-              selectedElement,
-              updateElement,
-              elements,
-              isDragging,
-              dragOffset,
-              dragElementId,
-              isResizing,
-              isDrawing,
-              resizeHandle,
-              resizeOrigin,
-              resizePivot,
-              resizeLocalAnchor,
-            })
-          }
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onClick={(e) =>
-            handleLeftClick({
-              e,
-              textStatus,
-              canvasRef,
-              addElement,
-              setTextOverlay,
-              textareaRef,
-            })
-          }
+          wrap="soft"
+          onBlur={(e) => handleTextCommit(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleTextCommit(e.currentTarget.value);
+            }
+            if (e.key === "Escape") setTextOverlay(null);
+          }}
         />
-
-        {textOverlay && (
-          <textarea
-            ref={textareaRef}
-            rows={2}
-            cols={15}
-            style={{
-              position: "absolute",
-              left: textOverlay.x * scale,
-              top: textOverlay.y * scale,
-              fontSize: `${40 * scale}px`,
-              fontFamily: "Verdana",
-              background: "transparent",
-              border: "1px dashed black",
-              outline: "none",
-              resize: "none",
-              color: "black",
-              lineHeight: 1,
-              padding: 5,
-            }}
-            wrap="soft"
-            onBlur={(e) => handleTextCommit(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleTextCommit(e.currentTarget.value);
-              }
-              if (e.key === "Escape") setTextOverlay(null);
-            }}
-          />
-        )}
-      </div>
+      )}
     </div>
   );
 };

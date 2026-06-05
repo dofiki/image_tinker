@@ -1,31 +1,23 @@
 @import "tailwindcss";
 
-
 @theme{ 
-
-  --color-background:#202e37;
-  --color-primary:#172038;
-
-  --color-navbar:#151d28;
-  
-  --color-accent:#3c5e8b; 
-  --color-hr: #3c5e8b;
-
-  --color-accent-text: #4f8fba;
-  --color-normtex: #aecee3;
-
-
+  --color-background:#1a1a1a;
+  --color-primary:#2d2d2d;
+  --color-navbar:#0f0f0f;
+  --color-accent:#6b6b6b;
+  --color-hr:#6b6b6b;
+  --color-accent-text:#999999;
+  --color-normtex:#bfbfbf;
 }
 
 @layer base {
-
   * {
-    font-family: "Ubuntu", sans-serif;
+    font-family: "Lexend Deca", sans-serif;
     outline: 0;
   }
 
   body {
-    @apply bg-[#004744];
+    @apply bg-[#1a1a1a];
   }
 }
 
@@ -33,7 +25,7 @@
   .slider {
     @apply h-2 rounded-md outline-none opacity-70 transition-opacity;
     -webkit-appearance: none;
-    background: #536755;
+    background: #5d5d5d;
   }
 
   .slider::-webkit-slider-thumb {
@@ -41,7 +33,7 @@
     appearance: none;
 
     @apply size-3.75 cursor-pointer rounded-full;
-    background: oklch(72.3% 0.219 149.579);
+    background: #01e258;
   }
 
   .dont-point {
@@ -49,16 +41,16 @@
   }
 
   .input-style {
-    @apply text-white bg-[#07046d] p-2 rounded-md focus:outline-1
-     focus:outline-lime-400 hover:outline-lime-400  hover:outline-1;
+    @apply text-white bg-[#434343] p-2 rounded-sm focus:outline-1
+     focus:outline-[#6b6b6b] hover:outline-[#6b6b6b]  hover:outline-1;
   }
 
   .select {
-    @apply bg-[#07046d] p-0.5 text-white text-sm rounded-sm;
+    @apply bg-[#434343] p-1 text-white text-sm rounded-sm;
   }
 
   .toolbar-btn {
-    @apply flex items-center justify-center  hover:text-green-500!
+    @apply flex items-center justify-center  hover:text-[#01e258]!
     transition-all ease-in
     h-full pt-2 pb-2 w-12 cursor-pointer;
   }
@@ -79,20 +71,20 @@
     }
 
     #layers::-webkit-scrollbar-track {
-      background: #1f394d;
+      background: #2d2d2d;
     }
 
     #layers::-webkit-scrollbar-thumb {
-      background-color: #4b634a;
+      background-color: #6b6b6b;
       border-radius: 5px;
     }
 
      #properties::-webkit-scrollbar-track {
-      background: #1f394d;
+      background: #2d2d2d;
     }
 
     #properties::-webkit-scrollbar-thumb {
-      background-color: #4b634a;
+      background-color: #6b6b6b;
       border-radius: 5px;
     }
   }
