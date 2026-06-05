@@ -20,7 +20,7 @@ export default function App() {
   const [drawStatus, setDrawStatus] = useState(false);
   const [rectStatus, setRectStatus] = useState(false);
   const [panStatus, setPanStatus] = useState(false);
-  const [ignoreStatus, setIgnoreStatus] = useState(false);
+
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
 
@@ -189,7 +189,7 @@ export default function App() {
           <div
             className={`absolute md:hidden h-30 w-80 left-1/2 top-1/2
               -translate-x-1/2 -translate-y-1/2 z-9999999 bg-red-300 p-2
-              ${ignoreStatus ? "hidden" : "flex"} flex-col items-center
+              flex flex-col items-center
               text-center rounded-sm`}
           >
             <MdWarning size={45} />

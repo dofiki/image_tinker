@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Element } from "../../../types/index";
-import type { Dispatch } from "react";
 
 export interface MouseDownProps {
   e: React.MouseEvent<HTMLCanvasElement>;
@@ -11,7 +10,6 @@ export interface MouseDownProps {
   moveStatus: boolean;
   drawStatus: boolean;
   rectStatus: boolean;
-  panStatus: boolean;
   elements: Element[];
   selectedElement: Element | null;
   setSelectedElementId: (id: string | null) => void;
@@ -20,8 +18,6 @@ export interface MouseDownProps {
   dragOffset: React.MutableRefObject<{ x: number; y: number }>;
   dragElementId: React.MutableRefObject<string | null>;
   isResizing: React.MutableRefObject<boolean>;
-  isPanning :React.MutableRefObject<boolean>;
-  initialPanPosition: React.MutableRefObject<{x: number; y:number}>
   resizeHandle: React.MutableRefObject<string>;
   resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
   resizePivot: React.MutableRefObject<{ x: number; y: number }>;
@@ -35,9 +31,6 @@ export interface MouseMoveProps {
   drawId: React.MutableRefObject<string | null>;
   rectId: React.MutableRefObject<string | null>;
   rectOrigin: React.MutableRefObject<{ x: number; y: number }>;
-  isPanning: React.MutableRefObject<boolean>;
-  setTempPos: Dispatch<{top:number, left:number}>;
-  initialPanPosition: React.MutableRefObject<{x: number; y:number}>
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   selectedElement: Element | null;
   updateElement: (id: string, updates: Partial<Element>) => void;
