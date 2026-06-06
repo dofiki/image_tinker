@@ -29,7 +29,7 @@ export const useKeyboard = (
         if (!selectedElementId) return;
         handleCopy(selectedElementId, elements, copiedElementRef);
       } else if (e.key === "v" && e.ctrlKey) {
-        handlePaste(elements, copiedElementRef);
+        handlePaste(copiedElementRef);
       }
     }
 

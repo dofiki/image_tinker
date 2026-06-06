@@ -113,14 +113,6 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     });
   },
 
-  selectedElementId: null,
-  setSelectedElementId: (id) => set({ selectedElementId: id }),
-
-  rulerStatus: true,
-  setRulerStatus: (rulerStatus: boolean) => set({ rulerStatus: rulerStatus }),
-
-  gridStatus: false,
-  setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
 
   handleCopy: (
     selectedElementId: string,
@@ -135,7 +127,6 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   },
 
   handlePaste: (
-    elements: Element[],
     copiedElementRef: React.MutableRefObject<Element | null>,
   ) => {
     if (!copiedElementRef.current) return;
@@ -145,6 +136,16 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
       id: crypto.randomUUID(),
     };
 
-    elements.push(pastedElement as Element);
+    get().addElement(pastedElement as Element);
   },
+
+  selectedElementId: null,
+  setSelectedElementId: (id) => set({ selectedElementId: id }),
+
+  rulerStatus: true,
+  setRulerStatus: (rulerStatus: boolean) => set({ rulerStatus: rulerStatus }),
+
+  gridStatus: false,
+  setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
+
 }));

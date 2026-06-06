@@ -60,7 +60,7 @@ const EditOption = ({ copiedElementRef }: EditOptionProps) => {
         <li
           className="hover:bg-normtex p-2 cursor-pointer relative"
           onClick={() => {
-            handlePaste(elements, copiedElementRef);
+            handlePaste(copiedElementRef);
           }}
         >
           Paste

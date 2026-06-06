@@ -50,7 +50,6 @@ export interface EditorStore {
   ) => void;
 
   handlePaste: (
-    elements: Element[],
     copiedElementRef: React.MutableRefObject<Element | null>,
   ) => void;
 }
