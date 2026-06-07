@@ -7,6 +7,8 @@ command object, giving the editor a full undo/redo history. Elements are rendere
 on an HTML5 Canvas.
 
 ---
+![demo](assets/demo.png)
+---
 ## Features
 
 **Canvas**
@@ -17,8 +19,8 @@ on an HTML5 Canvas.
 **Layers**
 - Layer based editing 
 - Reorder layers via the layer panel
-- blend mode controls
-- opacity controls
+- Blend mode controls
+- Opacity controls
 
 **Elements**
 - Rectangle with fill and stroke controls
@@ -88,6 +90,7 @@ docs/
 For an in-depth explanation of the codebase :
  
 - [Types](docs/types.md) 
+- [Store](docs/store.md) 
 
 ---
  
