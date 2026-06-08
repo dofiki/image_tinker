@@ -26,7 +26,6 @@ const Properties = ({ element }: { element: Element | null }) => {
       <div
         className="flex flex-col gap-5 pt-5 h-60 md:h-100 
           overflow-scroll overflow-x-hidden pb-2"
-
         id="properties"
       >
         {element?.type === "draw" && (

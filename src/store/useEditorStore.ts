@@ -113,7 +113,6 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     });
   },
 
-
   handleCopy: (
     selectedElementId: string,
     elements: Element[],
@@ -126,9 +125,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     copiedElementRef.current = element ? structuredClone(element) : null;
   },
 
-  handlePaste: (
-    copiedElementRef: React.MutableRefObject<Element | null>,
-  ) => {
+  handlePaste: (copiedElementRef: React.MutableRefObject<Element | null>) => {
     if (!copiedElementRef.current) return;
 
     const pastedElement = {
@@ -147,5 +144,4 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 
   gridStatus: false,
   setGridStatus: (gridStatus: boolean) => set({ gridStatus: gridStatus }),
-
 }));

@@ -56,12 +56,12 @@ export const PositionSizePanel = ({
       </div>
 
       <div className="grid grid-cols-2 items-center px-4">
-        <div className="text-sm text-normtex relative">Rotation
-            <div className="text-white/50 absolute right-4 top-0 text-sm">        
-                    {element.rotation}&deg;
-                </div>      
+        <div className="text-sm text-normtex relative">
+          Rotation
+          <div className="text-white/50 absolute right-4 top-0 text-sm">
+            {element.rotation}&deg;
+          </div>
         </div>
-
 
         <input
           type="range"

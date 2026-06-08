@@ -15,7 +15,7 @@ interface ToolBarProps {
   rectStatus: boolean;
   onRectStatus: React.Dispatch<React.SetStateAction<boolean>>;
   panStatus: boolean;
-  onPanStatus: (val:boolean)=>void;
+  onPanStatus: (val: boolean) => void;
 }
 
 const ToolBar = ({
@@ -28,15 +28,14 @@ const ToolBar = ({
   rectStatus,
   onRectStatus,
   panStatus,
-  onPanStatus
+  onPanStatus,
 }: ToolBarProps) => {
   function handleMoveStatus() {
     onMoveStatus(!moveStatus);
     onTextStatus(false);
     onDrawStatus(false);
     onRectStatus(false);
-    onPanStatus(false)
-
+    onPanStatus(false);
   }
 
   function handleTextStatus() {
@@ -44,8 +43,7 @@ const ToolBar = ({
     onMoveStatus(false);
     onDrawStatus(false);
     onRectStatus(false);
-    onPanStatus(false)
-
+    onPanStatus(false);
   }
 
   function handleDrawStatus() {
@@ -53,8 +51,7 @@ const ToolBar = ({
     onMoveStatus(false);
     onTextStatus(false);
     onRectStatus(false);
-    onPanStatus(false)
-
+    onPanStatus(false);
   }
 
   function handleRectStatus() {
@@ -62,11 +59,11 @@ const ToolBar = ({
     onDrawStatus(false);
     onMoveStatus(false);
     onTextStatus(false);
-    onPanStatus(false)
+    onPanStatus(false);
   }
 
-  function handlePanStatus(){
-    onPanStatus(!panStatus)
+  function handlePanStatus() {
+    onPanStatus(!panStatus);
     onRectStatus(false);
     onDrawStatus(false);
     onMoveStatus(false);
@@ -82,8 +79,10 @@ const ToolBar = ({
              text-white w-auto md:w-12 justify-center gap-2 rounded-[0.2rem]
              border border-accent"
           >
-            <div className="font-bold text-[0.8rem] text-accent-text w-full
-                flex justify-center items-center h-8 border-b border-accent">
+            <div
+              className="font-bold text-[0.8rem] text-accent-text w-full
+                flex justify-center items-center h-8 border-b border-accent"
+            >
               Tools
             </div>
 
@@ -123,8 +122,7 @@ const ToolBar = ({
                   ${panStatus ? "text-green-500" : "text-white"}`}
                 onClick={handlePanStatus}
               >
-               <FaHand size={22}/>
-
+                <FaHand size={22} />
               </button>
             </div>
           </div>

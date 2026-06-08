@@ -23,7 +23,7 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
             className={`w-8 flex justify-center items-center
                  rounded-sm cursor-pointer transition-colors ${
                    element.boldStatus
-                 ? "text-[#0dc052]"
+                     ? "text-[#0dc052]"
                      : "text-[#707070] hover:text-[#0dc052]"
                  }`}
             onClick={() =>
@@ -38,7 +38,7 @@ export const TextPanel = ({ element, update }: TextPanelProps) => {
                 cursor-pointer transition-colors ${
                   element.italicStatus
                     ? "text-[#0dc052]"
-                     : "text-[#707070] hover:text-[#0dc052]"
+                    : "text-[#707070] hover:text-[#0dc052]"
                 }`}
             onClick={() =>
               updateElement(element.id, { italicStatus: !element.italicStatus })

@@ -161,7 +161,10 @@ export const MenuBar = ({
         className="hidden"
         onChange={handleFileChange}
       />
-      <div ref={menuRef} className="h-10 flex bg-navbar text-white border-b border-accent">
+      <div
+        ref={menuRef}
+        className="h-10 flex bg-navbar text-white border-b border-accent"
+      >
         <ul className="flex gap-2 p-2 items-center text-sm cursor-pointer">
           <li
             onClick={() =>
@@ -195,7 +198,7 @@ export const MenuBar = ({
               setActiveOption(activeOption === "filter" ? null : "filter")
             }
             className={`hover:bg-primary
-               ${elements.find((el)=>el.id==selectedElementId)?.type==="image" ? "text-white" : "text-primary"}
+               ${elements.find((el) => el.id == selectedElementId)?.type === "image" ? "text-white" : "text-primary"}
              pl-2 pr-2 pt-0.5 pb-0.5 rounded-sm`}
           >
             Filter

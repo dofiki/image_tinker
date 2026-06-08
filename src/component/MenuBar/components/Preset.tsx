@@ -1,4 +1,3 @@
-
 export const PRESETS = [
   { label: "Instagram Post", width: 1080, height: 1080 },
   { label: "Instagram Story", width: 1080, height: 1920 },
@@ -8,7 +7,13 @@ export const PRESETS = [
   { label: "LinkedIn Post", width: 1200, height: 627 },
 ];
 
-export function PresetIcon({ width, height }: { width: number; height: number }) {
+export function PresetIcon({
+  width,
+  height,
+}: {
+  width: number;
+  height: number;
+}) {
   const maxSize = 38;
   const ratio = width / height;
   let w = maxSize;

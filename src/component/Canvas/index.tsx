@@ -96,9 +96,8 @@ export const Canvas = ({
         position: "absolute",
         width: canvasConfig.width * totalScale,
         height: canvasConfig.height * totalScale,
-        top: tempPos.top ?? 0,
-        left: tempPos.left ?? 0,
-        
+        top: tempPos.top,
+        left: tempPos.left,
       }}
     >
       <canvas

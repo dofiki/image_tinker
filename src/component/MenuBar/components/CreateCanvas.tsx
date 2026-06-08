@@ -25,18 +25,25 @@ export const CreateCanvas = ({
     e.preventDefault();
     setCanvasConfig({
       name: canvasName,
-      width: canvasWidth +25,
-      height: canvasHeight+25,
+      width: canvasWidth + 25,
+      height: canvasHeight + 25,
       color: canvasColor,
     });
     setCanvasModel(false);
   }
 
   return (
-    <div className="absolute top-0 left-0 bg-black/70 w-screen h-screen
-     text-white m-0 p-0 z-9999 flex justify-center items-center">
-      <form onSubmit={handleConfirmCreation} className="bg-primary text-normtex rounded-sm">
-        <div className="h-10 pl-5 flex items-center font-bold">Create Canvas</div>
+    <div
+      className="absolute top-0 left-0 bg-black/70 w-screen h-screen
+     text-white m-0 p-0 z-9999 flex justify-center items-center"
+    >
+      <form
+        onSubmit={handleConfirmCreation}
+        className="bg-primary text-normtex rounded-sm"
+      >
+        <div className="h-10 pl-5 flex items-center font-bold">
+          Create Canvas
+        </div>
         <hr className="text-accent w-full" />
         <div className="flex">
           <div className="pt-4 pl-5 pr-5 pb-5">
@@ -49,16 +56,19 @@ export const CreateCanvas = ({
                   onClick={() => applyPreset(preset)}
                   className={`w-30 h-32 bg-accent/18 rounded-sm flex items-center
                     flex-col justify-around p-2 gap-2 transition-colors
-                    ${activePreset === preset.label
-                      ? "text-green-600"
-                      : "text-white hover:text-green-600"
+                    ${
+                      activePreset === preset.label
+                        ? "text-green-600"
+                        : "text-white hover:text-green-600"
                     }`}
                 >
                   <div>{preset.label}</div>
                   <div className="flex justify-center w-full">
                     <PresetIcon width={preset.width} height={preset.height} />
                   </div>
-                  <div className="text-[0.8rem] opacity-60">{preset.width} × {preset.height}</div>
+                  <div className="text-[0.8rem] opacity-60">
+                    {preset.width} × {preset.height}
+                  </div>
                 </button>
               ))}
             </div>
