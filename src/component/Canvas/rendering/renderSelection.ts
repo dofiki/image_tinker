@@ -1,7 +1,7 @@
 import { getHandleRect } from "../utils/getHandleRect";
 import type { Element } from "../../../types/index";
 
-export function drawSelection(ctx: CanvasRenderingContext2D, el: Element) {
+export function renderSelection(ctx: CanvasRenderingContext2D, el: Element) {
   ctx.save();
 
   const DASH_PADDING = 5;

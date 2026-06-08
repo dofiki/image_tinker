@@ -17,23 +17,47 @@ export const useKeyboard = (
   } = useEditorStore();
 
   useEffect(() => {
-    function handleKeyPress(e: KeyboardEvent) {
-      if (e.key === "Delete" && selectedElement) {
-        removeElement(selectedElement.id);
-      } else if (e.key === "z" && e.ctrlKey) {
-        undo();
-      } else if (e.key === "r" && e.ctrlKey) {
-        e.preventDefault();
-        redo();
-      } else if (e.key === "c" && e.ctrlKey) {
-        if (!selectedElementId) return;
-        handleCopy(selectedElementId, elements, copiedElementRef);
-      } else if (e.key === "v" && e.ctrlKey) {
-        handlePaste(copiedElementRef);
-      }
-    }
+    const isCtrl = (e: KeyboardEvent) => e.ctrlKey;
 
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    const handlers: Record<string, (e: KeyboardEvent) => void> = {
+      Delete: () => {
+        if (selectedElement) {
+          removeElement(selectedElement.id);
+        }
+      },
+
+      z: (e) => {
+        if (isCtrl(e)) undo();
+      },
+
+      r: (e) => {
+        if (isCtrl(e)) {
+          e.preventDefault();
+          redo();
+        }
+      },
+
+      c: (e) => {
+        if (isCtrl(e) && selectedElementId) {
+          handleCopy(selectedElementId, elements, copiedElementRef);
+        }
+      },
+
+      v: (e) => {
+        if (isCtrl(e)) {
+          handlePaste(copiedElementRef);
+        }
+      },
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key;
+
+      const handler = handlers[key];
+      if (handler) handler(e);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   });
 };

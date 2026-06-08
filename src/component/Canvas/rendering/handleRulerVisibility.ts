@@ -1,5 +1,5 @@
 import type { handleRulerVisibilityProps } from "../types";
-import { drawRulerMarks } from "./drawRulerMarks";
+import { renderRulerMarks } from "../rendering/renderRuler";
 
 export function handleRulerVisibility({
   canvas,
@@ -18,7 +18,7 @@ export function handleRulerVisibility({
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, 25, 25);
     // ruler marks
-    drawRulerMarks(ctx, canvas);
+    renderRulerMarks(ctx, canvas);
   } else {
     ctx.fillStyle = "#2d2d2d";
     ctx.fillRect(0, 25, 25, canvas.height);

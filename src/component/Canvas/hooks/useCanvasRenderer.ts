@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { CanvasRendererProps } from "../types";
-import { drawSelection } from "../rendering/drawSelection";
+import { renderSelection } from "../rendering/renderSelection";
 import { useEditorStore } from "../../../store/useEditorStore";
 import { handleRulerVisibility } from "../rendering/handleRulerVisibility";
 import useRuler from "./useRuler";
@@ -30,7 +30,7 @@ export function useCanvasRenderer({
 
     handleGridVisibility({ canvas, ctx, gridStatus });
 
-    if (selectedElement) drawSelection(ctx, selectedElement);
+    if (selectedElement) renderSelection(ctx, selectedElement);
   }, [
     elements,
     canvasConfig,
@@ -40,5 +40,6 @@ export function useCanvasRenderer({
     gridStatus,
   ]);
 
+  // renders ruler at last
   useRuler({ canvasRef, canvasConfig, rulerStatus });
 }

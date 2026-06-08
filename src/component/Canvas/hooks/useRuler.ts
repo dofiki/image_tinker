@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { drawRulerPointer } from "../rendering/drawRulerPointer";
+import { renderRuler } from "../rendering/renderRuler";
 import type { rulerProps } from "../types";
 
 const useRuler = ({ canvasRef, canvasConfig, rulerStatus }: rulerProps) => {
@@ -10,7 +10,7 @@ const useRuler = ({ canvasRef, canvasConfig, rulerStatus }: rulerProps) => {
 
     const handlePointer = function (e: MouseEvent) {
       if (!ctx || !canvas) return;
-      if (rulerStatus) drawRulerPointer(e, ctx, canvas);
+      if (rulerStatus) renderRuler(e, ctx, canvas);
     };
     document.addEventListener("mousemove", handlePointer);
     return () => {

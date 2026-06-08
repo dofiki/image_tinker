@@ -60,8 +60,10 @@ const Layers = ({
   }
 
   return (
-    <div className="bg-primary h-60 rounded-sm border
-     border-accent">
+    <div
+      className="bg-primary h-60 rounded-sm border
+     border-accent"
+    >
       <div
         className="flex justify-between items-center px-3 border-b
           border-hr w-full h-10"
