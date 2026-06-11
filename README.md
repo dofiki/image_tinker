@@ -103,6 +103,8 @@ For an in-depth explanation of the codebase :
 - [Store](docs/store.md)
 - [systems / Zoom](docs/systems/zoom.md)
 - [systems / Pan](docs/systems/pan.md)
+- [sytems / Rotate](docs/systems/rotate.md)
+- [sytems / Drag](docs/systems/drag.md)
 
 ---
 

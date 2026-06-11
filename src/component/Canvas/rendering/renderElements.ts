@@ -50,6 +50,7 @@ function renderImage(element: ImageElement, ctx: CanvasRenderingContext2D) {
 
   ctx.translate(element.x + element.width / 2, element.y + element.height / 2);
 
+  // degree to radian
   ctx.rotate((element.rotation * Math.PI) / 180);
 
   const cX = element.crop?.sx;

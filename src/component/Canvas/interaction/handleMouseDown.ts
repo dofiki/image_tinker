@@ -78,6 +78,7 @@ export function handleMouseDown({
   }
 
   if (!moveStatus) return;
+
   //  hit detection
   if (selectedElement) {
     const cx = selectedElement.x + selectedElement.width / 2;
@@ -150,11 +151,14 @@ export function handleMouseDown({
     }
   }
 
-  // image selection
+  // dragging
   for (let i = elements.length - 1; i >= 0; i--) {
+
     const el = elements[i];
+    // center
     const cx = el.x + el.width / 2;
     const cy = el.y + el.height / 2;
+    
     const { x: localX, y: localY } = toLocalSpace(
       mouseX,
       mouseY,
