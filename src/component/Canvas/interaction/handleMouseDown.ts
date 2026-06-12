@@ -1,8 +1,7 @@
 import type { MouseDownProps } from "../types/mouse";
 import { getCanvasCoords } from "../utils/getCanvasCoords";
 import { getHandleRect } from "../utils/getHandleRect";
-import { toLocalSpace } from "../utils/toLocalSpace";
-
+import { rotate } from "../utils/rotate";
 export function handleMouseDown({
   e,
   canvasRef,
@@ -83,12 +82,12 @@ export function handleMouseDown({
   if (selectedElement) {
     const cx = selectedElement.x + selectedElement.width / 2;
     const cy = selectedElement.y + selectedElement.height / 2;
-    const { x: localX, y: localY } = toLocalSpace(
+    const { x: localX, y: localY } = rotate(
       mouseX,
       mouseY,
       cx,
       cy,
-      selectedElement.rotation,
+      -selectedElement.rotation,
     );
 
     const handles = getHandleRect(selectedElement);
@@ -139,12 +138,12 @@ export function handleMouseDown({
       const worldAnchor = oppositeMap[resizeHandle.current];
       resizeOrigin.current = worldAnchor;
       resizePivot.current = { x: cx, y: cy };
-      resizeLocalAnchor.current = toLocalSpace(
+      resizeLocalAnchor.current = rotate(
         worldAnchor.x,
         worldAnchor.y,
         cx,
         cy,
-        selectedElement.rotation,
+        -selectedElement.rotation,
       );
 
       return;
@@ -153,18 +152,17 @@ export function handleMouseDown({
 
   // dragging
   for (let i = elements.length - 1; i >= 0; i--) {
-
     const el = elements[i];
     // center
     const cx = el.x + el.width / 2;
     const cy = el.y + el.height / 2;
-    
-    const { x: localX, y: localY } = toLocalSpace(
+
+    const { x: localX, y: localY } = rotate(
       mouseX,
       mouseY,
       cx,
       cy,
-      el.rotation,
+      -el.rotation,
     );
 
     if (

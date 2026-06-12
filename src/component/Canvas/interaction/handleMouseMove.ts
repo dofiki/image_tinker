@@ -1,7 +1,7 @@
 import { getCanvasCoords } from "../utils/getCanvasCoords";
 import type { MouseMoveProps } from "../types";
-import { toLocalSpace } from "../utils/toLocalSpace";
-import { toWorldSpace } from "../utils/toWorldSpace";
+
+import { rotate } from "../utils/rotate";
 
 export function handleMouseMove({
   e,
@@ -58,12 +58,12 @@ export function handleMouseMove({
     const cx = resizePivot.current.x;
     const cy = resizePivot.current.y;
 
-    const localMouse = toLocalSpace(
+    const localMouse = rotate(
       mouseX,
       mouseY,
       cx,
       cy,
-      selectedElement.rotation,
+      -selectedElement.rotation,
     );
     const localAnchor = resizeLocalAnchor.current;
 
@@ -121,7 +121,7 @@ export function handleMouseMove({
 
     const newLocalCx = localX + newWidth / 2;
     const newLocalCy = localY + newHeight / 2;
-    const newWorldCenter = toWorldSpace(
+    const newWorldCenter = rotate(
       newLocalCx,
       newLocalCy,
       cx,

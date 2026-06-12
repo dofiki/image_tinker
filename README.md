@@ -85,12 +85,17 @@ src/
 │   └── ToolBar/        # Tool selection
 ├── store/              # Zustand store
 └── types/              # Global TypeScript types for elements and store
+
 docs/
 ├── types.md
 ├── store.md
 ├── architecture.md
-├── coordinate-system.md
 └── systems/
+      ├── zoom.md
+      ├── pan.md
+      ├── rotate.md
+      ├── drag.md
+      └── resize.md
 ```
 
 ---
