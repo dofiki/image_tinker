@@ -40,7 +40,6 @@ export const Canvas = ({
   const isDrawing = useRef(true);
 
   const resizeHandle = useRef("");
-  const resizeOrigin = useRef({ x: 0, y: 0 });
   const resizePivot = useRef({ x: 0, y: 0 });
   const resizeLocalAnchor = useRef({ x: 0, y: 0 });
   const drawId = useRef<string | null>(null);
@@ -131,7 +130,6 @@ export const Canvas = ({
             isResizing,
             isDrawing,
             resizeHandle,
-            resizeOrigin,
             resizePivot,
             resizeLocalAnchor,
             addElement,
@@ -154,7 +152,6 @@ export const Canvas = ({
             isResizing,
             isDrawing,
             resizeHandle,
-            resizeOrigin,
             resizePivot,
             resizeLocalAnchor,
           })

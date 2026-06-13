@@ -20,7 +20,6 @@ export function handleMouseDown({
   isResizing,
   isDrawing,
   resizeHandle,
-  resizeOrigin,
   resizePivot,
   resizeLocalAnchor,
   addElement,
@@ -29,7 +28,7 @@ export function handleMouseDown({
   if (!canvas) return;
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
-  // rectangle starts
+  // Starting Rectangle
   if (rectStatus) {
     const id = crypto.randomUUID();
     rectId.current = id;
@@ -52,7 +51,7 @@ export function handleMouseDown({
     });
   }
 
-  // start drawing
+  // Starting Drawing
   if (drawStatus) {
     isDrawing.current = true;
     const id = crypto.randomUUID();
@@ -76,112 +75,85 @@ export function handleMouseDown({
     });
   }
 
-  if (!moveStatus) return;
+  // if move tool is selected
+  if (moveStatus) {
+    //  and some element is clicked/selected
+    if (selectedElement) {
+      // we find the local x and local y of the mouse pos
+      const cx = selectedElement.x + selectedElement.width / 2;
+      const cy = selectedElement.y + selectedElement.height / 2;
 
-  //  hit detection
-  if (selectedElement) {
-    // find local x and local y
-    const cx = selectedElement.x + selectedElement.width / 2;
-    const cy = selectedElement.y + selectedElement.height / 2;
-    const { x: localX, y: localY } = rotate(
-      mouseX,
-      mouseY,
-      cx,
-      cy,
-      -selectedElement.rotation,
-    );
-
-    const handles = getHandleRect(selectedElement);
-
-    const hitHandle = handles.find(
-      (h) =>
-        localX >= h.x &&
-        localX <= h.x + h.width &&
-        localY >= h.y &&
-        localY <= h.y + h.height,
-    );
-
-    if (hitHandle) {
-      isResizing.current = true;
-      // "top-left" " top-right" "bottom-left" "bottom-right"
-      resizeHandle.current = hitHandle.position;
-
-      const hw = selectedElement.width / 2;
-      const hh = selectedElement.height / 2;
-
-      const corners = {
-        "top-left": rotate(cx - hw, cy - hh, cx, cy, selectedElement.rotation),
-
-        "top-right": rotate(cx + hw, cy - hh, cx, cy, selectedElement.rotation),
-
-        "bottom-left": rotate(
-          cx - hw,
-          cy + hh,
-          cx,
-          cy,
-          selectedElement.rotation,
-        ),
-
-        "bottom-right": rotate(
-          cx + hw,
-          cy + hh,
-          cx,
-          cy,
-          selectedElement.rotation,
-        ),
-      };
-
-      const oppositeMap: Record<string, { x: number; y: number }> = {
-        "top-left": corners["bottom-right"],
-        "top-right": corners["bottom-left"],
-        "bottom-left": corners["top-right"],
-        "bottom-right": corners["top-left"],
-      };
-
-      const worldAnchor = oppositeMap[resizeHandle.current];
-      resizeOrigin.current = worldAnchor;
-      resizePivot.current = { x: cx, y: cy };
-      resizeLocalAnchor.current = rotate(
-        worldAnchor.x,
-        worldAnchor.y,
+      const { x: localX, y: localY } = rotate(
+        mouseX,
+        mouseY,
         cx,
         cy,
         -selectedElement.rotation,
       );
-      console.log(resizeOrigin.current);
-      console.log(resizeLocalAnchor.current);
-      return;
+
+      const handles = getHandleRect(selectedElement);
+      // check if that mouse click falls inside some handle or not
+      const hitHandle = handles.find(
+        (h) =>
+          localX >= h.x &&
+          localX <= h.x + h.width &&
+          localY >= h.y &&
+          localY <= h.y + h.height,
+      );
+
+      // if it does we find the x and y (local)
+      // of the diagonally opposite handle
+      if (hitHandle) {
+        isResizing.current = true;
+        resizeHandle.current = hitHandle.position;
+
+        const hw = selectedElement.width / 2;
+        const hh = selectedElement.height / 2;
+
+        const oppositeMap: Record<string, { x: number; y: number }> = {
+          "top-left": { x: cx + hw, y: cy + hh },
+          "top-right": { x: cx - hw, y: cy + hh },
+          "bottom-left": { x: cx + hw, y: cy - hh },
+          "bottom-right": { x: cx - hw, y: cy - hh },
+        };
+
+        resizePivot.current = { x: cx, y: cy };
+        resizeLocalAnchor.current = oppositeMap[resizeHandle.current];
+        return;
+      }
     }
-  }
 
-  // selecting for ...
-  for (let i = elements.length - 1; i >= 0; i--) {
-    const el = elements[i];
-    // center
-    const cx = el.x + el.width / 2;
-    const cy = el.y + el.height / 2;
+    // click/select handling
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const el = elements[i];
 
-    const { x: localX, y: localY } = rotate(
-      mouseX,
-      mouseY,
-      cx,
-      cy,
-      -el.rotation,
-    );
+      const cx = el.x + el.width / 2;
+      const cy = el.y + el.height / 2;
+      // need unrotated x,y for AABB hit test
+      const { x: localX, y: localY } = rotate(
+        mouseX,
+        mouseY,
+        cx,
+        cy,
+        -el.rotation,
+      );
 
-    if (
-      localX >= el.x &&
-      localX <= el.x + el.width &&
-      localY >= el.y &&
-      localY <= el.y + el.height
-    ) {
-      isDragging.current = true;
-      dragElementId.current = el.id;
-      dragOffset.current = { x: mouseX - el.x, y: mouseY - el.y };
-      setSelectedElementId(el.id);
-      return;
+      // AABB hit test
+      if (
+        localX >= el.x &&
+        localX <= el.x + el.width &&
+        localY >= el.y &&
+        localY <= el.y + el.height
+      ) {
+        isDragging.current = true;
+        dragElementId.current = el.id;
+        dragOffset.current = { x: mouseX - el.x, y: mouseY - el.y };
+        // got em
+        setSelectedElementId(el.id);
+        return;
+      }
     }
-  }
 
-  setSelectedElementId(null);
+    setSelectedElementId(null);
+  }
 }

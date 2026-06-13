@@ -27,7 +27,7 @@ export function handleMouseMove({
   if (!canvas) return;
   const { x: mouseX, y: mouseY } = getCanvasCoords(e, canvas);
 
-  // rect element
+  // making rectangle
   if (rectId.current) {
     updateElement(rectId.current, {
       width: mouseX - rectOrigin.current.x,
@@ -35,7 +35,7 @@ export function handleMouseMove({
     });
   }
 
-  // drawing...
+  // drawing
   if (isDrawing.current && drawStatus) {
     if (!drawId.current) return;
     const el = elements.find((el) => el.id === drawId.current);
@@ -47,130 +47,135 @@ export function handleMouseMove({
 
     return;
   }
-  if (!selectedElement) return;
-  // resizing...
-  if (isResizing.current) {
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
 
-    const MIN_SIZE = 20;
+  // if some elmenet is selected
+  if (selectedElement) {
+    // and resizing status is true
+    if (isResizing.current) {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-    const cx = resizePivot.current.x;
-    const cy = resizePivot.current.y;
+      const MIN_SIZE = 20;
 
-    const localMouse = rotate(
-      mouseX,
-      mouseY,
-      cx,
-      cy,
-      -selectedElement.rotation,
-    );
-    const localAnchor = resizeLocalAnchor.current;
+      const cx = resizePivot.current.x;
+      const cy = resizePivot.current.y;
 
-    let localX = selectedElement.x;
-    let localY = selectedElement.y;
-    let newWidth = selectedElement.width;
-    let newHeight = selectedElement.height;
+      const localMouse = rotate(
+        mouseX,
+        mouseY,
+        cx,
+        cy,
+        -selectedElement.rotation,
+      );
+      const localAnchor = resizeLocalAnchor.current;
 
-    switch (resizeHandle.current) {
-      case "top-left":
-        localX = localMouse.x;
-        localY = localMouse.y;
-        newWidth = localAnchor.x - localMouse.x;
-        newHeight = localAnchor.y - localMouse.y;
-        break;
-      case "top-right":
-        localX = localAnchor.x;
-        localY = localMouse.y;
-        newWidth = localMouse.x - localAnchor.x;
-        newHeight = localAnchor.y - localMouse.y;
-        break;
-      case "bottom-left":
-        localX = localMouse.x;
-        localY = localAnchor.y;
-        newWidth = localAnchor.x - localMouse.x;
-        newHeight = localMouse.y - localAnchor.y;
-        break;
-      case "bottom-right":
-        localX = localAnchor.x;
-        localY = localAnchor.y;
-        newWidth = localMouse.x - localAnchor.x;
-        newHeight = localMouse.y - localAnchor.y;
-        break;
-    }
+      let localX = selectedElement.x;
+      let localY = selectedElement.y;
+      let newWidth = selectedElement.width;
+      let newHeight = selectedElement.height;
 
-    if (newWidth < MIN_SIZE) {
-      newWidth = MIN_SIZE;
-      if (
-        resizeHandle.current === "top-left" ||
-        resizeHandle.current === "bottom-left"
-      ) {
-        localX = localAnchor.x - MIN_SIZE;
+      switch (resizeHandle.current) {
+        case "top-left":
+          localX = localMouse.x;
+          localY = localMouse.y;
+          newWidth = localAnchor.x - localMouse.x;
+          newHeight = localAnchor.y - localMouse.y;
+          break;
+        case "top-right":
+          localX = localAnchor.x;
+          localY = localMouse.y;
+          newWidth = localMouse.x - localAnchor.x;
+          newHeight = localAnchor.y - localMouse.y;
+          break;
+        case "bottom-left":
+          localX = localMouse.x;
+          localY = localAnchor.y;
+          newWidth = localAnchor.x - localMouse.x;
+          newHeight = localMouse.y - localAnchor.y;
+          break;
+        case "bottom-right":
+          localX = localAnchor.x;
+          localY = localAnchor.y;
+          newWidth = localMouse.x - localAnchor.x;
+          newHeight = localMouse.y - localAnchor.y;
+          break;
       }
-    }
 
-    if (newHeight < MIN_SIZE) {
-      newHeight = MIN_SIZE;
-      if (
-        resizeHandle.current === "top-left" ||
-        resizeHandle.current === "top-right"
-      ) {
-        localY = localAnchor.y - MIN_SIZE;
+      if (newWidth < MIN_SIZE) {
+        newWidth = MIN_SIZE;
+        if (
+          resizeHandle.current === "top-left" ||
+          resizeHandle.current === "bottom-left"
+        ) {
+          localX = localAnchor.x - MIN_SIZE;
+        }
       }
+
+      if (newHeight < MIN_SIZE) {
+        newHeight = MIN_SIZE;
+        if (
+          resizeHandle.current === "top-left" ||
+          resizeHandle.current === "top-right"
+        ) {
+          localY = localAnchor.y - MIN_SIZE;
+        }
+      }
+
+      const newLocalCx = localX + newWidth / 2;
+      const newLocalCy = localY + newHeight / 2;
+      const newWorldCenter = rotate(
+        newLocalCx,
+        newLocalCy,
+        cx,
+        cy,
+        selectedElement.rotation,
+      );
+
+      const nextFontSize = Math.max(20, newHeight * 0.6);
+      ctx.font = `${nextFontSize}px Arial`;
+
+      updateElement(selectedElement.id, {
+        x: newWorldCenter.x - newWidth / 2,
+        y: newWorldCenter.y - newHeight / 2,
+        width: newWidth,
+        height: newHeight,
+        fontSize: Number(nextFontSize.toFixed()),
+      });
+
+      return;
     }
 
-    const newLocalCx = localX + newWidth / 2;
-    const newLocalCy = localY + newHeight / 2;
-    const newWorldCenter = rotate(
-      newLocalCx,
-      newLocalCy,
-      cx,
-      cy,
-      selectedElement.rotation,
-    );
+    // and draggin status is true
+    if (isDragging.current && dragElementId.current) {
+      const el = elements.find((el) => el.id === dragElementId.current);
+      if (!el) return;
+      // dragging draw element
+      if (el.type === "draw") {
+        const newX = mouseX - dragOffset.current.x;
+        const newY = mouseY - dragOffset.current.y;
 
-    const nextFontSize = Math.max(20, newHeight * 0.6);
-    ctx.font = `${nextFontSize}px Arial`;
+        const dx = newX - el.x;
+        const dy = newY - el.y;
 
-    updateElement(selectedElement.id, {
-      x: newWorldCenter.x - newWidth / 2,
-      y: newWorldCenter.y - newHeight / 2,
-      width: newWidth,
-      height: newHeight,
-      fontSize: Number(nextFontSize.toFixed()),
-    });
+        const movedPoints = el.drawingPoint.map((val, i) =>
+          i % 2 === 0 ? val + dx : val + dy,
+        );
 
-    return;
+        updateElement(dragElementId.current, {
+          x: newX,
+          y: newY,
+          startPoint: [el.startPoint[0] + dx, el.startPoint[1] + dy],
+          drawingPoint: movedPoints,
+        });
+
+        return;
+      }
+
+      // draggin other elements
+      updateElement(dragElementId.current, {
+        x: mouseX - dragOffset.current.x,
+        y: mouseY - dragOffset.current.y,
+      });
+    }
   }
-
-  if (!isDragging.current || !dragElementId.current) return;
-  const el = elements.find((el) => el.id === dragElementId.current);
-  if (!el) return;
-  // dragging draw element
-  if (el.type === "draw") {
-    const newX = mouseX - dragOffset.current.x;
-    const newY = mouseY - dragOffset.current.y;
-
-    const dx = newX - el.x;
-    const dy = newY - el.y;
-
-    const movedPoints = el.drawingPoint.map((val, i) =>
-      i % 2 === 0 ? val + dx : val + dy,
-    );
-
-    updateElement(dragElementId.current, {
-      x: newX,
-      y: newY,
-      startPoint: [el.startPoint[0] + dx, el.startPoint[1] + dy],
-      drawingPoint: movedPoints,
-    });
-
-    return;
-  }
-
-  // draggin other elements
-  updateElement(dragElementId.current, {
-    x: mouseX - dragOffset.current.x,
-    y: mouseY - dragOffset.current.y,
-  });
 }

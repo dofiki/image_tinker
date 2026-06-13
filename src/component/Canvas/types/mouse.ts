@@ -19,7 +19,6 @@ export interface MouseDownProps {
   dragElementId: React.MutableRefObject<string | null>;
   isResizing: React.MutableRefObject<boolean>;
   resizeHandle: React.MutableRefObject<string>;
-  resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
   resizePivot: React.MutableRefObject<{ x: number; y: number }>;
   resizeLocalAnchor: React.MutableRefObject<{ x: number; y: number }>;
   addElement: (element: Element) => void;
@@ -42,7 +41,6 @@ export interface MouseMoveProps {
   isResizing: React.MutableRefObject<boolean>;
   isDrawing: React.MutableRefObject<boolean>;
   resizeHandle: React.MutableRefObject<string>;
-  resizeOrigin: React.MutableRefObject<{ x: number; y: number }>;
   resizePivot: React.MutableRefObject<{ x: number; y: number }>;
   resizeLocalAnchor: React.MutableRefObject<{ x: number; y: number }>;
 }
