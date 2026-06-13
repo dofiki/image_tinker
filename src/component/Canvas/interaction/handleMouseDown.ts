@@ -80,6 +80,7 @@ export function handleMouseDown({
 
   //  hit detection
   if (selectedElement) {
+    // find local x and local y
     const cx = selectedElement.x + selectedElement.width / 2;
     const cy = selectedElement.y + selectedElement.height / 2;
     const { x: localX, y: localY } = rotate(
@@ -91,6 +92,7 @@ export function handleMouseDown({
     );
 
     const handles = getHandleRect(selectedElement);
+
     const hitHandle = handles.find(
       (h) =>
         localX >= h.x &&
@@ -104,29 +106,31 @@ export function handleMouseDown({
       // "top-left" " top-right" "bottom-left" "bottom-right"
       resizeHandle.current = hitHandle.position;
 
-      const rad = (selectedElement.rotation * Math.PI) / 180;
-      const cos = Math.cos(rad);
-      const sin = Math.sin(rad);
       const hw = selectedElement.width / 2;
       const hh = selectedElement.height / 2;
 
-      // 3rd
-      function rotateCorner(ox: number, oy: number) {
-        return {
-          x: cx + ox * cos - oy * sin,
-          y: cy + ox * sin + oy * cos,
-        };
-      }
-
-      // second
       const corners = {
-        "top-left": rotateCorner(-hw, -hh),
-        "top-right": rotateCorner(hw, -hh),
-        "bottom-left": rotateCorner(-hw, hh),
-        "bottom-right": rotateCorner(hw, hh),
+        "top-left": rotate(cx - hw, cy - hh, cx, cy, selectedElement.rotation),
+
+        "top-right": rotate(cx + hw, cy - hh, cx, cy, selectedElement.rotation),
+
+        "bottom-left": rotate(
+          cx - hw,
+          cy + hh,
+          cx,
+          cy,
+          selectedElement.rotation,
+        ),
+
+        "bottom-right": rotate(
+          cx + hw,
+          cy + hh,
+          cx,
+          cy,
+          selectedElement.rotation,
+        ),
       };
 
-      // first
       const oppositeMap: Record<string, { x: number; y: number }> = {
         "top-left": corners["bottom-right"],
         "top-right": corners["bottom-left"],
@@ -134,7 +138,6 @@ export function handleMouseDown({
         "bottom-right": corners["top-left"],
       };
 
-      // zero
       const worldAnchor = oppositeMap[resizeHandle.current];
       resizeOrigin.current = worldAnchor;
       resizePivot.current = { x: cx, y: cy };
@@ -145,12 +148,13 @@ export function handleMouseDown({
         cy,
         -selectedElement.rotation,
       );
-
+      console.log(resizeOrigin.current);
+      console.log(resizeLocalAnchor.current);
       return;
     }
   }
 
-  // dragging
+  // selecting for ...
   for (let i = elements.length - 1; i >= 0; i--) {
     const el = elements[i];
     // center
