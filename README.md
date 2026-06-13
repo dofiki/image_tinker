@@ -110,6 +110,7 @@ For an in-depth explanation of the codebase :
 - [systems / Pan](docs/systems/pan.md)
 - [sytems / Rotate](docs/systems/rotate.md)
 - [sytems / Drag](docs/systems/drag.md)
+- [sytems / Drag](docs/systems/resize.md)
 
 ---
 
