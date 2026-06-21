@@ -1,10 +1,10 @@
-import ToolBar from "./component/ToolBar/ToolBar";
+import ToolBar from "./components/ToolBar/ToolBar";
 import { useEditorStore } from "./store/useEditorStore";
-import { Canvas } from "./component/Canvas";
+import { Canvas } from "./components/Canvas";
 import { useState, useRef, useEffect } from "react";
-import { MenuBar } from "./component/MenuBar";
-import Properties from "./component/Properties";
-import Layers from "./component/Layers";
+import { MenuBar } from "./components/MenuBar";
+import Properties from "./components/Properties";
+import Layers from "./components/Layers";
 import { MdWarning } from "react-icons/md";
 import type { Element } from "./types";
 import { IoMdAdd } from "react-icons/io";

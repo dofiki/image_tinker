@@ -1,7 +1,7 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
-import { BlendMode } from "../component/BlendMode";
+import { BlendMode } from "./BlendMode";
 import type { LayerRowProps } from "../types/index";
 
 export const LayerRow = ({

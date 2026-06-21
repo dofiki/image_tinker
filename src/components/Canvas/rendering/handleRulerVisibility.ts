@@ -1,5 +1,5 @@
 import type { handleRulerVisibilityProps } from "../types";
-import { renderRulerMarks } from "../rendering/renderRuler";
+import { renderRulerMarks } from "./renderRuler";
 
 export function handleRulerVisibility({
   canvas,

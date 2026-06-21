@@ -76,6 +76,7 @@ export const Canvas = ({
 
   function handleTextCommit(value: string) {
     if (textOverlay) updateElement(textOverlay.id, { content: value });
+
     setTextOverlay(null);
   }
 

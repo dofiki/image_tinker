@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useEditorStore } from "../../store/useEditorStore";
 import type { Element } from "../../types/elements";
-import { LayerRow } from "./component/LayerRow";
+import { LayerRow } from "./components/LayerRow";
 
 const Layers = ({
   elements,
