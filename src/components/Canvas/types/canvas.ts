@@ -14,8 +14,10 @@ export interface CanvasProps {
   rectStatus: boolean;
   panStatus: boolean;
   copiedElementRef: React.MutableRefObject<Element | null>;
-  tempPos: {top: number,left: number}
-  zoom: number
+  tempPos: { top: number; left: number };
+  zoom: number;
+  circleStatus: boolean;
+  lineStatus: boolean;
 }
 
 export interface handleLeftClickProps {

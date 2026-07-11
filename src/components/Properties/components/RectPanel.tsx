@@ -9,7 +9,7 @@ export const RectPanel = ({ element, update }: RectPanelProps) => {
   if (element.type !== "rect") return;
   return (
     <div className="flex flex-col gap-4 pt-4">
-      <hr className="text-accent" />s
+      <hr className="text-accent" />
       <div className="grid grid-cols-2 items-center px-4">
         <div className="text-sm text-normtex">Fill</div>
         <input

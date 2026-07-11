@@ -10,6 +10,8 @@ const Layers = ({
   onMoveStatus,
   onDrawStatus,
   onRectStatus,
+  onCircleStatus,
+  onLineStatus,
 }: {
   elements: Element[];
   selected: Element | null;
@@ -17,6 +19,8 @@ const Layers = ({
   onTextStatus: (arg0: boolean) => void;
   onDrawStatus: (arg0: boolean) => void;
   onRectStatus: (arg0: boolean) => void;
+  onCircleStatus: (arg0: boolean) => void;
+  onLineStatus: (arg0: boolean) => void;
 }) => {
   const {
     updateElement,
@@ -34,6 +38,8 @@ const Layers = ({
     onMoveStatus(true);
     onDrawStatus(false);
     onRectStatus(false);
+    onCircleStatus(false);
+    onLineStatus(false);
   }
 
   function handleDragStart(index: number) {

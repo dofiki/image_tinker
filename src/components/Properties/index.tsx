@@ -5,6 +5,8 @@ import { ImagePanel } from "./components/ImagePanel";
 import { PositionSizePanel } from "./components/PositionSizePanel";
 import { TextPanel } from "./components/TextPanel";
 import { RectPanel } from "./components/RectPanel";
+import { CirclePanel } from "./components/CirclePanel";
+import { LinePanel } from "./components/LinePanel";
 
 const Properties = ({ element }: { element: Element | null }) => {
   const update = useElementUpdate(element);
@@ -46,6 +48,12 @@ const Properties = ({ element }: { element: Element | null }) => {
 
         {element?.type === "text" && (
           <TextPanel element={element} update={update} />
+        )}
+        {element?.type === "circle" && (
+          <CirclePanel element={element} update={update} />
+        )}
+        {element?.type === "line" && (
+          <LinePanel element={element} update={update} />
         )}
       </div>
     </div>

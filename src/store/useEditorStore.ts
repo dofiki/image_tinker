@@ -56,6 +56,10 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     const original = elements.find((el) => el.id === id);
     if (!original) return;
 
+    if (original.type === "draw") {
+      original.drawingPoint;
+    }
+
     const commands: Commands = {
       execute: (els) =>
         els.map((el) =>

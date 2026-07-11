@@ -17,6 +17,23 @@ export interface RectElement extends BaseElement {
   strokeStyle: string;
 }
 
+export interface CircleElement extends BaseElement {
+  type: "circle";
+  lineWidth: number;
+  strokeStyle: string;
+  radius: number;
+  startAngle: number;
+  endAngle: number;
+}
+
+export interface LineElement extends BaseElement {
+  type: "line";
+  lineWidth: number;
+  strokeStyle: string;
+  moveTo: [number, number];
+  lineTo: [number, number];
+}
+
 export interface CropProperies {
   sx?: number;
   sy?: number;
@@ -58,4 +75,10 @@ export interface DrawElement extends BaseElement {
   drawingPoint: number[];
 }
 
-export type Element = ImageElement | TextElement | DrawElement | RectElement;
+export type Element =
+  | ImageElement
+  | TextElement
+  | DrawElement
+  | RectElement
+  | CircleElement
+  | LineElement;

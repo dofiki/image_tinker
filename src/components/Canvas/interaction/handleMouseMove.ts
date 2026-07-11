@@ -8,7 +8,10 @@ export function handleMouseMove({
   drawStatus,
   drawId,
   rectId,
-
+  circleId,
+  lineId,
+  lineStatus,
+  circleStatus,
   rectOrigin,
   canvasRef,
   selectedElement,
@@ -46,6 +49,26 @@ export function handleMouseMove({
     });
 
     return;
+  }
+
+  // circle
+  if (isDrawing.current && circleStatus) {
+    if (!circleId.current) return;
+    updateElement(circleId.current, {
+      width: mouseX,
+      height: mouseY,
+      radius: mouseX,
+    });
+  }
+
+  // line
+  if (isDrawing.current && lineStatus) {
+    if (!lineId.current) return;
+    updateElement(lineId.current, {
+      lineTo: [mouseX, mouseY],
+      width: mouseX,
+      height: mouseY,
+    });
   }
 
   // if some elmenet is selected
@@ -171,6 +194,22 @@ export function handleMouseMove({
         return;
       }
 
+      if (el.type === "line") {
+        const newX = mouseX - dragOffset.current.x;
+        const newY = mouseY - dragOffset.current.y;
+
+        const dx = newX - el.x;
+        const dy = newY - el.y;
+
+        updateElement(dragElementId.current, {
+          x: newX,
+          y: newY,
+          moveTo: [el.moveTo[0] + dx, el.moveTo[1] + dy],
+          lineTo: [el.lineTo[0] + dx, el.lineTo[1] + dy],
+        });
+
+        return;
+      }
       // draggin other elements
       updateElement(dragElementId.current, {
         x: mouseX - dragOffset.current.x,

@@ -6,10 +6,14 @@ export interface MouseDownProps {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   drawId: React.MutableRefObject<string | null>;
   rectId: React.MutableRefObject<string | null>;
+  circleId: React.MutableRefObject<string | null>;
+  lineId: React.MutableRefObject<string | null>;
   rectOrigin: React.MutableRefObject<{ x: number; y: number }>;
   moveStatus: boolean;
   drawStatus: boolean;
   rectStatus: boolean;
+  circleStatus: boolean;
+  lineStatus: boolean;
   elements: Element[];
   selectedElement: Element | null;
   setSelectedElementId: (id: string | null) => void;
@@ -29,11 +33,16 @@ export interface MouseMoveProps {
   drawStatus: boolean;
   drawId: React.MutableRefObject<string | null>;
   rectId: React.MutableRefObject<string | null>;
+  circleId: React.MutableRefObject<string | null>;
+  lineStatus: boolean;
+
+  lineId: React.MutableRefObject<string | null>;
   rectOrigin: React.MutableRefObject<{ x: number; y: number }>;
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   selectedElement: Element | null;
   updateElement: (id: string, updates: Partial<Element>) => void;
   elements: Element[];
+  circleStatus: boolean;
 
   isDragging: React.MutableRefObject<boolean>;
   dragOffset: React.MutableRefObject<{ x: number; y: number }>;

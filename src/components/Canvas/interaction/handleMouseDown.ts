@@ -7,10 +7,14 @@ export function handleMouseDown({
   canvasRef,
   drawId,
   rectId,
+  circleId,
+  lineId,
   rectOrigin,
   moveStatus,
   drawStatus,
   rectStatus,
+  circleStatus,
+  lineStatus,
   elements,
   selectedElement,
   setSelectedElementId,
@@ -72,6 +76,58 @@ export function handleMouseDown({
       lineWidth: "10",
       startPoint: [mouseX, mouseY],
       drawingPoint: [],
+    });
+  }
+
+  // Starting Cicle
+  if (circleStatus) {
+    isDrawing.current = true;
+    const id = crypto.randomUUID();
+    circleId.current = id;
+    const initialX = mouseX;
+    const initialY = mouseY;
+    addElement({
+      type: "circle",
+      name: null,
+      id,
+      x: initialX,
+      y: initialY,
+      width: 100,
+      height: 100,
+      rotation: 0,
+      opacity: 100,
+      visibilityStatus: true,
+      blendMode: "source-over",
+
+      strokeStyle: "black",
+      radius: 0,
+      startAngle: 0,
+      lineWidth: 10,
+      endAngle: 2 * Math.PI,
+    });
+  }
+
+  // Starting line
+  if (lineStatus) {
+    isDrawing.current = true;
+    const id = crypto.randomUUID();
+    lineId.current = id;
+    addElement({
+      type: "line",
+      name: null,
+      id,
+      x: mouseX,
+      y: mouseY,
+      width: 100,
+      height: 100,
+      opacity: 100,
+      visibilityStatus: true,
+      blendMode: "source-over",
+      strokeStyle: "black",
+      lineWidth: 20,
+      moveTo: [mouseX, mouseY],
+      lineTo: [mouseX, mouseY],
+      rotation: 0,
     });
   }
 

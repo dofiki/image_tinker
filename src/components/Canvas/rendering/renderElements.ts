@@ -1,6 +1,8 @@
 import type {
+  CircleElement,
   DrawElement,
   ImageElement,
+  LineElement,
   RectElement,
   TextElement,
 } from "../../../types";
@@ -19,7 +21,13 @@ export function renderElements({ elements, ctx }: renderElementsProps) {
 }
 
 function dispatchRender(
-  element: DrawElement | ImageElement | RectElement | TextElement,
+  element:
+    | DrawElement
+    | ImageElement
+    | RectElement
+    | TextElement
+    | CircleElement
+    | LineElement,
   ctx: CanvasRenderingContext2D,
 ) {
   switch (element.type) {
@@ -31,6 +39,10 @@ function dispatchRender(
       return renderDraw(element, ctx);
     case "rect":
       return renderRect(element, ctx);
+    case "circle":
+      return renderCircle(element, ctx);
+    case "line":
+      return renderLine(element, ctx);
   }
 }
 
@@ -151,5 +163,42 @@ function renderRect(element: RectElement, ctx: CanvasRenderingContext2D) {
   ctx.strokeStyle = element.strokeStyle;
 
   ctx.fill();
+  ctx.stroke();
+}
+
+function renderCircle(element: CircleElement, ctx: CanvasRenderingContext2D) {
+  ctx.globalAlpha = (element.opacity ?? 100) / 100;
+
+  ctx.translate(element.x + element.width / 2, element.y + element.height / 2);
+
+  ctx.rotate((element.rotation * Math.PI) / 180);
+  ctx.strokeStyle = element.strokeStyle;
+  ctx.lineWidth = element.lineWidth;
+  ctx.beginPath();
+
+  ctx.arc(
+    -element.width / 2,
+    -element.height / 2,
+    element.radius,
+    element.startAngle,
+    element.endAngle,
+  );
+
+  ctx.stroke();
+}
+function renderLine(element: LineElement, ctx: CanvasRenderingContext2D) {
+  ctx.globalAlpha = (element.opacity ?? 100) / 100;
+  ctx.strokeStyle = element.strokeStyle;
+  ctx.lineWidth = element.lineWidth;
+
+  const midX = (element.moveTo[0] + element.lineTo[0]) / 2;
+  const midY = (element.moveTo[1] + element.lineTo[1]) / 2;
+
+  ctx.translate(midX, midY);
+  ctx.rotate((element.rotation * Math.PI) / 180);
+
+  ctx.beginPath();
+  ctx.moveTo(element.moveTo[0] - midX, element.moveTo[1] - midY);
+  ctx.lineTo(element.lineTo[0] - midX, element.lineTo[1] - midY);
   ctx.stroke();
 }

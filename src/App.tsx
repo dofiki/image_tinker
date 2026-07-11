@@ -20,6 +20,8 @@ export default function App() {
   const [drawStatus, setDrawStatus] = useState(false);
   const [rectStatus, setRectStatus] = useState(false);
   const [panStatus, setPanStatus] = useState(false);
+  const [circleStatus, setCircleStatus] = useState(false);
+  const [lineStatus, setLineStatus] = useState(false);
 
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
@@ -161,6 +163,10 @@ export default function App() {
             onRectStatus={setRectStatus}
             panStatus={panStatus}
             onPanStatus={handlePanStatus}
+            circleStatus={circleStatus}
+            onCircleStatus={setCircleStatus}
+            lineStatus={lineStatus}
+            onLineStatus={setLineStatus}
           />
           <div
             ref={canvasContainer}
@@ -182,6 +188,8 @@ export default function App() {
                 textStatus={textStatus}
                 drawStatus={drawStatus}
                 rectStatus={rectStatus}
+                circleStatus={circleStatus}
+                lineStatus={lineStatus}
                 panStatus={panStatus}
                 copiedElementRef={copiedElementRef}
                 tempPos={tempPos}
@@ -212,6 +220,8 @@ export default function App() {
               onTextStatus={setTextStatus}
               onDrawStatus={setDrawStatus}
               onRectStatus={setRectStatus}
+              onCircleStatus={setCircleStatus}
+              onLineStatus={setLineStatus}
             />
           </div>
           <div

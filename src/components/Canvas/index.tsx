@@ -18,6 +18,8 @@ export const Canvas = ({
   copiedElementRef,
   tempPos,
   zoom,
+  circleStatus,
+  lineStatus,
 }: CanvasProps) => {
   const {
     canvasConfig,
@@ -37,13 +39,15 @@ export const Canvas = ({
   const dragOffset = useRef({ x: 0, y: 0 });
   const dragElementId = useRef<string | null>(null);
   const isResizing = useRef(false);
-  const isDrawing = useRef(true);
+  const isDrawing = useRef(false);
 
   const resizeHandle = useRef("");
   const resizePivot = useRef({ x: 0, y: 0 });
   const resizeLocalAnchor = useRef({ x: 0, y: 0 });
   const drawId = useRef<string | null>(null);
   const rectId = useRef<string | null>(null);
+  const circleId = useRef<string | null>(null);
+  const lineId = useRef<string | null>(null);
   const rectOrigin = useRef({ x: 0, y: 0 });
   const [textOverlay, setTextOverlay] = useState<{
     x: number;
@@ -85,6 +89,9 @@ export const Canvas = ({
     if (textStatus) return "text";
     if (rectStatus) return "crosshair";
     if (panStatus) return "grab";
+    if (circleStatus) return "crosshair";
+    if (lineStatus) return "crosshair";
+
     return "default";
   }
 
@@ -118,10 +125,14 @@ export const Canvas = ({
             canvasRef,
             drawId,
             rectId,
+            circleId,
+            lineId,
             rectOrigin,
             moveStatus,
             drawStatus,
             rectStatus,
+            circleStatus,
+            lineStatus,
             elements,
             selectedElement,
             setSelectedElementId,
@@ -142,6 +153,10 @@ export const Canvas = ({
             drawStatus,
             drawId,
             rectId,
+            circleId,
+            lineId,
+            circleStatus,
+            lineStatus,
             rectOrigin,
             canvasRef,
             selectedElement,
